@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+
+:root {
+    --ON: initial;
+    --OFF: ;
+
+    --shadow-medium-color: hsl(0deg 0% 0% / 0.333);
+    --shadow-medium: 1px 2px 2px var(--shadow-medium-color),
+                     2px 4px 4px var(--shadow-medium-color),
+                     3px 6px 6px var(--shadow-medium-color);
+}
+
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+}
+html, body {
+    height: 100%;
+}
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+/*img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}*/
+input, button, textarea, select {
+    font: inherit;
+}
+
+main {
+    height: 100%;
+    width: 100%;
+}
+
+input:invalid,
+select:invalid {
+    border: 1px solid red;
+    outline: none;
+}
+
+.controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.dropdown .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    box-shadow: var(--shadow-medium);
+}
+
+.dropdown .dropdown-menu:target {
+    display: block;
+}
+
+
+.big-text {
+    --_background-color: var(--background-color, #fff9);
+    --_background-gradient-color: var(--background-gradient-color, #ccc9);
+    --padding-narrow: 3.75vmin 5vmin;
+    --padding-regular: 7.5vmin 10vmin;
+    --padding-wide: 11.5vmin 15vmin;
+    --padding-ultrawide: 15vmin 20vmin;
+
+    --background-gradient-linear: linear-gradient(var(--background-gradient-direction, 0deg), var(--_background-color) 0%, var(--_background-gradient-color) 100%);
+    --background-gradient-radial: radial-gradient(circle, var(--_background-gradient-color) 0%, var(--_background-color) 100%);
+    --background-gradient: var(--background-gradient-linear);
+    --background: var(--_background-color);
+    --background: var(--background-gradient);
+
+    --placement-start: -999;
+    --placement-end: 999;
+
+    --has-image: var(--OFF);
+    --_image-size: var(--has-image, var(--image-size, 50%));
+
+    --has-text-shadow: var(--OFF);
+    --text-shadow-regular: var(--text-shadow-x, 0) var(--text-shadow-y, 0) var(--text-shadow-blur, 0) var(--text-shadow-color, currentColor);
+    --text-shadow-ugly: calc(var(--text-shadow-x, 0) * .333) calc(var(--text-shadow-y, 0) * .333) calc(var(--text-shadow-blur, 0) * .333) #ffffff,
+                        calc(var(--text-shadow-x, 0) * .666) calc(var(--text-shadow-y, 0) * .666) calc(var(--text-shadow-blur, 0) * .666) #000000,
+                        var(--text-shadow-x, 0) var(--text-shadow-y, 0) var(--text-shadow-blur, 0) var(--text-shadow-color, red);
+    --text-shadow-fire: 0 -.01em .04em #ffffff,
+                        0 -.02em .1em #ffff00,
+                        0 -.1em .2em #ff8000,
+                        0 -.18em .4em #ff0000;
+    --text-shadow-glow: 0 0 calc(var(--text-shadow-blur, 0) * .07) #ffffff,
+                        0 0 calc(var(--text-shadow-blur, 0) * .13) #ffffff,
+                        0 0 calc(var(--text-shadow-blur, 0) * .2) #ffffff,
+                        0 0 calc(var(--text-shadow-blur, 0) * .27) var(--text-shadow-color, lime),
+                        0 0 calc(var(--text-shadow-blur, 0) * .4) var(--text-shadow-color, lime),
+                        0 0 calc(var(--text-shadow-blur, 0) * .53) var(--text-shadow-color, lime),
+                        0 0 calc(var(--text-shadow-blur, 0) * .73) var(--text-shadow-color, lime),
+                        0 0 var(--text-shadow-blur, 0) var(--text-shadow-color, lime);
+    --text-shadow-offset: calc(var(--text-shadow-x, 0) / 2) calc(var(--text-shadow-y, 0) / 2) 0 var(--background-color, #ffffff),
+                         var(--text-shadow-x, 0) var(--text-shadow-y, 0) var(--text-shadow-blur, 0) var(--text-shadow-color, currentColor);
+    --text-shadow: var(--text-shadow-regular);
+
+    --has-text-stroke: var(--OFF);
+    --text-stroke: var(--text-stroke-width, .01em) var(--text-stroke-color, #000000);
+    position: relative;
+    display: flex;
+    flex-direction: var(--layout, column);
+    align-items: stretch;
+    justify-content: var(--has-image, var(--justify, center));
+    overflow: hidden;
+
+    color: var(--foreground-color, black);
+
+    font-family: var(--font-family, sans-serif);
+    font-weight: var(--font-weight, normal);
+    font-style: var(--font-style, normal);
+
+    height: 100%;
+    width: 100%;
+    text-align: var(--text-align, center);
+}
+
+.big-text:not(.has-image) .image-container {
+    display: none;
+}
+
+.big-text.has-image .image-container {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: var(--_image-size);
+    position: relative;
+    order: var(--image-placement, var(--placement-start));
+}
+
+.big-text.has-image.is-stacked .image-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.big-text.has-image .image-container figure{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
+figure img {
+    display: block;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.text-container {
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    background: var(--background);
+
+    padding: var(--padding, var(--padding-regular));
+    font-size: var(--font-size, 100vh);
+
+    text-shadow: var(--has-text-shadow, var(--text-shadow));
+    -webkit-text-stroke: var(--has-text-stroke, var(--text-stroke));
+}
+
+.big-text.has-image.is-stacked .text-container{
+    flex-grow: 0;
+    flex-basis: calc( 20% + var(--_image-size));
+}
+
+
+.text-container div {
+    position: relative;
+    /*top: -.2em;*/
+}
+
+.font-selector [value=serif] { font-family: serif; }
+.font-selector [value=sans-serif] { font-family: sans-serif; }
+.font-selector [value=cursive] { font-family: cursive; }
+.font-selector [value=monospace] { font-family: monospace; }
+.font-selector [value="'Fira Sans', sans-serif"] { font-family: 'Fira Sans', sans-serif; }
+.font-selector [value="Impact, Charcoal, sans-serif"] { font-family: 'Impact', 'Charcoal', sans-serif; }
+.font-selector [value="'Arial Black', Gadget, sans-serif"] { font-family: 'Arial Black', Gadget, sans-serif; }
+.font-selector [value="Verdana, Geneva, sans-serif"] { font-family: Verdana, Geneva, sans-serif; }

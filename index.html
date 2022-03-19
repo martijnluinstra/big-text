@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Big Text</title>
+    <link rel="stylesheet" href="css/big-text.css">
+</head>
+<body>
+<main>
+    <section class="dropdown controls">
+        <a href="#settings">Settings</a>
+            <form id="settings" class="dropdown-menu" hidden>
+                <a class="modal-close" href="#" aria-label="Close"><span class="icon">×</span></a>
+                <fieldset>
+                    <legend>Background</legend>
+                    <p>
+                        <label><input type="radio" name="background-type" value="color" checked> Solid Colour</label>
+                        <label><input type="radio" name="background-type" value="gradient"> Gradient</label>
+                    </p>
+                    <fieldset data-toggle="background-type=color">
+                        <p>
+                            <label for="#background-color-input">Colour</label>
+                            <input type="color" name="background-color" id="background-color-input">
+                        </p>
+                    </fieldset>
+                    <fieldset data-toggle="background-type=gradient">
+                        <fieldset>
+                            <legend>Gradient type</legend>
+                            <label><input type="radio" name="background-gradient-type" value="linear" checked>Linear</label>
+                            <label><input type="radio" name="background-gradient-type" value="radial">Radial</label>
+                        </fieldset>
+                        <p>
+                            <label for="#background-gradient-start-input">Colour 1</label>
+                            <input type="color" data-sync="background-color" id="background-gradient-start-input">
+                        </p>
+                        <p>
+                            <label for="#background-gradient-end-input">Colour 2</label>
+                            <input type="color" name="background-gradient-end" id="background-gradient-end-input">
+                        </p>
+                        <p>
+                            <label for="background-gradient-direction-input">Direction</label>
+                            <slider-input
+                                id="background-gradient-direction-input"
+                                name="background-gradient-direction"
+                                min="0" max="359" value="0"
+                                data-toggle="background-gradient-type=linear"
+                                data-toggle-property="!disabled"
+                            ></slider-input>
+                        </p>
+                    </fieldset>
+                    <p>
+                        <label for="background-opacity-input">Opacity</label>
+                        <slider-input id="background-opacity-input" name="background-opacity" min="0" max="255" value="255"></slider-input>
+                    </p>
+                </fieldset>
+                <fieldset>
+                    <legend>Text</legend>
+                    <p>
+                        <label for="#foreground-color-input">Colour</label>
+                        <input type="color" name="foreground-color" id="foreground-color-input">
+                    </p>
+                    <p>
+                        <label for="font-family-input">Font Family</label>
+                        <select class="font-selector" name="font-family" id="font-family-input">
+                            <option value="serif">Serif</option>
+                            <option value="sans-serif">Sans Serif</option>
+                            <option value="cursive">Cursive</option>
+                            <option value="monospace">Monospace</option>
+                            <option value="'Fira Sans', sans-serif">Fira Sans</option>
+                            <option value="Impact, Charcoal, sans-serif">Impact</option>
+                            <option value="'Arial Black', Gadget, sans-serif">Arial Black</option>
+                            <option value="Verdana, Geneva, sans-serif">Verdana</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label><input type="checkbox" name="font-weight-bold"> Bold</label>
+                        <label><input type="checkbox" name="font-style-italic"> Italic</label>
+                    </p>
+                    <p>
+                        <label for="text-align-input">Text alignment</label>
+                        <select name="text-align" id="text-align-input">
+                            <option value="left">Left</option>
+                            <option value="center">Center</option>
+                            <option value="right">Right</option>
+                            <option value="justify">Justify</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label><input type="checkbox" name="has-text-shadow">Shadow</label>
+                    </p>
+                    <fieldset data-toggle="has-text-shadow">
+                        <legend>Text shadow</legend>
+                        <p>
+                            <label for="text-shadow-preset-input">Preset</label>
+                            <select name="text-shadow-preset" id="text-shadow-preset-input">
+                                <option value="regular">Regular</option>
+                                <option value="offset" data-set="text-shadow-x=.04;text-shadow-y=.04;text-shadow-blur=0">Offset</option>
+                                <option value="glow" data-set="text-shadow-blur=.75;text-shadow-color=#00ff00">Glow</option>
+                                <option value="fire">Fire</option>
+                                <option value="ugly" data-set="text-shadow-x=.12;text-shadow-y=.12;text-shadow-blur=.06;text-shadow-color=#ff0000">Ugly</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label for="#text-shadow-color-input">Colour</label>
+                            <input type="color" name="text-shadow-color" id="text-shadow-color-input">
+                        </p>
+                        <p>
+                            <label for="text-shadow-x-input">Horizontal offset</label>
+                            <slider-input id="text-shadow-x-input" name="text-shadow-x" min="-1" max="1" step=".01" value="0"></slider-input>
+                        </p>
+                        <p>
+                            <label for="text-shadow-y-input">Vertical offset</label>
+                            <slider-input id="text-shadow-y-input" name="text-shadow-y" min="-1" max="1" step=".01" value="0"></slider-input>
+                        </p>
+                        <p>
+                            <label for="text-shadow-blur-input">Blur</label>
+                            <slider-input id="text-shadow-blur-input" name="text-shadow-blur" min="0" max="1" step=".01" value=".05"></slider-input>
+                        </p>
+                    </fieldset>
+                    <p>
+                        <label><input type="checkbox" name="has-text-stroke">Stroke</label>
+                    </p>
+                    <fieldset data-toggle="has-text-stroke">
+                        <legend>Text stroke</legend>
+                        <p>
+                            <label for="#text-stroke-color-input">Colour</label>
+                            <input type="color" name="text-stroke-color" id="text-stroke-color-input">
+                        </p>
+                        <p>
+                            <label for="text-stroke-width">Width</label>
+                            <slider-input id="text-stroke-width-input" name="text-stroke-width" min="0" max=".15" step=".005" value=".01"></slider-input>
+                        </p>
+                    </fieldset>
+                    <p>
+                        <label for="textbox-padding">Padding</label>
+                        <!-- <slider-input id="textbox-padding-input" name="textbox-padding" min="0" max="25" step="1" value="5"></slider-input> -->
+                        <select name="textbox-padding" id="textbox-padding-input">
+                            <option value="narrow">Narrow</option>
+                            <option value="regular">Regular</option>
+                            <option value="wide">Wide</option>
+                            <option value="ultrawide">Ultra wide</option>
+                        </select>
+                    </p>
+                </fieldset>
+                <fieldset>
+                    <legend>Layout</legend>
+                    <p>
+                        <label for="layout-input">Direction</label>
+                        <select name="layout" id="layout-input">
+                            <option value="column">Vertical</option>
+                            <option value="row">Horizontal</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label><input type="checkbox" name="has-image">Image</label>
+                    </p>
+                    <fieldset data-toggle="has-image">
+                        <legend>Image</legend>
+                        <p>
+                            <label for="#image-url-input">URL</label>
+                            <input type="url" name="image-url" id="image-url-input" pattern="https?://.*">
+                        </p>
+                        
+                        <fieldset data-toggle="image-url" data-toggle-property="!disabled">
+                            <p>
+                                <label for="image-placement-input">Image placement</label>
+                                <select name="image-placement" id="image-placement-input">
+                                    <option value="start">Start</option>
+                                    <option value="end">End</option>
+                                    <option value="background">Background</option>
+                                </select>
+                            </p>
+                            <p>
+                                <label for="justify-input">Textbox placement</label>
+                                <select name="justify" id="justify-input" data-toggle="image-placement=background" data-toggle-property="!disabled">
+                                    <option value="flex-start">Start</option>
+                                    <option value="center">Center</option>
+                                    <option value="flex-end">End</option>
+                                </select>
+                            </p>
+                            <p>
+                                <label for="image-size-input">Size</label>
+                                <slider-input id="image-size-input" name="image-size" min="0" max="80" step="5" value="50"></slider-input>
+                            </p>
+                        </fieldset>
+                    </fieldset>
+                </fieldset>
+                <input type="checkbox" id="controls-enabled-input">
+                <button data-generate-link-button>Link</button>
+            </form>
+    </section>
+    <section class="big-text has-image is-stacked">
+        <div class="image-container">
+            <figure>
+                <img src="">
+            </figure>
+        </div>
+        <div class="text-container">
+            <div contenteditable="true">
+                Click here to edit
+            </div>
+        </div>
+    </section>
+</main>
+<script src="js/big-text.js"></script>
+</body>
+</html>
