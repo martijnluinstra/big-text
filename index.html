@@ -9,139 +9,13 @@
 <body>
 <main>
     <section class="dropdown controls">
-        <a href="#settings">Settings</a>
-        <form id="settings" class="dropdown-menu" hidden>
+        <a href="#settings-form">Settings</a>
+        <form id="settings-form" class="dropdown-menu" hidden>
             <a class="modal-close" href="#" aria-label="Close"><span class="icon">×</span></a>
             <fieldset>
-                <legend>Background</legend>
-                <p>
-                    <label><input type="radio" name="background-type" value="color" checked> Solid Colour</label>
-                    <label><input type="radio" name="background-type" value="gradient"> Gradient</label>
-                </p>
-                <fieldset data-toggle="background-type=color">
-                    <p>
-                        <label for="#background-color-input">Colour</label>
-                        <input type="color" name="background-color" id="background-color-input">
-                    </p>
-                </fieldset>
-                <fieldset data-toggle="background-type=gradient">
-                    <fieldset>
-                        <legend>Gradient type</legend>
-                        <label><input type="radio" name="background-gradient-type" value="linear" checked>Linear</label>
-                        <label><input type="radio" name="background-gradient-type" value="radial">Radial</label>
-                    </fieldset>
-                    <p>
-                        <label for="#background-gradient-start-input">Colour 1</label>
-                        <input type="color" data-sync="background-color" id="background-gradient-start-input">
-                    </p>
-                    <p>
-                        <label for="#background-gradient-end-input">Colour 2</label>
-                        <input type="color" name="background-gradient-end" id="background-gradient-end-input">
-                    </p>
-                    <p>
-                        <label for="background-gradient-direction-input">Direction</label>
-                        <slider-input
-                            id="background-gradient-direction-input"
-                            name="background-gradient-direction"
-                            min="0" max="359" value="0"
-                            data-toggle="background-gradient-type=linear"
-                            data-toggle-property="!disabled"
-                        ></slider-input>
-                    </p>
-                </fieldset>
-                <p>
-                    <label for="background-opacity-input">Opacity</label>
-                    <slider-input id="background-opacity-input" name="background-opacity" min="0" max="255" value="255"></slider-input>
-                </p>
-            </fieldset>
-            <fieldset>
                 <legend>Text</legend>
-                <p>
-                    <label for="#foreground-color-input">Colour</label>
-                    <input type="color" name="foreground-color" id="foreground-color-input">
-                </p>
-                <p>
-                    <label for="font-family-input">Font Family</label>
-                    <select class="font-selector" name="font-family" id="font-family-input">
-                        <option value="serif">Serif</option>
-                        <option value="sans-serif">Sans Serif</option>
-                        <option value="cursive">Cursive</option>
-                        <option value="monospace">Monospace</option>
-                        <option value="'Fira Sans', sans-serif">Fira Sans</option>
-                        <option value="Impact, Charcoal, sans-serif">Impact</option>
-                        <option value="'Arial Black', Gadget, sans-serif">Arial Black</option>
-                        <option value="Verdana, Geneva, sans-serif">Verdana</option>
-                    </select>
-                </p>
-                <p>
-                    <label><input type="checkbox" name="font-weight-bold"> Bold</label>
-                    <label><input type="checkbox" name="font-style-italic"> Italic</label>
-                </p>
-                <p>
-                    <label for="text-align-input">Text alignment</label>
-                    <select name="text-align" id="text-align-input">
-                        <option value="left">Left</option>
-                        <option value="center">Center</option>
-                        <option value="right">Right</option>
-                        <option value="justify">Justify</option>
-                    </select>
-                </p>
-                <p>
-                    <label><input type="checkbox" name="has-text-shadow">Shadow</label>
-                </p>
-                <fieldset data-toggle="has-text-shadow">
-                    <legend>Text shadow</legend>
-                    <p>
-                        <label for="text-shadow-preset-input">Preset</label>
-                        <select name="text-shadow-preset" id="text-shadow-preset-input">
-                            <option value="regular">Regular</option>
-                            <option value="offset" data-set="text-shadow-x=.04;text-shadow-y=.04;text-shadow-blur=0">Offset</option>
-                            <option value="glow" data-set="text-shadow-blur=.75;text-shadow-color=#00ff00">Glow</option>
-                            <option value="fire">Fire</option>
-                            <option value="ugly" data-set="text-shadow-x=.12;text-shadow-y=.12;text-shadow-blur=.06;text-shadow-color=#ff0000">Ugly</option>
-                        </select>
-                    </p>
-                    <p>
-                        <label for="#text-shadow-color-input">Colour</label>
-                        <input type="color" name="text-shadow-color" id="text-shadow-color-input">
-                    </p>
-                    <p>
-                        <label for="text-shadow-x-input">Horizontal offset</label>
-                        <slider-input id="text-shadow-x-input" name="text-shadow-x" min="-1" max="1" step=".01" value="0"></slider-input>
-                    </p>
-                    <p>
-                        <label for="text-shadow-y-input">Vertical offset</label>
-                        <slider-input id="text-shadow-y-input" name="text-shadow-y" min="-1" max="1" step=".01" value="0"></slider-input>
-                    </p>
-                    <p>
-                        <label for="text-shadow-blur-input">Blur</label>
-                        <slider-input id="text-shadow-blur-input" name="text-shadow-blur" min="0" max="1" step=".01" value=".05"></slider-input>
-                    </p>
-                </fieldset>
-                <p>
-                    <label><input type="checkbox" name="has-text-stroke">Stroke</label>
-                </p>
-                <fieldset data-toggle="has-text-stroke">
-                    <legend>Text stroke</legend>
-                    <p>
-                        <label for="#text-stroke-color-input">Colour</label>
-                        <input type="color" name="text-stroke-color" id="text-stroke-color-input">
-                    </p>
-                    <p>
-                        <label for="text-stroke-width">Width</label>
-                        <slider-input id="text-stroke-width-input" name="text-stroke-width" min="0" max=".15" step=".005" value=".01"></slider-input>
-                    </p>
-                </fieldset>
-                <p>
-                    <label for="textbox-padding">Padding</label>
-                    <!-- <slider-input id="textbox-padding-input" name="textbox-padding" min="0" max="25" step="1" value="5"></slider-input> -->
-                    <select name="textbox-padding" id="textbox-padding-input">
-                        <option value="narrow">Narrow</option>
-                        <option value="regular">Regular</option>
-                        <option value="wide">Wide</option>
-                        <option value="ultrawide">Ultra wide</option>
-                    </select>
-                </p>
+                <button type="button" data-modal="text-form" data-prefix="text">Text style</button>
+                <button type="button" data-modal="background-form" data-prefix="text">Background style</button>
             </fieldset>
             <fieldset>
                 <legend>Image</legend>
@@ -161,10 +35,23 @@
                 <p>
                     <label><input type="checkbox" name="has-countdown">Countdown</label>
                 </p>
-                <p data-toggle="has-countdown">
-                    <label for="#countdown-timestamp-input">Timestamp</label>
-                    <input type="datetime-local" name="countdown-timestamp" id="countdown-timestamp-input">
-                </p>
+                <div data-toggle="has-countdown">
+                    <p>
+                        <label for="#countdown-timestamp-input">Timestamp</label>
+                        <input type="datetime-local" name="countdown-timestamp" id="countdown-timestamp-input">
+                    </p>
+                    <p>
+                        <label for="countdown-format">Format</label>
+                        <select name="countdown-format" id="countdown-format-input">
+                            <option value="dhms">0 days, 00:00:01</option>
+                            <option value="hms">00:00:01</option>
+                            <option value="ms">00:01</option>
+                            <option value="s">1</option>
+                        </select>
+                    </p>
+                    <button type="button" data-modal="text-form" data-prefix="countdown">Text style</button>
+                    <button type="button" data-modal="background-form" data-prefix="countdown">Background style</button>
+                </div>
             </fieldset>
             <fieldset>
                 <legend>Layout 2</legend>
@@ -240,8 +127,18 @@
                     <p><label><input type="radio" name="layout" value="74" checked> text - image countdown</label></p>
                     <p><label><input type="radio" name="layout" value="75" checked> countdown - image text</label></p>
                 </fieldset>
+                <p>
+                    <label for="content-padding">Content padding</label>
+                    <!-- <slider-input id="content-padding-input" name="content-padding" min="0" max="25" step="1" value="5"></slider-input> -->
+                    <select name="content-padding" id="content-padding-input">
+                        <option value="narrow">Narrow</option>
+                        <option value="regular">Regular</option>
+                        <option value="wide">Wide</option>
+                        <option value="ultrawide">Ultra wide</option>
+                    </select>
+                </p>
                 <fieldset data-toggle="has-image,image-is-background">
-                    <legend>Content</legend>
+                    <legend>Content box</legend>
                     <p>
                         <label for="content-width-input">Width</label>
                         <slider-input id="content-width-input" name="content-width" min="20" max="100" step="5" value="100"></slider-input>
@@ -271,6 +168,131 @@
             <input type="checkbox" id="controls-enabled-input">
             <button data-generate-link-button>Link</button>
         </form>
+        <template id="background-form">
+            <form class="modal" hidden>
+                <button data-modal-close type="button" aria-label="Close"><span class="icon">×</span></button>
+                <p>
+                    <label><input type="radio" name="background-type" value="color" checked> Solid Colour</label>
+                    <label><input type="radio" name="background-type" value="gradient"> Gradient</label>
+                </p>
+                <fieldset data-toggle="background-type=color">
+                    <p>
+                        <label for="#background-color-input">Colour</label>
+                        <input type="color" name="background-color" id="background-color-input">
+                    </p>
+                </fieldset>
+                <fieldset data-toggle="background-type=gradient">
+                    <fieldset>
+                        <legend>Gradient type</legend>
+                        <label><input type="radio" name="background-gradient-type" value="linear" checked>Linear</label>
+                        <label><input type="radio" name="background-gradient-type" value="radial">Radial</label>
+                    </fieldset>
+                    <p>
+                        <label for="#background-gradient-start-input">Colour 1</label>
+                        <input type="color" data-sync="background-color" id="background-gradient-start-input">
+                    </p>
+                    <p>
+                        <label for="#background-gradient-end-input">Colour 2</label>
+                        <input type="color" name="background-gradient-end" id="background-gradient-end-input">
+                    </p>
+                    <p>
+                        <label for="background-gradient-direction-input">Direction</label>
+                        <slider-input
+                            id="background-gradient-direction-input"
+                            name="background-gradient-direction"
+                            min="0" max="359" value="0"
+                            data-toggle="background-gradient-type=linear"
+                            data-toggle-property="!disabled"
+                        ></slider-input>
+                    </p>
+                </fieldset>
+                <p>
+                    <label for="background-opacity-input">Opacity</label>
+                    <slider-input id="background-opacity-input" name="background-opacity" min="0" max="255" value="255"></slider-input>
+                </p>
+            </form>
+        </template>
+        <template id="text-form">
+            <form class="modal" hidden>
+                <button data-modal-close type="button" aria-label="Close"><span class="icon">×</span></button>
+                <p>
+                    <label for="#foreground-color-input">Colour</label>
+                    <input type="color" name="foreground-color" id="foreground-color-input">
+                </p>
+                <p>
+                    <label for="font-family-input">Font Family</label>
+                    <select class="font-selector" name="font-family" id="font-family-input">
+                        <option value="serif">Serif</option>
+                        <option value="sans-serif">Sans Serif</option>
+                        <option value="cursive">Cursive</option>
+                        <option value="monospace">Monospace</option>
+                        <option value="'Fira Sans', sans-serif">Fira Sans</option>
+                        <option value="Impact, Charcoal, sans-serif">Impact</option>
+                        <option value="'Arial Black', Gadget, sans-serif">Arial Black</option>
+                        <option value="Verdana, Geneva, sans-serif">Verdana</option>
+                    </select>
+                </p>
+                <p>
+                    <label><input type="checkbox" name="font-weight-bold"> Bold</label>
+                    <label><input type="checkbox" name="font-style-italic"> Italic</label>
+                </p>
+                <p>
+                    <label for="align-input">Text alignment</label>
+                    <select name="align" id="align-input">
+                        <option value="left">Left</option>
+                        <option value="center">Center</option>
+                        <option value="right">Right</option>
+                        <option value="justify">Justify</option>
+                    </select>
+                </p>
+                <p>
+                    <label><input type="checkbox" name="has-shadow">Shadow</label>
+                </p>
+                <fieldset data-toggle="has-shadow">
+                    <legend>Text shadow</legend>
+                    <p>
+                        <label for="shadow-preset-input">Preset</label>
+                        <select name="shadow-preset" id="shadow-preset-input">
+                            <option value="regular">Regular</option>
+                            <option value="offset" data-set="shadow-x=.04;shadow-y=.04;shadow-blur=0">Offset</option>
+                            <option value="glow" data-set="shadow-blur=.75;shadow-color=#00ff00">Glow</option>
+                            <option value="fire">Fire</option>
+                            <option value="ugly" data-set="shadow-x=.12;shadow-y=.12;shadow-blur=.06;shadow-color=#ff0000">Ugly</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="#shadow-color-input">Colour</label>
+                        <input type="color" name="shadow-color" id="shadow-color-input">
+                    </p>
+                    <p>
+                        <label for="shadow-x-input">Horizontal offset</label>
+                        <slider-input id="shadow-x-input" name="shadow-x" min="-1" max="1" step=".01" value="0"></slider-input>
+                    </p>
+                    <p>
+                        <label for="shadow-y-input">Vertical offset</label>
+                        <slider-input id="shadow-y-input" name="shadow-y" min="-1" max="1" step=".01" value="0"></slider-input>
+                    </p>
+                    <p>
+                        <label for="shadow-blur-input">Blur</label>
+                        <slider-input id="shadow-blur-input" name="shadow-blur" min="0" max="1" step=".01" value=".05"></slider-input>
+                    </p>
+                </fieldset>
+                <p>
+                    <label><input type="checkbox" name="has-stroke">Stroke</label>
+                </p>
+                <fieldset data-toggle="has-stroke">
+                    <legend>Text stroke</legend>
+                    <p>
+                        <label for="#stroke-color-input">Colour</label>
+                        <input type="color" name="stroke-color" id="stroke-color-input">
+                    </p>
+                    <p>
+                        <label for="stroke-width">Width</label>
+                        <slider-input id="stroke-width-input" name="stroke-width" min="0" max=".15" step=".005" value=".01"></slider-input>
+                    </p>
+                </fieldset>
+            </form>
+        </template>
     </section>
     <section class="big-text">
         <div class="layout">

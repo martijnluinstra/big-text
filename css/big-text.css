@@ -54,6 +54,7 @@ select:invalid {
     z-index: 1;
 }
 
+.modal,
 .dropdown .dropdown-menu {
     display: none;
     position: absolute;
@@ -63,10 +64,15 @@ select:invalid {
     box-shadow: var(--shadow-medium);
 }
 
+.modal:not([hidden]),
 .dropdown .dropdown-menu:target {
     display: block;
 }
 
+.modal {
+    top: 0;
+    z-index: 10;
+}
 
 .big-text {
     --_background-color: var(--background-color, #fff9);
@@ -80,41 +86,12 @@ select:invalid {
     --padding-wide: 1.15em 1.5em;
     --padding-ultrawide: 1.5em 2.0em;
 
-    --background-gradient-linear: linear-gradient(var(--background-gradient-direction, 0deg), var(--_background-color) 0%, var(--_background-gradient-color) 100%);
-    --background-gradient-radial: radial-gradient(circle, var(--_background-gradient-color) 0%, var(--_background-color) 100%);
-    --background-gradient: var(--background-gradient-linear);
-    --background: var(--_background-color);
-    --background: var(--background-gradient);
-
     --placement-start: -999;
     --placement-end: 999;
 
     --has-image: var(--OFF);
     --_image-size: var(--has-image, var(--image-size, 50%));
 
-    --has-text-shadow: var(--OFF);
-    --text-shadow-regular: var(--text-shadow-x, 0) var(--text-shadow-y, 0) var(--text-shadow-blur, 0) var(--text-shadow-color, currentColor);
-    --text-shadow-ugly: calc(var(--text-shadow-x, 0) * .333) calc(var(--text-shadow-y, 0) * .333) calc(var(--text-shadow-blur, 0) * .333) #ffffff,
-                        calc(var(--text-shadow-x, 0) * .666) calc(var(--text-shadow-y, 0) * .666) calc(var(--text-shadow-blur, 0) * .666) #000000,
-                        var(--text-shadow-x, 0) var(--text-shadow-y, 0) var(--text-shadow-blur, 0) var(--text-shadow-color, red);
-    --text-shadow-fire: 0 -.01em .04em #ffffff,
-                        0 -.02em .1em #ffff00,
-                        0 -.1em .2em #ff8000,
-                        0 -.18em .4em #ff0000;
-    --text-shadow-glow: 0 0 calc(var(--text-shadow-blur, 0) * .07) #ffffff,
-                        0 0 calc(var(--text-shadow-blur, 0) * .13) #ffffff,
-                        0 0 calc(var(--text-shadow-blur, 0) * .2) #ffffff,
-                        0 0 calc(var(--text-shadow-blur, 0) * .27) var(--text-shadow-color, lime),
-                        0 0 calc(var(--text-shadow-blur, 0) * .4) var(--text-shadow-color, lime),
-                        0 0 calc(var(--text-shadow-blur, 0) * .53) var(--text-shadow-color, lime),
-                        0 0 calc(var(--text-shadow-blur, 0) * .73) var(--text-shadow-color, lime),
-                        0 0 var(--text-shadow-blur, 0) var(--text-shadow-color, lime);
-    --text-shadow-offset: calc(var(--text-shadow-x, 0) / 2) calc(var(--text-shadow-y, 0) / 2) 0 var(--background-color, #ffffff),
-                         var(--text-shadow-x, 0) var(--text-shadow-y, 0) var(--text-shadow-blur, 0) var(--text-shadow-color, currentColor);
-    --text-shadow: var(--text-shadow-regular);
-
-    --has-text-stroke: var(--OFF);
-    --text-stroke: var(--text-stroke-width, .01em) var(--text-stroke-color, #000000);
     position: relative;
     /*display: flex;*/
     /*flex-direction: var(--layout, column);*/
@@ -160,6 +137,36 @@ select:invalid {
 
 .big-text .countdown-wrapper,
 .big-text .text-wrapper {
+    --background-gradient-linear: linear-gradient(var(--background-gradient-direction, 0deg), var(--_background-color) 0%, var(--_background-gradient-color) 100%);
+    --background-gradient-radial: radial-gradient(circle, var(--_background-gradient-color) 0%, var(--_background-color) 100%);
+    --background-gradient: var(--background-gradient-linear);
+    --background: var(--_background-color);
+    --background: var(--background-gradient);
+
+    --shadow-regular: var(--shadow-x, 0) var(--shadow-y, 0) var(--shadow-blur, 0) var(--shadow-color, currentColor);
+    --shadow-ugly: calc(var(--shadow-x, 0) * .333) calc(var(--shadow-y, 0) * .333) calc(var(--shadow-blur, 0) * .333) #ffffff,
+                   calc(var(--shadow-x, 0) * .666) calc(var(--shadow-y, 0) * .666) calc(var(--shadow-blur, 0) * .666) #000000,
+                   var(--shadow-x, 0) var(--shadow-y, 0) var(--shadow-blur, 0) var(--shadow-color, red);
+    --shadow-fire: 0 -.01em .04em #ffffff,
+                   0 -.02em .1em #ffff00,
+                   0 -.1em .2em #ff8000,
+                   0 -.18em .4em #ff0000;
+    --shadow-glow: 0 0 calc(var(--shadow-blur, 0) * .07) #ffffff,
+                   0 0 calc(var(--shadow-blur, 0) * .13) #ffffff,
+                   0 0 calc(var(--shadow-blur, 0) * .2) #ffffff,
+                   0 0 calc(var(--shadow-blur, 0) * .27) var(--shadow-color, lime),
+                   0 0 calc(var(--shadow-blur, 0) * .4) var(--shadow-color, lime),
+                   0 0 calc(var(--shadow-blur, 0) * .53) var(--shadow-color, lime),
+                   0 0 calc(var(--shadow-blur, 0) * .73) var(--shadow-color, lime),
+                   0 0 var(--shadow-blur, 0) var(--shadow-color, lime);
+    --shadow-offset: calc(var(--shadow-x, 0) / 2) calc(var(--shadow-y, 0) / 2) 0 var(--background-color, #ffffff),
+                     var(--shadow-x, 0) var(--shadow-y, 0) var(--shadow-blur, 0) var(--shadow-color, currentColor);
+
+    --has-shadow: var(--OFF);
+    --shadow: var(--shadow-regular);
+
+    --has-stroke: var(--OFF);
+    --stroke: var(--stroke-width, .01em) var(--stroke-color, #000000);
     position: relative;
 
     background: var(--background);
@@ -169,11 +176,12 @@ select:invalid {
     font-family: var(--font-family, sans-serif);
     font-weight: var(--font-weight, normal);
     font-style: var(--font-style, normal);
-    font-size: var(--font-size, 100vh);
+    font-size: max(var(--font-size, 100vh), 1vh);
 
     text-align: var(--text-align, center);
-    text-shadow: var(--has-text-shadow, var(--text-shadow));
-    -webkit-text-stroke: var(--has-text-stroke, var(--text-stroke));
+    text-shadow: var(--has-shadow, var(--shadow));
+
+    -webkit-text-stroke: var(--has-stroke, var(--stroke));
 }
 
 .big-text .countdown-wrapper .countdown,
