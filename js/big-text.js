@@ -79,7 +79,9 @@ function roundPrecision(number, precision) {
     return Math.round(number * Math.pow(10, precision)) / Math.pow(10, precision);
 }
 
-function resizeText(container) {
+function resizeText(container, overflowCallback=null) {
+    // Add class so css can hide stuff if so desired
+    container.classList.add('is-resizing');
     const chars = container.innerText.length;
     const rect = container.getBoundingClientRect()
     const aspect = rect.width / rect.height;
@@ -109,7 +111,7 @@ function resizeText(container) {
     }
 
     // Wet run. Home in on a nice fontsize using the renderer
-    let fits = !overflows(container);
+    let fits = !(overflowCallback?.(container) || overflows(container));
     max = Math.max(100 / rows, 1);
     min = 0;
     size = max;
@@ -119,7 +121,7 @@ function resizeText(container) {
         count++;
         size = roundPrecision((max + min) / 2, 1);
         container.style.setProperty('--font-size', `${size}vh`);
-        fits = !overflows(container);
+        fits = !(overflowCallback?.(container) || overflows(container));
         if (fits)
             min = size;
         else
@@ -128,6 +130,7 @@ function resizeText(container) {
 
     if (!fits)
         container.style.setProperty('--font-size', `${min}vh`);
+    container.classList.remove('is-resizing');
 }
 
 // function toCamelCase(value) {
@@ -153,6 +156,52 @@ function valueIn() {
     return (value) => args.includes(value) ? value : args[0];
 }
 
+class Countdown {
+    #interval;
+    #timestamp;
+
+    constructor(element, timestamp) {
+        this.element = element;
+        if (timestamp)
+            this.timestamp = timestamp;
+    }
+
+    handleInterval() {
+        const now = new Date().getTime();
+        const diff = this.#timestamp - now;
+
+        if (diff < 0 && this.#interval)
+            clearInterval(this.#interval);
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        this.element.innerText = `${days} day${days != 1 ? 's' : ''}, ${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
+
+    set timestamp(value) {
+        if (value instanceof Date)
+            value = value.getTime();
+        else if (!Number.isInteger(value))
+            value = new Date(value).getTime();
+
+        if (this.#timestamp === value)
+            return;
+
+        this.#timestamp = value;
+
+        if (this.#interval)
+            clearInterval(this.#interval);
+
+        if (this.#timestamp) {
+            this.handleInterval();
+            this.#interval = setInterval(this.handleInterval.bind(this), 1000);
+        }
+    }
+}
+
 class BigTextOption {
     #value;
 
@@ -173,6 +222,12 @@ class BigTextOption {
     render(context, options) {
         if (this.spec.render)
             return this.spec.render.call(this, context, options);
+
+        if (this.spec.context && this.spec.context in context)
+            context = context[this.spec.context];
+        else
+            context = context.main;
+
         const cssValue = this.getCssValue(options);
         context.style.setProperty(`--${this.cssName}`, cssValue);
     }
@@ -189,10 +244,16 @@ class BigTextOption {
         return this.#value;
     }
 
+    get inUrl() {
+        return this.spec.inUrl !== false;
+    }
+
     set value(value) {
         if (this.spec.sanitize)
             value = this.spec.sanitize(value);
         this.#value = value;
+        if (this.spec.updateCallback)
+            this.spec.updateCallback(this.name, value);
     }
 
     get resize() {
@@ -203,21 +264,30 @@ class BigTextOption {
 class BigText {
     #options;
 
-    constructor(context, defaults) {
+    constructor(context, spec) {
         this.#options = {};
-        for (let option in defaults)
-            this.#options[option] = new BigTextOption(option, undefined, defaults[option]);
+        this.parseSpec(spec, {updateCallback: this.handleOptionUpdate.bind(this)});
 
         this.container = context.querySelector('.big-text');
-        this.textContainer = this.container.querySelector('.text-container');
-        this.textElement = this.container.querySelector('.text-container div');
+        this.textContainer = this.container.querySelector('.text-wrapper');
+        this.textElement = this.container.querySelector('.text-wrapper div');
+
+        this.context = {
+            main: this.container,
+            imageContainer: this.container.querySelector('.image-wrapper'),
+            imageElement: this.container.querySelector('.image-wrapper img'),
+            textContainer: this.container.querySelector('.text-wrapper'),
+            textElement: this.container.querySelector('.text-wrapper .text'),
+            countdownContainer: this.container.querySelector('.countdown-wrapper'),
+            countdownElement: this.container.querySelector('.countdown-wrapper .countdown'),
+        };
 
         this.options = new Proxy(this.#options, {set: (o,k,v) => this.setProperty(o,k,v)});
 
         this.parseUrl(window.location.href);
 
         for (let option in this.options)
-            this.options[option].render(this.container, this.options);
+            this.options[option].render(this.context, this.options);
 
         window.addEventListener('resize', this.handleResize.bind(this));
         this.textElement.addEventListener('input', this.handleResize.bind(this));
@@ -228,12 +298,33 @@ class BigText {
         this.handleResize();
     }
 
+    parseSpec(spec, defaults) {
+        for (let option in spec) {
+            if (typeof spec[option] === 'object' && spec[option] !== null && 'spec' in spec[option]) {
+                const d = {...spec[option]};
+                delete d.spec;
+                if ('prefix' in d && defaults && 'prefix' in defaults) {
+                    d.prefix = `${defaults.prefix}-${d.prefix}`;
+                } else if (defaults && 'prefix' in defaults) {
+                    d.prefix = defaults.prefix;
+                }
+                this.parseSpec(spec[option].spec, d);
+            } else {
+                let name = option;
+                if (defaults && 'prefix' in defaults)
+                    name = `${defaults.prefix}-${option}`;
+                this.#options[name] = new BigTextOption(name, undefined, {...defaults, ...spec[option]});
+            }
+        }
+    }
+
     generateUrl() {
         const baseUrl = new URL(window.location.href);
         const params = baseUrl.searchParams;
         params.set('text', this.textElement.innerText);
         for (let option in this.options)
-            params.set(option, this.options[option].value);
+            if (this.options[option].inUrl)
+                params.set(option, this.options[option].value);
         baseUrl.search = params.toString();
         return baseUrl.toString();
     }
@@ -253,23 +344,28 @@ class BigText {
     }
 
     handleResize() {
-        if (this.isInitialized)
-            resizeText(this.textContainer);
+        if (this.isInitialized) {
+            resizeText(this.context.textContainer);
+            if (this.options['has-countdown'].value)
+                resizeText(this.context.countdownContainer);
+        }
+    }
+
+    handleOptionUpdate(key, value) {
+        this.controls?.updateForm(key, value);
     }
 
     setProperty(options, key, value) {
-        console.log(value);
         if (key in options)
             options[key].value = value
         else
             options[key] = new BigTextOption(key, value);
-        options[key].render(this.container, this.options);
+        options[key].render(this.context, this.options);
         // value = this.transformPropertyValue(key, value);
         // const result = Reflect.set(options, key, value);
         // this.updatePage(key);
         if (options[key].resize)
             this.handleResize();
-        this.controls?.updateForm(key, options[key].value); // TODO: can we do without?
         return true;
     }
 }
@@ -290,7 +386,6 @@ class BigTextControls {
 
 
         this.controls.addEventListener('input', this.handleFormInput.bind(this));
-        console.log(this.controls);
 
         context.querySelector('[data-generate-link-button]').addEventListener('click', this.handleGenerateLink.bind(this));
     }
@@ -304,8 +399,6 @@ class BigTextControls {
         const name = evt.target.name || evt.target.dataset.sync;
         if (!name)
             return;
-
-        this.toggleField(name, evt.target);
 
         if (evt.target.checkValidity && !evt.target.checkValidity()) {
             evt.target.reportValidity();
@@ -327,13 +420,16 @@ class BigTextControls {
                 }
             }
         }
+
+        this.toggleField(name);
     }
 
     updateForm(name, value) {
         const field = this.controls.elements[name];
 
         if (!field)
-            return;
+            return this.toggleField(name);
+
         if (field && field.type === 'checkbox') {
             field.checked = value;
             for (let el of this.controls.querySelectorAll(`[data-sync='${name}']`))
@@ -343,23 +439,43 @@ class BigTextControls {
             for (let el of this.controls.querySelectorAll(`[data-sync='${name}']`))
                 el.value = value;
         }
-        this.toggleField(name, field);
+
+        return this.toggleField(name);
     }
 
-    toggleField(name, field) {
-        const value = field.type === 'checkbox' ? field.checked : field.value;
-        for (let el of this.controls.querySelectorAll(`[data-toggle^=${name}]`)) {
+    toggleField(name) {
+        for (let el of this.controls.querySelectorAll(`[data-toggle*="${name}"]`)) {
             let property = el.dataset.toggleProperty || '!hidden';
             let transform = (x) => x;
             if (property.startsWith('!')) {
                 property = property.slice(1);
                 transform = (x) => !x;
             }
-            el[property] = transform(
-                (!field.checkValidity || field.checkValidity())
-                && el.dataset.toggle === `${name}=${value}`
-                || (el.dataset.toggle === name && value)
-            );
+
+            let propertyValue = true;
+            for (let toggle of el.dataset.toggle.split(',')) {
+                let [n, v] = toggle.split('=');
+                let neg = false;
+
+                let check = (x) => x;
+                if (v === undefined && n.startsWith('!')) {
+                    n = n.slice(1);
+                    check = (x) => !x;
+                } else if (v !== undefined && n.endsWith('!')) {
+                    n = n.slice(0, -1);
+                    check = (x) => v != x;
+                } else if (v !== undefined) {
+                    check = (x) => v == x;
+                }
+
+                const field = this.controls.elements[n];
+                if (field)
+                    propertyValue &&= !field.checkValidity || field.checkValidity(); // Field has to be valid
+
+                const value = this.bigText.options[n].value;
+                propertyValue &&= check(value);
+            }
+            el[property] = transform(propertyValue);
         }
     }
 
@@ -381,35 +497,111 @@ class BigTextControls {
 
 
 new BigText(document, {
-    'background-color': {
-        default: '#ffffff',
-        cssValue: (value, options) => value + options['background-opacity'].getCssValue(options),
-        sanitize: value => value.toLowerCase(),
-    },
-    'foreground-color': '#000000',
-    'font-family': {
-        default: 'sans-serif',
-        resize: true,
-    },
-    'font-weight-bold': {
-        default: false,
-        sanitize: parseBool,
-        cssName: 'font-weight',
-        cssValue: value => value ? 'bold' : 'normal',
-        resize: true,
-    },
-    'font-style-italic': {
-        default: false,
-        sanitize: parseBool,
-        cssName: 'font-style',
-        cssValue: value => value ? 'italic' : 'normal',
-    },
-    'textbox-padding': {
-        default: 'regular',
-        cssName: 'padding',
-        cssValue: value => `var(--padding-${value})`,
-        sanitize: valueIn('narrow', 'regular', 'wide', 'ultrawide'),
-        resize: true,
+    text: {
+        spec: {
+            'background-color': {
+                default: '#ffffff',
+                cssValue: (value, options) => value + options['background-opacity'].getCssValue(options),
+                sanitize: value => value.toLowerCase(),
+            },
+            'foreground-color': '#000000',
+            'font-family': {
+                default: 'sans-serif',
+                resize: true,
+            },
+            'font-weight-bold': {
+                default: false,
+                sanitize: parseBool,
+                cssName: 'font-weight',
+                cssValue: value => value ? 'bold' : 'normal',
+                resize: true,
+            },
+            'font-style-italic': {
+                default: false,
+                sanitize: parseBool,
+                cssName: 'font-style',
+                cssValue: value => value ? 'italic' : 'normal',
+            },
+            'textbox-padding': {
+                default: 'regular',
+                cssName: 'padding',
+                cssValue: value => `var(--padding-${value})`,
+                sanitize: valueIn('narrow', 'regular', 'wide', 'ultrawide'),
+                resize: true,
+            },
+            'text-align': {
+                default: 'center',
+                sanitize: valueIn('left', 'center', 'right', 'justify'),
+            },
+            'background-type': {
+                default: 'color',
+                cssName: 'background',
+                cssValue: value => `var(--background-${value})`,
+            },
+            'background-gradient-type': {
+                default: 'linear',
+                cssName: 'background-gradient',
+                cssValue: value => `var(--background-gradient-${value})`,
+                sanitize: value => value.toLowerCase(),
+            },
+            'background-gradient-direction': {
+                default: 0,
+                sanitize: parseInt,
+                cssValue: value => `${value}deg`,
+            },
+            'background-gradient-end': {
+                default: '#999999',
+                cssName: 'background-gradient-color',
+                cssValue: (value, options) => value + options['background-opacity'].getCssValue(options),
+            },
+            'background-opacity': {
+                default: 255,
+                sanitize: parseInt,
+                cssValue: value => value.toString(16),
+                render(context, options) {
+                    options['background-color'].render(...arguments);
+                    options['background-gradient-end'].render(...arguments);
+                }
+            },
+            'has-text-shadow': {
+                default: false,
+                sanitize: parseBool,
+                cssValue: value => value ? 'var(--ON)' : 'var(--OFF)',
+            },
+            'text-shadow-preset': {
+                default: 'regular',
+                sanitize: valueIn('regular', 'offset', 'glow', 'fire', 'ugly'),
+                cssName: 'text-shadow',
+                cssValue: value => `var(--text-shadow-${value})`,
+            },
+            'text-shadow-color': '#000000',
+            'text-shadow-x': {
+                default: 0,
+                sanitize: parseFloat,
+                cssValue: value => `${value}em`,
+            },
+            'text-shadow-y': {
+                default: 0,
+                sanitize: parseFloat,
+                cssValue: value => `${value}em`,
+            },
+            'text-shadow-blur': {
+                default: 0.05,
+                sanitize: parseFloat,
+                cssValue: value => `${value}em`,
+            },
+            'has-text-stroke': {
+                default: false,
+                sanitize: parseBool,
+                cssValue: value => value ? 'var(--ON)' : 'var(--OFF)',
+            },
+            'text-stroke-color': '#000000',
+            'text-stroke-width': {
+                default: 0.01,
+                sanitize: parseFloat,
+                cssValue: value => `${value}em`,
+            },
+        },
     },
     // 'textbox-padding': {
     //     default: 5,
@@ -421,131 +613,145 @@ new BigText(document, {
         default: true,
         sanitize: parseBool,
     },
+    image: {
+        spec: {
+            'has-image': {
+                default: false,
+                sanitize: parseBool,
+                cssValue: value => value ? 'var(--ON)' : 'var(--OFF)',
+                render(context, options) {
+                    context.main.classList.remove('has-image', 'has-background-image');
+                    if (this.value && options['image-url'].value) {
+                        if (options['image-is-background'].value)
+                            context.main.classList.add('has-background-image');
+                        else
+                            context.main.classList.add('has-image');
+                    }
+                    context.main.style.setProperty('--has-image', this.value ? 'var(--ON)' : 'var(--OFF)');
+                    options['layout'].render(...arguments);
+                },
+                resize: true,
+            },
+            'image-url': {
+                default: '',
+                render(context, options) {
+                    if (this.value)
+                        context.imageElement.src = this.value;
+                    options['has-image'].render(...arguments);
+                },
+                resize: true,
+            },
+            'image-is-background': {
+                default: false,
+                sanitize: parseBool,
+                render(context, options) {
+                    options['has-image'].render(...arguments);
+                },
+                resize: true,
+            },
+        },
+    },
+    countdown: {
+        spec: {
+            'has-countdown': {
+                default: false,
+                sanitize: parseBool,
+                cssValue: value => value ? 'var(--ON)' : 'var(--OFF)',
+                render(context, options) {
+                    if (this.value && options['countdown-timestamp'].value)
+                        context.main.classList.add('has-countdown');
+                    else if (!this.value)
+                        context.main.classList.remove('has-countdown');
+                    context.main.style.setProperty('--has-countdown', this.value ? 'var(--ON)' : 'var(--OFF)');
+                    options['layout'].render(...arguments);
+                },
+                resize: true,
+            },
+            'countdown-timestamp': {
+                render(context, options) {
+                    if (this.value && !this.countdown) {
+                        this.countdown = new Countdown(context.countdownElement, this.value);
+                    } else if (this.value) {
+                        this.countdown.timestamp = this.value;
+                    }
+                    options['has-countdown'].render(...arguments);
+                },
+                resize: true,
+            },
+        },
+    },
     'layout': {
-        default: 'column',
-        sanitize: valueIn('column', 'row'),
-        resize: true,
-    },
-    'justify': {
-        default: 'center',
-        sanitize: valueIn('flex-start', 'center', 'flex-end'),
-    },
-    'text-align': {
-        default: 'center',
-        sanitize: valueIn('left', 'center', 'right', 'justify'),
-    },
-    'background-type': {
-        default: 'color',
-        cssName: 'background',
-        cssValue: value => `var(--background-${value})`,
-    },
-    'background-gradient-type': {
-        default: 'linear',
-        cssName: 'background-gradient',
-        cssValue: value => `var(--background-gradient-${value})`,
-        sanitize: value => value.toLowerCase(),
-    },
-    'background-gradient-direction': {
         default: 0,
-        sanitize: parseInt,
-        cssValue: value => `${value}deg`,
-    },
-    'background-gradient-end': {
-        default: '#999999',
-        cssName: 'background-gradient-color',
-        cssValue: (value, options) => value + options['background-opacity'].getCssValue(options),
-    },
-    'background-opacity': {
-        default: 255,
-        sanitize: parseInt,
-        cssValue: value => value.toString(16),
-        render(context, options) {
-            options['background-color'].render(...arguments);
-            options['background-gradient-end'].render(...arguments);
-        }
-    },
-    'has-image': {
-        default: false,
-        sanitize: parseBool,
-        cssValue: value => value ? 'var(--ON)' : 'var(--OFF)',
-        render(context, options) {
-            if (this.value && options['image-url'].value) {
-                context.classList.add('has-image');
-                if (options['image-placement'].value === 'background')
-                    context.classList.add('is-stacked');
-            } else if (!this.value) {
-                context.classList.remove('has-image', 'is-stacked');
-            }
-            context.style.setProperty('--has-image', this.value ? 'var(--ON)' : 'var(--OFF)');
+        sanitize(value) {
+            const v = parseInt(value) || 0;
+            if (v < 20)
+                return (Math.floor((v % 20) / 10) * 10) + ((v % 10) % 4);
+            return (Math.floor(v / 10) * 10) + ((v % 10) % 6);
         },
-        resize: true,
-    },
-    'image-url': {
-        default: '',
         render(context, options) {
-            if (this.value) {
-                let img = context.querySelector('.image-container img');
-                img.src = this.value;
-            } else {
-                context.classList.remove('has-image', 'is-stacked');
-            }
+            options['_layout-type'].render(...arguments);
+            const type = options['_layout-type'].value;
+            if (type === 'text+image')
+                this.value = (Math.floor((this.value % 20) / 10) * 10) + ((this.value % 10) % 2);
+            else if (type === 'text+countdown')
+                this.value = (Math.floor((this.value % 20) / 10) * 10) + ((this.value % 10) % 2) + 2;
+            else if (this.value < 20)
+                this.value += 20;
+            for (let i = 0; i < 80; i++) 
+                context.main.classList.remove(`l${i.toString().padStart(2, 0)}`);
+            context.main.classList.add(`l${this.value.toString().padStart(2, 0)}`);
         },
-        resize: true,
+        resize: true,        
     },
-    'image-placement': {
-        default: 'start',
-        sanitize: valueIn('start', 'end', 'background'),
-        render(context, options) {
-            if (this.value === 'background') {
-                context.classList.add('is-stacked');
-            } else {
-                context.classList.remove('is-stacked');
-                context.style.setProperty('--image-placement', `var(--placement-${this.value})`);
-            }
-        },
-    },
-    'image-size': {
+    'size-1': {
         default: 50,
+        sanitize: parseInt,
+        cssName: 'grid-size-1',
+        cssValue: value => `${value}%`,
+        resize: true,
+    },
+    'size-2': {
+        default: 50,
+        sanitize: parseInt,
+        cssName: 'grid-size-2',
+        cssValue: value => `${value}%`,
+        resize: true,
+    },
+    '_layout-type': {
+        default: 'text',
+        sanitize: valueIn('text', 'text+image', 'text+countdown', 'text+image+countdown'),
+        render(context, options) {
+            if (options['has-countdown'].value && options['has-image'].value && !options['image-is-background'].value)
+                this.value = 'text+image+countdown';
+            else if (options['has-countdown'].value && options['has-image'].value)
+                this.value = 'text+countdown';
+            else if (options['has-countdown'].value)
+                this.value = 'text+countdown';
+            else if (options['has-image'].value && !options['image-is-background'].value)
+                this.value = 'text+image';
+            else
+                this.value = 'text';
+        },
+        inUrl: false,
+    },
+    'content-height': {
+        default: 100,
         sanitize: parseInt,
         cssValue: value => `${value}%`,
         resize: true,
     },
-    'has-text-shadow': {
-        default: false,
-        sanitize: parseBool,
-        cssValue: value => value ? 'var(--ON)' : 'var(--OFF)',
+    'content-width': {
+        default: 100,
+        sanitize: parseInt,
+        cssValue: value => `${value}%`,
+        resize: true,
     },
-    'text-shadow-preset': {
-        default: 'regular',
-        sanitize: valueIn('regular', 'offset', 'glow', 'fire', 'ugly'),
-        cssName: 'text-shadow',
-        cssValue: value => `var(--text-shadow-${value})`,
+    'content-v-placement': {
+        default: 'center',
+        sanitize: valueIn('flex-start', 'flex-end', 'center'),
     },
-    'text-shadow-color': '#000000',
-    'text-shadow-x': {
-        default: 0,
-        sanitize: parseFloat,
-        cssValue: value => `${value}em`,
-    },
-    'text-shadow-y': {
-        default: 0,
-        sanitize: parseFloat,
-        cssValue: value => `${value}em`,
-    },
-    'text-shadow-blur': {
-        default: 0.05,
-        sanitize: parseFloat,
-        cssValue: value => `${value}em`,
-    },
-    'has-text-stroke': {
-        default: false,
-        sanitize: parseBool,
-        cssValue: value => value ? 'var(--ON)' : 'var(--OFF)',
-    },
-    'text-stroke-color': '#000000',
-    'text-stroke-width': {
-        default: 0.01,
-        sanitize: parseFloat,
-        cssValue: value => `${value}em`,
+    'content-h-placement': {
+        default: 'center',
+        sanitize: valueIn('flex-start', 'flex-end', 'center'),
     },
 });
