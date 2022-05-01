@@ -80,9 +80,10 @@ function roundPrecision(number, precision) {
 }
 
 function resizeText(container, overflowCallback=null) {
+    // Get innertext first, as style might make the container appear empty.
+    const chars = container.innerText.length;
     // Add class so css can hide stuff if so desired
     container.classList.add('is-resizing');
-    const chars = container.innerText.length;
     const rect = container.getBoundingClientRect()
     const aspect = rect.width / rect.height;
     const textAspect = getCharacterAspect(container);
@@ -311,9 +312,9 @@ class BigText {
             imageContainer: this.container.querySelector('.image-wrapper'),
             imageElement: this.container.querySelector('.image-wrapper img'),
             textContainer: this.container.querySelector('.text-wrapper'),
-            textElement: this.container.querySelector('.text-wrapper .text'),
+            textElement: this.container.querySelector('.text-wrapper .text p'),
             countdownContainer: this.container.querySelector('.countdown-wrapper'),
-            countdownElement: this.container.querySelector('.countdown-wrapper .countdown'),
+            countdownElement: this.container.querySelector('.countdown-wrapper .countdown p'),
         };
 
         this.options = new Proxy(this.#options, {set: (o,k,v) => this.setProperty(o,k,v)});

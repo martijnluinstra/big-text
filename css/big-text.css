@@ -225,6 +225,11 @@ fieldset legend {
     padding: var(--padding, var(--padding-regular));
 }
 
+.big-text .countdown-wrapper .countdown p,
+.big-text .text-wrapper .text p {
+    width: 100%;
+}
+
 .big-text .countdown {
     font-variant-numeric: tabular-nums;
     order: var(--countdown-placement, var(--placement-start));
