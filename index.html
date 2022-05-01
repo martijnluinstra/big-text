@@ -9,7 +9,9 @@
 <body>
 <main>
     <section class="dropdown controls">
-        <a href="#settings-form">Settings</a>
+        <a href="#settings-form" aria-label="Settings">
+            <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#settings"/></svg>
+        </a>
         <form id="settings-form" class="dropdown-menu" hidden>
             <a class="modal-close" href="#" aria-label="Close"><span class="icon">×</span></a>
             <fieldset>
@@ -417,17 +419,32 @@
                     </select>
                 </p>
                 <p>
-                    <label><input type="checkbox" name="font-weight-bold"> Bold</label>
-                    <label><input type="checkbox" name="font-style-italic"> Italic</label>
+                    <label>
+                        <input type="checkbox" name="font-weight-bold" aria-label="Bold">
+                        <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#bold"/></svg>
+                    </label>
+                    <label>
+                        <input type="checkbox" name="font-style-italic" aria-label="Italic">
+                        <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#italic"/></svg>
+                    </label>
                 </p>
                 <p>
-                    <label for="align-input">Text alignment</label>
-                    <select name="align" id="align-input">
-                        <option value="left">Left</option>
-                        <option value="center">Center</option>
-                        <option value="right">Right</option>
-                        <option value="justify">Justify</option>
-                    </select>
+                    <label title="Align left">
+                        <input type="radio" name="align" value="left" aria-label="Align left">
+                        <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#align-left"/></svg>
+                    </label>
+                    <label title="Align center">
+                        <input type="radio" name="align" value="center" aria-label="Align center">
+                        <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#align-center"/></svg>
+                    </label>
+                    <label title="Align right">
+                        <input type="radio" name="align" value="right" aria-label="Align right">
+                        <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#align-right"/></svg>
+                    </label>
+                    <label title="Align justify">
+                        <input type="radio" name="align" value="justify" aria-label="Align justify">
+                        <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#align-justify"/></svg>
+                    </label>
                 </p>
                 <p>
                     <label><input type="checkbox" name="has-shadow">Shadow</label>
