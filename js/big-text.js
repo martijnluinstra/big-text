@@ -255,10 +255,8 @@ class BigTextOption {
         if (this.spec.render)
             return this.spec.render.call(this, context, options);
 
-        if (this.spec.context && this.spec.context in context) {
-            console.log(this.spec.context);
+        if (this.spec.context && this.spec.context in context)
             context = context[this.spec.context];
-        }
         else
             context = context.main;
 
@@ -515,7 +513,15 @@ class BigTextControlForm {
                 const value = this.bigText.options[this.getOptionName(n)].value;
                 propertyValue &&= check(value);
             }
-            el[property] = transform(propertyValue);
+
+            if (property.startsWith('data-')) {
+                if (transform(propertyValue))
+                    el.dataset[property.slice(5)] = true;
+                else
+                    delete el.dataset[property.slice(5)];
+            } else {
+                el[property] = transform(propertyValue);
+            }
         }
     }    
 }
@@ -536,7 +542,7 @@ class BigTextControls extends BigTextControlForm {
     constructor(bigText, context) {
         const form = context.querySelector('#settings-form');
 
-        if (!bigText.options['controls-enabled']?.value)
+        if (bigText.options['controls-enabled']?.value)
             form.hidden = false;
         else
             form.hidden = true;
@@ -549,6 +555,9 @@ class BigTextControls extends BigTextControlForm {
         this.modals = {};
         for (let el of context.querySelectorAll('[data-modal]'))
             el.addEventListener('click', this.handleModal.bind(this));
+
+        for (let el of context.querySelectorAll('.layout-picker-set'))
+            this.initLayoutPickerSet(el);
     }
 
     handleGenerateLink(evt) {
@@ -565,6 +574,15 @@ class BigTextControls extends BigTextControlForm {
             this.modals[modalId] = new BigTextModal(this.bigText, form, evt.target.dataset.prefix);
         }
         this.modals[modalId].show();
+    }
+
+    initLayoutPickerSet(element) {
+        const trigger = element.querySelector('.trigger');
+        trigger.addEventListener('click', () => element.classList.toggle('active'));
+        document.addEventListener('click', evt => {
+            if (!trigger.contains(evt.target))
+                element.classList.remove('active');
+        });
     }
 }
 
@@ -815,6 +833,13 @@ new BigText(document, {
                 },
                 inUrl: false,
             },
+            '_layout-group': {
+                default: 0,
+                render(context, options) {
+                    this.value = Math.floor(options['layout'].value / 10);
+                },
+                inUrl: false,
+            },
             'layout': {
                 default: 0,
                 sanitize(value) {
@@ -835,6 +860,7 @@ new BigText(document, {
                     for (let i = 0; i < 80; i++) 
                         context.main.classList.remove(`l${i.toString().padStart(2, 0)}`);
                     context.main.classList.add(`l${this.value.toString().padStart(2, 0)}`);
+                    options['_layout-group'].render(...arguments);
                 },
                 resize: true,        
             },

@@ -4,6 +4,9 @@
     --ON: initial;
     --OFF: ;
 
+    --light-grey: #eeeeee;
+    --grey: #999999;
+
     --shadow-medium-color: hsl(0deg 0% 0% / 0.333);
     --shadow-medium: 1px 2px 2px var(--shadow-medium-color),
                      2px 4px 4px var(--shadow-medium-color),
@@ -44,6 +47,28 @@ input:invalid,
 select:invalid {
     border: 1px solid red;
     outline: none;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+fieldset {
+    border: none;
+    padding: .5em;
+}
+
+fieldset:not(:last-child) {
+    border-bottom: 1px solid var(--grey);
+    margin-bottom: .5em;
+}
+
+fieldset legend {
+    font-weight: bold;
 }
 
 .controls {
@@ -406,3 +431,159 @@ select:invalid {
 .font-selector [value="Impact, Charcoal, sans-serif"] { font-family: 'Impact', 'Charcoal', sans-serif; }
 .font-selector [value="'Arial Black', Gadget, sans-serif"] { font-family: 'Arial Black', Gadget, sans-serif; }
 .font-selector [value="Verdana, Geneva, sans-serif"] { font-family: Verdana, Geneva, sans-serif; }
+
+.layout-picker,
+.layout-picker:not(:last-child),
+.layout-picker-set,
+.layout-picker-set:not(:last-child) {
+    padding: 0;
+    border: none;
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.layout-picker {
+    --layout-picker-color: #000000;
+    --layout-picker-selected-color: #ff0000;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    background: var(--light-grey);
+}
+
+.layout-picker-set .trigger {
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: none;
+}
+
+.layout-picker-set .options {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    flex-direction: row;
+    background: white;
+    box-shadow: var(--shadow-medium);
+    overflow: hidden;
+}
+
+.layout-picker-set .options input {
+    display: none;
+}
+
+.layout-picker-set:hover,
+.layout-picker-set.active {
+    box-shadow: var(--shadow-medium);
+}
+
+.layout-picker-set:hover .options,
+.layout-picker-set.active .options {
+    display: flex;
+}
+
+.layout-picker-set:hover .trigger,
+.layout-picker-set.active .trigger {
+    position: relative;
+    background: white;
+    z-index: 1;
+}
+
+.layout-picker .icon {
+    display: grid;
+    height: 3.5em;
+    width: 3.5em;
+    opacity: .5;
+    border-radius: .5em;
+    overflow: hidden;
+    margin: .5em;
+    outline: 2px solid currentColor;
+    outline-offset: -1px;
+}
+
+.layout-picker-set .options > :hover .icon,
+.layout-picker-set:hover .trigger .icon,
+.layout-picker-set.active .trigger .icon {
+    opacity: 1;
+}
+
+.layout-picker .icon[data-checked],
+.layout-picker :checked + .icon {
+    color: var(--layout-picker-selected-color);
+}
+
+.layout-picker .icon:empty::after,
+.layout-picker .icon:empty::before {
+    display: block;
+    content: '';
+}
+
+.layout-picker .icon:empty::before { grid-area: a; }
+.layout-picker .icon :nth-child(1) { grid-area: a; }
+.layout-picker .icon:empty::after  { grid-area: b; }
+.layout-picker .icon :nth-child(2) { grid-area: b; }
+.layout-picker .icon :nth-child(3) { grid-area: c; }
+
+.layout-picker .icon:empty::after,
+.layout-picker .icon:empty::before,
+.layout-picker .icon * {
+    border: 2px solid currentColor;
+    font-size: 80%;
+    line-height: 1em;
+    margin: -1px;
+}
+
+.layout-picker .icon * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.layout-picker .l0 .icon {
+    grid-template-columns: auto;
+    grid-template-rows: 50% 50%;
+    grid-template-areas: "a" "b";
+}
+
+.layout-picker .l1 .icon {
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto;
+    grid-template-areas: "a b";
+}
+
+.layout-picker .l2 .icon {
+    grid-template-columns: auto;
+    grid-template-rows: 33.333% 33.333% 33.333%;
+    grid-template-areas: "a" "b" "c";
+}
+
+.layout-picker .l3 .icon {
+    grid-template-columns: 33.333% 33.333% 33.333%;
+    grid-template-rows: auto;
+    grid-template-areas: "a b c";
+}
+
+.layout-picker .l4 .icon {
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    grid-template-areas: "a a" "b c";
+}
+
+.layout-picker .l5 .icon {
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    grid-template-areas: "a b" "a c";
+}
+
+.layout-picker .l6 .icon {
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    grid-template-areas: "a b" "c c";
+}
+
+.layout-picker .l7 .icon {
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    grid-template-areas: "a c" "b c";
+}
