@@ -48,6 +48,24 @@ class SliderInputElement extends HTMLElement {
 
 customElements.define('slider-input', SliderInputElement);
 
+
+class SelectDropdown {
+    static parse(context) {
+        for (let el of context.querySelectorAll('.select-dropdown'))
+            new SelectDropdown(el);
+    }
+
+    constructor(element) {
+        const trigger = element.querySelector('.trigger');
+        trigger.addEventListener('click', () => element.classList.toggle('active'));
+        document.addEventListener('click', evt => {
+            if (!trigger.contains(evt.target))
+                element.classList.remove('active');
+        });
+    }
+}
+
+
 function overflows(element) {
     // Triggers reflow, use sparingly.
     return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
@@ -419,6 +437,8 @@ class BigTextControlForm {
 
         for (let name in bigText.options)
             this.updateForm(name, bigText.options[name].value);
+
+        SelectDropdown.parse(form);
     }
 
     getOptionName(name) {
@@ -556,9 +576,6 @@ class BigTextControls extends BigTextControlForm {
         this.modals = {};
         for (let el of context.querySelectorAll('[data-modal]'))
             el.addEventListener('click', this.handleModal.bind(this));
-
-        for (let el of context.querySelectorAll('.layout-picker-set'))
-            this.initLayoutPickerSet(el);
     }
 
     handleGenerateLink(evt) {
@@ -575,15 +592,6 @@ class BigTextControls extends BigTextControlForm {
             this.modals[modalId] = new BigTextModal(this.bigText, form, evt.target.dataset.prefix);
         }
         this.modals[modalId].show();
-    }
-
-    initLayoutPickerSet(element) {
-        const trigger = element.querySelector('.trigger');
-        trigger.addEventListener('click', () => element.classList.toggle('active'));
-        document.addEventListener('click', evt => {
-            if (!trigger.contains(evt.target))
-                element.classList.remove('active');
-        });
     }
 }
 
@@ -666,6 +674,7 @@ new BigText(document, {
             'font-family': {
                 default: 'sans-serif',
                 cssName: 'font-family',
+                cssValue: value => `var(--font-${value})`,
                 resize: true,
             },
             'font-weight-bold': {

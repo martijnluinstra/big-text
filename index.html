@@ -58,7 +58,7 @@
             <fieldset>
                 <legend>Layout</legend>
                 <fieldset class="layout-picker" data-toggle="_layout-type!=text">
-                    <fieldset class="layout-picker-set l0" data-toggle="_layout-type=text+image">
+                    <fieldset class="select-dropdown l0" data-toggle="_layout-type=text+image">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=0" data-toggle-property="data-checked"></div>
                         </button>
@@ -73,7 +73,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="layout-picker-set l1" data-toggle="_layout-type=text+image">
+                    <fieldset class="select-dropdown l1" data-toggle="_layout-type=text+image">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=1" data-toggle-property="data-checked"></div>
                         </button>
@@ -88,7 +88,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="layout-picker-set l0" data-toggle="_layout-type=text+countdown">
+                    <fieldset class="select-dropdown l0" data-toggle="_layout-type=text+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=0" data-toggle-property="data-checked"></div>
                         </button>
@@ -103,7 +103,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="layout-picker-set l1" data-toggle="_layout-type=text+countdown">
+                    <fieldset class="select-dropdown l1" data-toggle="_layout-type=text+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=1" data-toggle-property="data-checked"></div>
                         </button>
@@ -118,7 +118,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="layout-picker-set l2" data-toggle="_layout-type=text+image+countdown">
+                    <fieldset class="select-dropdown l2" data-toggle="_layout-type=text+image+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=2" data-toggle-property="data-checked"></div>
                         </button>
@@ -149,7 +149,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="layout-picker-set l3" data-toggle="_layout-type=text+image+countdown">
+                    <fieldset class="select-dropdown l3" data-toggle="_layout-type=text+image+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=3" data-toggle-property="data-checked"></div>
                         </button>
@@ -180,7 +180,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="layout-picker-set l4" data-toggle="_layout-type=text+image+countdown">
+                    <fieldset class="select-dropdown l4" data-toggle="_layout-type=text+image+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=4" data-toggle-property="data-checked"></div>
                         </button>
@@ -211,7 +211,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="layout-picker-set l6" data-toggle="_layout-type=text+image+countdown">
+                    <fieldset class="select-dropdown l6" data-toggle="_layout-type=text+image+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=6" data-toggle-property="data-checked"></div>
                         </button>
@@ -242,7 +242,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="layout-picker-set l5" data-toggle="_layout-type=text+image+countdown">
+                    <fieldset class="select-dropdown l5" data-toggle="_layout-type=text+image+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=5" data-toggle-property="data-checked"></div>
                         </button>
@@ -273,7 +273,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="layout-picker-set l7" data-toggle="_layout-type=text+image+countdown">
+                    <fieldset class="select-dropdown l7" data-toggle="_layout-type=text+image+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=7" data-toggle-property="data-checked"></div>
                         </button>
@@ -405,19 +405,29 @@
                     <label for="#foreground-color-input">Colour</label>
                     <input type="color" name="foreground-color" id="foreground-color-input">
                 </p>
-                <p>
-                    <label for="font-family-input">Font Family</label>
-                    <select class="font-selector" name="font-family" id="font-family-input">
-                        <option value="serif">Serif</option>
-                        <option value="sans-serif">Sans Serif</option>
-                        <option value="cursive">Cursive</option>
-                        <option value="monospace">Monospace</option>
-                        <option value="'Fira Sans', sans-serif">Fira Sans</option>
-                        <option value="Impact, Charcoal, sans-serif">Impact</option>
-                        <option value="'Arial Black', Gadget, sans-serif">Arial Black</option>
-                        <option value="Verdana, Geneva, sans-serif">Verdana</option>
-                    </select>
-                </p>
+                <fieldset class="font-picker select-dropdown">
+                    <button type="button" class="trigger">
+                        <span data-toggle="!font-family">Font</span>
+                        <span data-toggle="font-family=serif">Serif</span>
+                        <span data-toggle="font-family=sans-serif">Sans Serif</span>
+                        <span data-toggle="font-family=cursive">Cursive</span>
+                        <span data-toggle="font-family=monospace">Monospace</span>
+                        <span data-toggle="font-family=fira-sans">Fira Sans</span>
+                        <span data-toggle="font-family=impact">Impact</span>
+                        <span data-toggle="font-family=arial-black">Arial Black</span>
+                        <span data-toggle="font-family=verdana">Verdana</span>
+                    </button>
+                    <div class="options">
+                        <label><input type="radio" name="font-family" value="serif"><span>Serif</span></label>
+                        <label><input type="radio" name="font-family" value="sans-serif"><span>Sans Serif</span></label>
+                        <label><input type="radio" name="font-family" value="cursive"><span>Cursive</span></label>
+                        <label><input type="radio" name="font-family" value="monospace"><span>Monospace</span></label>
+                        <label><input type="radio" name="font-family" value="fira-sans"><span>Fira Sans</span></label>
+                        <label><input type="radio" name="font-family" value="impact"><span>Impact</span></label>
+                        <label><input type="radio" name="font-family" value="arial-black"><span>Arial Black</span></label>
+                        <label><input type="radio" name="font-family" value="verdana"><span>Verdana</span></label>
+                    </div>
+                </fieldset>
                 <p>
                     <label>
                         <input type="checkbox" name="font-weight-bold" aria-label="Bold">

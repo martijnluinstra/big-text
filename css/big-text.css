@@ -11,6 +11,15 @@
     --shadow-medium: 1px 2px 2px var(--shadow-medium-color),
                      2px 4px 4px var(--shadow-medium-color),
                      3px 6px 6px var(--shadow-medium-color);
+
+    --font-serif: serif;
+    --font-sans-serif: sans-serif;
+    --font-cursive: cursive;
+    --font-monospace: monospace;
+    --font-fira-sans: 'Fira Sans', sans-serif;
+    --font-impact: 'Impact', 'Charcoal', sans-serif;
+    --font-arial-black: 'Arial Black', 'Gadget', sans-serif;
+    --font-verdana: 'Verdana', 'Geneva', sans-serif;
 }
 
 /*
@@ -437,15 +446,97 @@ svg.icon {
     width: 100%;
 }
 
+.select-dropdown,
+.select-dropdown:not(:last-child) {
+    padding: 0;
+    border: none;
+    margin-bottom: 0;    
+}
 
-.font-selector [value=serif] { font-family: serif; }
-.font-selector [value=sans-serif] { font-family: sans-serif; }
-.font-selector [value=cursive] { font-family: cursive; }
-.font-selector [value=monospace] { font-family: monospace; }
-.font-selector [value="'Fira Sans', sans-serif"] { font-family: 'Fira Sans', sans-serif; }
-.font-selector [value="Impact, Charcoal, sans-serif"] { font-family: 'Impact', 'Charcoal', sans-serif; }
-.font-selector [value="'Arial Black', Gadget, sans-serif"] { font-family: 'Arial Black', Gadget, sans-serif; }
-.font-selector [value="Verdana, Geneva, sans-serif"] { font-family: Verdana, Geneva, sans-serif; }
+.select-dropdown .trigger {
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: none;
+    position: relative;
+    padding-right: 1.125em;
+}
+
+.select-dropdown .trigger::after {
+    border: 2px solid transparent;
+    border-radius: 2px;
+    border-right: 0;
+    border-top: 0;
+    content: " ";
+    display: block;
+    height: .625em;
+    margin-top: -.4375em;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: rotate(-45deg);
+    transform-origin: center;
+    width: .625em;
+    
+    border-color: currentColor;
+    right: 0;
+    z-index: 4;
+}
+
+.select-dropdown .trigger:active,
+.select-dropdown .trigger:focus {
+    outline: none;
+}
+
+.select-dropdown .options {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: white;
+    box-shadow: var(--shadow-medium);
+    overflow: hidden;
+}
+
+.select-dropdown .options input {
+    display: none;
+}
+
+.select-dropdown .options > :hover {
+    background: var(--light-grey);
+}
+
+.select-dropdown.active {
+    box-shadow: var(--shadow-medium);
+}
+
+.select-dropdown.active .options {
+    display: flex;
+}
+
+.select-dropdown.active .trigger {
+    position: relative;
+    background: white;
+    z-index: 1;
+}
+
+.font-picker [value=serif] + span,
+.font-picker [data-toggle$=serif] { font-family: var(--font-serif); }
+.font-picker [value=sans-serif] + span,
+.font-picker [data-toggle$=sans-serif] { font-family: var(--font-sans-serif); }
+.font-picker [value=cursive] + span,
+.font-picker [data-toggle$=cursive] { font-family: var(--font-cursive); }
+.font-picker [value=monospace] + span,
+.font-picker [data-toggle$=monospace] { font-family: var(--font-monospace); }
+.font-picker [value=fira-sans] + span,
+.font-picker [data-toggle$=fira-sans] { font-family: var(--font-fira-sans);}
+.font-picker [value=impact] + span,
+.font-picker [data-toggle$=impact] { font-family: var(--font-impact); }
+.font-picker [value=arial-black] + span,
+.font-picker [data-toggle$=arial-black] { font-family: var(--font-arial-black); }
+.font-picker [value=verdana] + span,
+.font-picker [data-toggle$=verdana] { font-family: var(--font-verdana); }
 
 .layout-picker,
 .layout-picker:not(:last-child),
@@ -463,63 +554,31 @@ svg.icon {
     display: flex;
     flex-direction: row;
     position: relative;
-    background: var(--light-grey);
 }
 
-.layout-picker-set .trigger {
-    padding: 0;
-    background: none;
-    border: none;
-    border-radius: none;
-}
-
-.layout-picker-set .options {
-    display: none;
-    position: absolute;
-    left: 0;
-    right: 0;
+.layout-picker .select-dropdown .options {
     flex-direction: row;
-    background: white;
-    box-shadow: var(--shadow-medium);
-    overflow: hidden;
 }
 
-.layout-picker-set .options input {
+.layout-picker .select-dropdown .trigger::after {
     display: none;
-}
-
-.layout-picker-set:hover,
-.layout-picker-set.active {
-    box-shadow: var(--shadow-medium);
-}
-
-.layout-picker-set:hover .options,
-.layout-picker-set.active .options {
-    display: flex;
-}
-
-.layout-picker-set:hover .trigger,
-.layout-picker-set.active .trigger {
-    position: relative;
-    background: white;
-    z-index: 1;
 }
 
 .layout-picker .icon {
     display: grid;
     height: 3.5em;
     width: 3.5em;
-    opacity: .5;
     border-radius: .5em;
     overflow: hidden;
     margin: .5em;
     outline: 2px solid currentColor;
     outline-offset: -1px;
+    opacity: .5;
 }
 
-.layout-picker-set .options > :hover .icon,
-.layout-picker-set:hover .trigger .icon,
-.layout-picker-set.active .trigger .icon {
+.layout-picker .select-dropdown .options > :hover .icon,
+.layout-picker .select-dropdown:hover .trigger .icon,
+.layout-picker .select-dropdown.active .trigger .icon {
     opacity: 1;
 }
 
@@ -579,26 +638,15 @@ svg.icon {
     grid-template-areas: "a b c";
 }
 
-.layout-picker .l4 .icon {
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 50% 50%;
-    grid-template-areas: "a a" "b c";
-}
-
-.layout-picker .l5 .icon {
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 50% 50%;
-    grid-template-areas: "a b" "a c";
-}
-
-.layout-picker .l6 .icon {
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 50% 50%;
-    grid-template-areas: "a b" "c c";
-}
-
+.layout-picker .l4 .icon,
+.layout-picker .l5 .icon,
+.layout-picker .l6 .icon,
 .layout-picker .l7 .icon {
     grid-template-columns: 50% 50%;
     grid-template-rows: 50% 50%;
-    grid-template-areas: "a c" "b c";
 }
+
+.layout-picker .l4 .icon { grid-template-areas: "a a" "b c"; }
+.layout-picker .l5 .icon { grid-template-areas: "a b" "a c"; }
+.layout-picker .l6 .icon { grid-template-areas: "a b" "c c"; }
+.layout-picker .l7 .icon { grid-template-areas: "a c" "b c"; }
