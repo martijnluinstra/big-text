@@ -29,7 +29,13 @@
                     <input type="url" name="image-url" id="image-url-input" pattern="https?://.*">
                 </p>
                 <p class="switch is-right" data-toggle="has-image">
-                    <input type="checkbox" name="image-is-background" id="image-is-background-input">
+                    <input
+                        type="checkbox"
+                        name="image-is-background"
+                        id="image-is-background-input"
+                        data-set="text-background-opacity=180;countdown-background-opacity=180"
+                        data-unset="text-background-opacity=255;countdown-background-opacity=255"
+                    >
                     <label for="image-is-background-input">Background image</label>
                 </p>
             </fieldset>

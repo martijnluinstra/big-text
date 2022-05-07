@@ -475,17 +475,7 @@ class BigTextControlForm {
         else
             this.bigText.options[this.getOptionName(name)] = evt.target.value;
 
-        if (evt.target.tagName === 'SELECT') {
-            const option = evt.target[evt.target.selectedIndex];
-            if (option.dataset.set) {
-                for (let item of option.dataset.set.split(';')) {
-                    let key, value;
-                    [key, value] = item.split('=', 2);
-                    this.bigText.options[this.getOptionName(key)] = value;
-                }
-            }
-        }
-
+        this.setOther(evt.target);
         this.toggleField(name);
     }
 
@@ -551,7 +541,33 @@ class BigTextControlForm {
                 el[property] = transform(propertyValue);
             }
         }
-    }    
+    }
+
+    setOther(field) {
+        let doSet = true;
+        if (field.tagName === 'SELECT')
+            field = field[field.selectedIndex];
+        else if (field.tagName !== 'INPUT' || !['checkbox', 'radio'].includes(field.type))
+            return;
+        else
+            doSet = field.checked;
+
+        if (doSet && field.dataset.set) {
+            for (let option of field.dataset.set.split(';')) {
+                let name, value;
+                [name, value] = option.split('=', 2);
+                this.bigText.options[this.getOptionName(name)] = value;
+            }
+        }
+
+        if (!doSet && field.dataset.unset) {
+            for (let option of field.dataset.unset.split(';')) {
+                let name, value;
+                [name, value] = option.split('=', 2);
+                this.bigText.options[this.getOptionName(name)] = value;
+            }
+        }
+    }  
 }
 
 class BigTextModal extends BigTextControlForm {
