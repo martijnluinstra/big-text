@@ -650,3 +650,120 @@ svg.icon {
 .layout-picker .l5 .icon { grid-template-areas: "a b" "a c"; }
 .layout-picker .l6 .icon { grid-template-areas: "a b" "c c"; }
 .layout-picker .l7 .icon { grid-template-areas: "a c" "b c"; }
+
+
+/*******************************************************************************
+ * Switch
+ * 
+ * Based on Cover Style System's implementation of bulma-switch.
+ * See https://github.com/Wikiki/bulma-switch
+ ******************************************************************************/
+
+
+.switch {
+    --switch-size: 1rem;
+    --switch-height: calc(var(--switch-size) * 1.5);
+    --switch-width: calc(var(--switch-height) * 2);
+    --switch-paddle-offset: .15rem;
+    --switch-paddle-height: calc(var(--switch-height) - var(--switch-paddle-offset) * 2);
+    --switch-paddle-width: calc(var(--switch-height) - var(--switch-paddle-offset) * 2);
+    --switch-paddle-active-offset: calc(var(--switch-width) - var(--switch-paddle-width) - var(--switch-paddle-offset) * 1.5);
+
+
+    --switch-checked-color: #36749d;
+    --switch-unchecked-color: #b5b5b5;
+    --switch-base-color: #ffffff;
+}
+
+.switch.is-small { --switch-size: .75rem; }
+.switch.is-medium { --switch-size: 1.25rem; }
+.switch.is-large { --switch-size: 1.5rem; }
+
+.switch label {
+    position: relative;
+    display: inline-block;
+    font-size: var(--switch-size);
+    line-height: initial;
+    padding-left: calc(var(--switch-width) * 1.2); /* TODO: + spacing */
+    padding-top: 0.2rem;
+    cursor: pointer;
+    min-width: var(--switch-width);
+    min-height: var(--switch-height);
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
+.switch input {
+    outline: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: inline-block;
+    position: absolute;
+    opacity: 0;
+}
+
+.switch input:focus + label::after,
+.switch input:focus + label::before,
+.switch input:focus + label:after,
+.switch input:focus + label:before{
+    outline: 1px dotted var(--switch-unchecked-color);
+}
+
+.switch input + label::before {
+    position: absolute;
+    display: block;
+    top: calc(50% - var(--switch-height) * .5);
+    left: 0;
+    width: var(--switch-width);
+    height: var(--switch-height);
+    border: 0.1rem solid transparent;
+    border-radius: calc(var(--switch-height) / 2);
+    background: var(--switch-unchecked-color);
+    content: '';
+}
+
+.switch input + label::after {
+    display: block;
+    position: absolute;
+    top: calc(50% - var(--switch-paddle-height) * .5);
+    left: var(--switch-paddle-offset);
+    width: var(--switch-paddle-width);
+    height: var(--switch-paddle-height);
+    transform: translate3d(0, 0, 0);
+    border-radius: 50%;
+    background: var(--switch-base-color);
+    transition: all 0.25s ease-out;
+    content: '';
+}
+
+.switch input:checked + label::before {
+    background: var(--switch-checked-color);
+}
+
+.switch input:checked + label::after {
+    left: var(--switch-paddle-active-offset);
+    background-image: linear-gradient(to bottom, var(--switch-base-color) 20%, transparent 20%, transparent 80%, var(--switch-base-color) 80%),
+                      linear-gradient(to right, transparent 43.75%, var(--switch-checked-color) 43.75%, var(--switch-checked-color) 56.25%, transparent 56.25%);
+}
+
+.switch.is-right label {
+    padding-left: 0;
+    padding-right: calc(var(--switch-width) * 1.2); /* TODO: + spacing */
+}
+
+.switch.is-right input + label::before {
+    left: auto;
+    right: 0;
+}
+
+.switch input + label::after {
+    left: auto;
+    right: var(--switch-paddle-offset);
+}
+
+.switch input:checked + label::after {
+    left: auto;
+    right: var(--switch-paddle-active-offset);
+}

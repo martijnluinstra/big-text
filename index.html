@@ -14,36 +14,37 @@
         </a>
         <form id="settings-form" class="dropdown-menu" hidden>
             <a class="modal-close" href="#" aria-label="Close"><span class="icon">×</span></a>
-            <fieldset>
+            <fieldset aria-label="Main text settings">
                 <legend>Text</legend>
                 <button type="button" data-modal="text-form" data-prefix="text">Text style</button>
                 <button type="button" data-modal="background-form" data-prefix="text">Background style</button>
             </fieldset>
-            <fieldset>
-                <legend>Image</legend>
-                <p>
-                    <label><input type="checkbox" name="has-image">Image</label>
+            <fieldset aria-label="Image settings">
+                <p class="switch is-right">
+                    <input type="checkbox" name="has-image" id="has-image-input">
+                    <label for="has-image-input">Image</label>
                 </p>
                 <p data-toggle="has-image">
-                    <label for="#image-url-input">URL</label>
+                    <label for="image-url-input">URL</label>
                     <input type="url" name="image-url" id="image-url-input" pattern="https?://.*">
                 </p>
-                <p data-toggle="has-image">
-                    <label><input type="checkbox" name="image-is-background">Background image</label>
+                <p class="switch is-right" data-toggle="has-image">
+                    <input type="checkbox" name="image-is-background" id="image-is-background-input">
+                    <label for="image-is-background-input">Background image</label>
                 </p>
             </fieldset>
-            <fieldset>
-                <legend>Countdown</legend>
-                <p>
-                    <label><input type="checkbox" name="has-countdown">Countdown</label>
+            <fieldset aria-label="Countdown settings">
+                <p class="switch is-right">
+                    <input type="checkbox" name="has-countdown" id="has-countdown-input">
+                    <label for="has-countdown-input">Countdown</label>
                 </p>
                 <div data-toggle="has-countdown">
                     <p>
-                        <label for="#countdown-timestamp-input">Timestamp</label>
+                        <label for="countdown-timestamp-input">Timestamp</label>
                         <input type="datetime-local" name="countdown-timestamp" id="countdown-timestamp-input">
                     </p>
                     <p>
-                        <label for="countdown-format">Format</label>
+                        <label for="countdown-format">Format</label>    
                         <select name="countdown-format" id="countdown-format-input">
                             <option value="dhms">0 days, 00:00:01</option>
                             <option value="hms">00:00:01</option>
@@ -351,7 +352,10 @@
                     </select>
                 </p>
             </fieldset>
-            <input type="checkbox" id="controls-enabled-input">
+            <p class="switch is-right">
+                <input type="checkbox" name="controls-enabled" id="controls-enabled-input">
+                <label for="controls-enabled-input">Show settings button</label>
+            </p>
             <button data-generate-link-button>Link</button>
         </form>
         <template id="background-form">
@@ -363,7 +367,7 @@
                 </p>
                 <fieldset data-toggle="background-type=color">
                     <p>
-                        <label for="#background-color-input">Colour</label>
+                        <label for="background-color-input">Colour</label>
                         <input type="color" name="background-color" id="background-color-input">
                     </p>
                 </fieldset>
@@ -374,11 +378,11 @@
                         <label><input type="radio" name="background-gradient-type" value="radial">Radial</label>
                     </fieldset>
                     <p>
-                        <label for="#background-gradient-start-input">Colour 1</label>
+                        <label for="background-gradient-start-input">Colour 1</label>
                         <input type="color" data-sync="background-color" id="background-gradient-start-input">
                     </p>
                     <p>
-                        <label for="#background-gradient-end-input">Colour 2</label>
+                        <label for="background-gradient-end-input">Colour 2</label>
                         <input type="color" name="background-gradient-end" id="background-gradient-end-input">
                     </p>
                     <p>
@@ -402,7 +406,7 @@
             <form class="modal" hidden>
                 <button data-modal-close type="button" aria-label="Close"><span class="icon">×</span></button>
                 <p>
-                    <label for="#foreground-color-input">Colour</label>
+                    <label for="foreground-color-input">Colour</label>
                     <input type="color" name="foreground-color" id="foreground-color-input">
                 </p>
                 <fieldset class="font-picker select-dropdown">
@@ -456,8 +460,9 @@
                         <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#align-justify"/></svg>
                     </label>
                 </p>
-                <p>
-                    <label><input type="checkbox" name="has-shadow">Shadow</label>
+                <p class="switch is-right">
+                    <input type="checkbox" name="has-shadow" id="has-shadow-input">
+                    <label for="has-shadow-input">Shadow</label>
                 </p>
                 <fieldset data-toggle="has-shadow">
                     <legend>Text shadow</legend>
@@ -472,7 +477,7 @@
                         </select>
                     </p>
                     <p>
-                        <label for="#shadow-color-input">Colour</label>
+                        <label for="shadow-color-input">Colour</label>
                         <input type="color" name="shadow-color" id="shadow-color-input">
                     </p>
                     <p>
@@ -488,13 +493,14 @@
                         <slider-input id="shadow-blur-input" name="shadow-blur" min="0" max="1" step=".01" value=".05"></slider-input>
                     </p>
                 </fieldset>
-                <p>
-                    <label><input type="checkbox" name="has-stroke">Stroke</label>
+                <p class="switch is-right">
+                    <input type="checkbox" name="has-stroke" id="has-stroke-input">
+                    <label for="has-stroke-input">Stroke</label>
                 </p>
                 <fieldset data-toggle="has-stroke">
                     <legend>Text stroke</legend>
                     <p>
-                        <label for="#stroke-color-input">Colour</label>
+                        <label for="stroke-color-input">Colour</label>
                         <input type="color" name="stroke-color" id="stroke-color-input">
                     </p>
                     <p>
