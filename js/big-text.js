@@ -167,7 +167,7 @@ function resizeText(container, overflowCallback=null) {
 // }
 
 function isObject(value) {
-    return typeof value === 'object' && value !== null;   
+    return typeof value === 'object' && value !== null;
 }
 
 function parseBool(value) {
@@ -435,8 +435,15 @@ class BigTextControlForm {
 
         form.addEventListener('input', this.handleFormInput.bind(this));
 
-        for (let name in bigText.options)
+        for (const name in bigText.options)
             this.updateForm(name, bigText.options[name].value);
+
+        if (this.prefix) {
+            for (let el of form.querySelectorAll('[id]'))
+                el.id = `${this.prefix}-${el.id}`;
+            for (let el of form.querySelectorAll('[for]'))
+                el.htmlFor = `${this.prefix}-${el.htmlFor}`;
+        }
 
         SelectDropdown.parse(form);
     }
@@ -592,6 +599,12 @@ class BigTextControls extends BigTextControlForm {
             this.modals[modalId] = new BigTextModal(this.bigText, form, evt.target.dataset.prefix);
         }
         this.modals[modalId].show();
+    }
+
+    updateForm() {
+        super.updateForm(...arguments);
+        for (let modalId in this.modals)
+            this.modals[modalId].updateForm(...arguments);
     }
 }
 
