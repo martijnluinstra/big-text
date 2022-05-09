@@ -121,14 +121,19 @@ svg.icon {
 .big-text {
     --_background-color: var(--background-color, #fff9);
     --_background-gradient-color: var(--background-gradient-color, #ccc9);
-    /*--padding-narrow: 3.75vmin 5vmin;
+    --padding-narrow: 3.75vmin 5vmin;
     --padding-regular: 7.5vmin 10vmin;
     --padding-wide: 11.5vmin 15vmin;
-    --padding-ultrawide: 15vmin 20vmin;*/
-    --padding-narrow: .375em .5em;
+    --padding-ultrawide: 15vmin 20vmin;
+    /*--padding-narrow: .375em .5em;
     --padding-regular: .75em 1em;
     --padding-wide: 1.15em 1.5em;
-    --padding-ultrawide: 1.5em 2.0em;
+    --padding-ultrawide: 1.5em 2.0em;*/
+
+    /*--padding-narrow: min(.375em, 3.75vmin) min(.5em, 5vmin);
+    --padding-regular: min(.75em, 7.5vmin) min(1em, 10vmin);
+    --padding-wide: min(1.15em, 11.5vmin) min(1.5em, 15vmin);
+    --padding-ultrawide: min(1.5em, 15vmin) min(2.0em, 20vmin);*/
 
     --placement-start: -999;
     --placement-end: 999;
@@ -266,8 +271,8 @@ svg.icon {
 }
 
 /* Add an extra character to coundown when resizing, to compensate for narrow numbers */
-.big-text .is-resizing .countdown-wrapper .countdown::after,
-.big-text .is-resizing.countdown-wrapper .countdown::after {
+.big-text .is-resizing .countdown-wrapper .countdown > ::after,
+.big-text .is-resizing.countdown-wrapper .countdown > ::after {
     display: inline;
     content: '.';
     visibility: hidden;
@@ -558,6 +563,10 @@ svg.icon {
 
 .layout-picker .select-dropdown .options {
     flex-direction: row;
+}
+
+.layout-picker .select-dropdown .trigger {
+    padding-right: 0;
 }
 
 .layout-picker .select-dropdown .trigger::after {
