@@ -922,14 +922,14 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]) {
     right: 0;
 }
 
-.switch input ~ label::after {
+.switch.is-right input ~ label::after {
     left: auto;
-    right: var(--switch-paddle-offset);
+    right: var(--switch-paddle-active-offset); /* for right-aligned, active/inactive states are swapped */
 }
 
-.switch input:checked ~ label::after {
+.switch.is-right input:checked ~ label::after {
     left: auto;
-    right: var(--switch-paddle-active-offset);
+    right: var(--switch-paddle-offset);
 }
 
 .toggle-button {
