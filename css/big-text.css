@@ -4,10 +4,18 @@
     --ON: initial;
     --OFF: ;
 
+    --radius: 4px;
+
+    --white: #ffffff;
     --light-grey: #eeeeee;
+    --light-grey-focus: #dddddd;
     --grey: #999999;
 
-    --shadow-medium-color: hsl(0deg 0% 0% / 0.333);
+    --shadow-small-color: hsl(0deg 0% 0% / 0.333);
+    --shadow-small: 0.5px 1px 1px  var(--shadow-small-color),
+                     1px 2px 2px var(--shadow-small-color);
+
+    --shadow-medium-color: hsl(0deg 0% 0% / 0.2);
     --shadow-medium: 1px 2px 2px var(--shadow-medium-color),
                      2px 4px 4px var(--shadow-medium-color),
                      3px 6px 6px var(--shadow-medium-color);
@@ -81,6 +89,7 @@ fieldset legend {
 }
 
 svg.icon {
+    display: inline-block;
     width: 1.25em;
     height: 1.25em;
     stroke: currentColor;
@@ -451,6 +460,141 @@ svg.icon {
     width: 100%;
 }
 
+
+
+/*******************************************************************************
+ * Buttons
+ ******************************************************************************/
+
+button,
+.select-dropdown .trigger,
+.toggle-button input ~ label {
+    /*all: unset;*/
+    background: var(--light-grey);
+    cursor: pointer;
+    display: inline-block;
+    /*border: 1px solid var(--grey);*/
+    border: none;
+    border-radius: var(--radius);
+    padding: .25em .75em;
+    user-select: none;
+    box-shadow: var(--shadow-small);
+    transition-duration: 75ms;
+    transition-property: transform, background-color, box-shadow;
+}
+
+button:hover,
+.select-dropdown .trigger:hover,
+.toggle-button:hover input ~ label {
+    background: var(--light-grey);
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    transform:  translate(-1.5%, -1.5%) scale(1.03);
+}
+
+button:focus,
+.select-dropdown .trigger:focus,
+.toggle-button:focus-within label {
+    outline: orange 2px solid;
+    position: relative; /* Pull focussed element to front, so outline won't be interrupted */
+}
+
+button:active,
+.select-dropdown .trigger:active,
+.toggle-button input:active ~ label {
+    background: var(--light-grey-focus);
+}
+
+button svg.icon,
+.select-dropdown .trigger svg.icon,
+.toggle-button label svg.icon {
+    vertical-align: middle;
+    position: relative;
+    top: -.075em;
+}
+
+.button-group {
+    display: inline-flex;
+    justify-content: flex-start;
+    box-shadow: var(--shadow-small);
+    padding: 0;
+    border-radius: var(--radius);
+    background: var(--light-grey);
+}
+
+.button-group button,
+.button-group .select-dropdown .trigger,
+.button-group .toggle-button label {
+    box-shadow: none;
+}
+
+.button-group button:hover,
+.button-group .select-dropdown .trigger:hover,
+.button-group .toggle-button:hover label {
+    box-shadow: var(--shadow-medium);
+    border-radius: var(--radius) !important;
+}
+
+.button-group button:focus,
+.button-group .select-dropdown .trigger:focus,
+.button-group .toggle-button:focus label,
+.button-group .toggle-button:focus-within label {
+    border-radius: var(--radius) !important;
+}
+
+.button-group button:not(:first-child),
+.button-group .select-dropdown .trigger:not(:first-child),
+.button-group .toggle-button:not(:first-child) label {
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.button-group button:not(:last-child),
+.button-group .select-dropdown .trigger:not(:last-child),
+.button-group .toggle-button:not(:last-child) label {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+fieldset.button-group:not(:last-child) {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+input:not([type=color]):not([type=checkbox]):not([type=radio]) {
+    all: unset;
+    box-sizing: border-box;
+    border: 1px solid var(--grey);
+    border-radius: var(--radius);
+    padding: .25em .75em;
+}
+
+.select {
+    background: var(--light-grey);
+    box-shadow: var(--shadow-small);
+    transition-duration: 75ms;
+    transition-property: transform, background-color, box-shadow;
+    border-radius: var(--radius);
+}
+
+.select:focus-within,
+.select:hover {
+    background: var(--light-grey);
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    transform:  translate(-1.5%, -1.5%) scale(1.03);
+}
+.select select {
+    all: unset;
+    border: none;
+    padding: .25em .75em;
+}
+
+/*******************************************************************************
+ * Select dropdown
+ ******************************************************************************/
+
 .select-dropdown,
 .select-dropdown:not(:last-child) {
     padding: 0;
@@ -458,15 +602,22 @@ svg.icon {
     margin-bottom: 0;    
 }
 
-.select-dropdown .trigger {
-    padding: 0;
-    background: none;
-    border: none;
-    border-radius: none;
+.select {
     position: relative;
-    padding-right: 1.125em;
+    display: inline-block;
 }
 
+.select select,
+.select-dropdown .trigger {
+    position: relative;
+    padding-right: calc(1.125em + .75em);
+}
+
+.select-dropdown .trigger > * {
+    vertical-align: top;
+}
+
+.select::after,
 .select-dropdown .trigger::after {
     border: 2px solid transparent;
     border-radius: 2px;
@@ -484,13 +635,8 @@ svg.icon {
     width: .625em;
     
     border-color: currentColor;
-    right: 0;
+    right: .75em;
     z-index: 4;
-}
-
-.select-dropdown .trigger:active,
-.select-dropdown .trigger:focus {
-    outline: none;
 }
 
 .select-dropdown .options {
@@ -502,6 +648,7 @@ svg.icon {
     background: white;
     box-shadow: var(--shadow-medium);
     overflow: hidden;
+    z-index: 1;
 }
 
 .select-dropdown .options input {
@@ -523,7 +670,14 @@ svg.icon {
 .select-dropdown.active .trigger {
     position: relative;
     background: white;
-    z-index: 1;
+    z-index: 10;
+}
+
+.font-picker .trigger {
+    width: 15ex;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .font-picker [value=serif] + span,
@@ -566,7 +720,12 @@ svg.icon {
 }
 
 .layout-picker .select-dropdown .trigger {
-    padding-right: 0;
+    background: none;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
 }
 
 .layout-picker .select-dropdown .trigger::after {
@@ -704,23 +863,19 @@ svg.icon {
 
 .switch input {
     outline: 0;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     display: inline-block;
     position: absolute;
     opacity: 0;
+    height: 0;
+    width: 0;
 }
 
-.switch input:focus + label::after,
-.switch input:focus + label::before,
-.switch input:focus + label:after,
-.switch input:focus + label:before{
-    outline: 1px dotted var(--switch-unchecked-color);
+.switch input:focus ~ label::before {
+    outline: orange 2px solid;
 }
 
-.switch input + label::before {
+.switch input ~ label::before {
     position: absolute;
     display: block;
     top: calc(50% - var(--switch-height) * .5);
@@ -733,7 +888,7 @@ svg.icon {
     content: '';
 }
 
-.switch input + label::after {
+.switch input ~ label::after {
     display: block;
     position: absolute;
     top: calc(50% - var(--switch-paddle-height) * .5);
@@ -747,11 +902,11 @@ svg.icon {
     content: '';
 }
 
-.switch input:checked + label::before {
+.switch input:checked ~ label::before {
     background: var(--switch-checked-color);
 }
 
-.switch input:checked + label::after {
+.switch input:checked ~ label::after {
     left: var(--switch-paddle-active-offset);
     background-image: linear-gradient(to bottom, var(--switch-base-color) 20%, transparent 20%, transparent 80%, var(--switch-base-color) 80%),
                       linear-gradient(to right, transparent 43.75%, var(--switch-checked-color) 43.75%, var(--switch-checked-color) 56.25%, transparent 56.25%);
@@ -762,17 +917,39 @@ svg.icon {
     padding-right: calc(var(--switch-width) * 1.2); /* TODO: + spacing */
 }
 
-.switch.is-right input + label::before {
+.switch.is-right input ~ label::before {
     left: auto;
     right: 0;
 }
 
-.switch input + label::after {
+.switch input ~ label::after {
     left: auto;
     right: var(--switch-paddle-offset);
 }
 
-.switch input:checked + label::after {
+.switch input:checked ~ label::after {
     left: auto;
     right: var(--switch-paddle-active-offset);
+}
+
+.toggle-button {
+    display: inline-block;
+}
+
+.toggle-button input {
+    outline: 0;
+    user-select: none;
+    display: inline-block;
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+.toggle-button input ~ label {
+    padding: .25em .5em;
+}
+
+.toggle-button input:checked ~ label {
+    background: var(--light-grey-focus);
 }
