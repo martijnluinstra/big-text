@@ -1,0 +1,82 @@
+div {
+    display: flex;
+    gap: var(--gap);
+}
+
+input[type=number] {
+    flex: 0 0 10ch;
+    width: 100%;
+}
+
+/* Webkit refuses to style range inside shadow DOM using ::part, so do it here instead */
+
+input[type=range] {
+    -webkit-appearance: none;
+    flex: 0 1 100%;
+    width: 100%;
+}
+
+/* Range input is not focussable, number input can be used instead */
+input[type=range]:focus {
+  outline: none;
+}
+
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: .5em;
+    border-radius: .25em;
+    background: var(--grey);
+    box-shadow: var(--shadow-inset);
+}
+
+input[type=range]::-moz-range-progress {
+    background: var(--primary);
+    width: 100%;
+    height: .5em;
+    border-radius: .25em;
+    box-shadow: var(--shadow-inset);
+}
+
+input[type=range]::-moz-range-thumb {
+    background: var(--light-grey-focus);
+    box-shadow: var(--shadow-small);
+    border: none;
+    height: 1.5em;
+    width: 1.5em;
+    border-radius: 50%;
+    transition-duration: 75ms;
+    transition-property: transform, box-shadow;
+}
+
+input[type=range]::-moz-range-thumb:hover {
+    box-shadow: var(--shadow-medium);
+    transform: scale(1.05);
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: .5em;
+    border-radius: .25em;
+    background: var(--grey);
+    box-shadow: var(--shadow-inset);
+}
+
+/* Webkit doesn't support styling of value indicator */
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: var(--light-grey-focus);
+    box-shadow: var(--shadow-small);
+    border: none;
+    height: 1.5em;
+    width: 1.5em;
+    margin-top: -.5em;
+    border-radius: 50%;
+    transition-duration: 75ms;
+    transition-property: transform, box-shadow;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+    box-shadow: var(--shadow-medium);
+    transform: scale(1.05);
+}

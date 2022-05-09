@@ -10,8 +10,11 @@ class SliderInputElement extends HTMLElement {
 
         this.attachShadow({mode: 'open', delegatesFocus: true});
         this.shadowRoot.innerHTML = `
-            <input type="range" aria-hidden="true">
-            <input type="number">
+            <link href="/css/slider-input.css" rel="stylesheet">
+            <div part="wrapper">
+                <input part="slider" type="range" aria-hidden="true" tabindex="-1">
+                <input part="number" type="number">
+            </div>
         `;
         this.range_input_ = this.shadowRoot.querySelector('[type=range]');
         this.number_input_ = this.shadowRoot.querySelector('[type=number]');

@@ -5,15 +5,22 @@
     --OFF: ;
 
     --radius: 4px;
+    --gap: 1ch;
 
     --white: #ffffff;
     --light-grey: #eeeeee;
     --light-grey-focus: #dddddd;
     --grey: #999999;
 
+    --primary: #8080ff;
+    --primary-hsl-val: 240deg 100% 75%;
+    --primary-hsl: hsl(--primary-hsl);
+
     --shadow-small-color: hsl(0deg 0% 0% / 0.333);
     --shadow-small: 0.5px 1px 1px  var(--shadow-small-color),
                     1px 2px 2px var(--shadow-small-color);
+    --shadow-inset: inset 0.5px 1px 1px  var(--shadow-small-color),
+                    inset 1px 2px 2px var(--shadow-small-color);
 
     --shadow-medium-color: hsl(0deg 0% 0% / 0.2);
     --shadow-medium: 1px 2px 2px var(--shadow-medium-color),
@@ -26,6 +33,8 @@
                     4px 8px 8px var(--shadow-large-color),
                     8px 16px 16px var(--shadow-large-color),
                     16px 32px 32px var(--shadow-large-color);
+
+    --outline: 3px solid hsl(240deg 100% 75% / .75);
 
     --font-serif: serif;
     --font-sans-serif: sans-serif;
@@ -150,6 +159,10 @@ main {
 
 .controls > form.modal.is-active {
     left: 0%;
+}
+
+.controls > form > * {
+    max-width: 100%;
 }
 
 .big-text {
@@ -498,7 +511,8 @@ main {
 button,
 .dropdown .trigger,
 .toggle-button input ~ label {
-    /*all: unset;*/
+    font-size: inherit;
+    line-height: inherit;
     background: var(--light-grey);
     cursor: pointer;
     display: inline-block;
@@ -524,7 +538,7 @@ button:hover,
 button:focus,
 .dropdown .trigger:focus,
 .toggle-button:focus-within label {
-    outline: orange 2px solid;
+    outline: var(--outline);
     position: relative; /* Pull focussed element to front, so outline won't be interrupted */
 }
 
@@ -591,12 +605,25 @@ fieldset.button-group:not(:last-child) {
     margin-bottom: 0;
 }
 
+slider-input::part(number),
 input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]) {
-    all: unset;
+    font-size: inherit;
+    line-height: inherit;
     box-sizing: border-box;
     border: 1px solid var(--grey);
     border-radius: var(--radius);
     padding: .25em .75em;
+    display: inline-block;
+}
+
+slider-input::part(number),
+input[type=number] {
+    padding-right: .5em;
+}
+
+slider-input::part(number):focus,
+input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]):focus {
+    outline: var(--outline);
 }
 
 .select {
@@ -689,6 +716,10 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range])
     background: var(--light-grey);
 }
 
+.dropdown .options > :checked + span {
+    background: var(--primary);
+}
+
 .dropdown.active {
     box-shadow: var(--shadow-medium);
 }
@@ -739,14 +770,16 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range])
 
 .layout-picker {
     --layout-picker-color: #000000;
-    --layout-picker-selected-color: #ff0000;
+    --layout-picker-selected-color: var(--primary);
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     position: relative;
 }
 
 .layout-picker .dropdown .options {
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .layout-picker .dropdown .trigger {
@@ -859,23 +892,23 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range])
 
 
 .switch {
-    --switch-size: 1rem;
+    --switch-size: 1em;
     --switch-height: calc(var(--switch-size) * 1.5);
     --switch-width: calc(var(--switch-height) * 2);
-    --switch-paddle-offset: .15rem;
+    --switch-paddle-offset: .15em;
     --switch-paddle-height: calc(var(--switch-height) - var(--switch-paddle-offset) * 2);
     --switch-paddle-width: calc(var(--switch-height) - var(--switch-paddle-offset) * 2);
-    --switch-paddle-active-offset: calc(var(--switch-width) - var(--switch-paddle-width) - var(--switch-paddle-offset) * 1.5);
+    --switch-paddle-active-offset: calc(var(--switch-width) - var(--switch-paddle-width) - var(--switch-paddle-offset));
 
 
-    --switch-checked-color: #36749d;
-    --switch-unchecked-color: #b5b5b5;
+    --switch-checked-color: var(--primary);
+    --switch-unchecked-color: var(--light-grey-focus);
     --switch-base-color: #ffffff;
 }
 
-.switch.is-small { --switch-size: .75rem; }
-.switch.is-medium { --switch-size: 1.25rem; }
-.switch.is-large { --switch-size: 1.5rem; }
+.switch.is-small { --switch-size: .75em; }
+.switch.is-medium { --switch-size: 1.25em; }
+.switch.is-large { --switch-size: 1.5em; }
 
 .switch label {
     position: relative;
@@ -883,7 +916,7 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range])
     font-size: var(--switch-size);
     line-height: initial;
     padding-left: calc(var(--switch-width) * 1.2); /* TODO: + spacing */
-    padding-top: 0.2rem;
+    padding-top: 0.2em;
     cursor: pointer;
     min-width: var(--switch-width);
     min-height: var(--switch-height);
@@ -902,7 +935,7 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range])
 }
 
 .switch input:focus ~ label::before {
-    outline: orange 2px solid;
+    outline: var(--outline);
 }
 
 .switch input ~ label::before {
@@ -912,10 +945,15 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range])
     left: 0;
     width: var(--switch-width);
     height: var(--switch-height);
-    border: 0.1rem solid transparent;
+    /*border: 0.1rem solid transparent;*/
     border-radius: calc(var(--switch-height) / 2);
     background: var(--switch-unchecked-color);
     content: '';
+
+
+    transition-duration: 75ms;
+    transition-property: background;
+    box-shadow: var(--shadow-inset);
 }
 
 .switch input ~ label::after {
@@ -930,6 +968,15 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range])
     background: var(--switch-base-color);
     transition: all 0.25s ease-out;
     content: '';
+
+    transition-duration: 75ms;
+    transition-property: transform, box-shadow, left, right;
+    box-shadow: var(--shadow-small);
+}
+
+.switch:hover input ~ label::after {
+    box-shadow: var(--shadow-medium);
+    transform: scale(1.05);
 }
 
 .switch input:checked ~ label::before {
