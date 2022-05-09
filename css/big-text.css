@@ -13,12 +13,19 @@
 
     --shadow-small-color: hsl(0deg 0% 0% / 0.333);
     --shadow-small: 0.5px 1px 1px  var(--shadow-small-color),
-                     1px 2px 2px var(--shadow-small-color);
+                    1px 2px 2px var(--shadow-small-color);
 
     --shadow-medium-color: hsl(0deg 0% 0% / 0.2);
     --shadow-medium: 1px 2px 2px var(--shadow-medium-color),
                      2px 4px 4px var(--shadow-medium-color),
                      3px 6px 6px var(--shadow-medium-color);
+
+    --shadow-large-color:  hsl(0deg 0% 0% / 0.1);
+    --shadow-large: 1px 2px 2px var(--shadow-large-color),
+                    2px 4px 4px var(--shadow-large-color),
+                    4px 8px 8px var(--shadow-large-color),
+                    8px 16px 16px var(--shadow-large-color),
+                    16px 32px 32px var(--shadow-large-color);
 
     --font-serif: serif;
     --font-sans-serif: sans-serif;
@@ -55,6 +62,10 @@ input, button, textarea, select {
     font: inherit;
 }
 
+body {
+    font-family: sans-serif;
+}
+
 main {
     height: 100%;
     width: 100%;
@@ -64,10 +75,6 @@ input:invalid,
 select:invalid {
     border: 1px solid red;
     outline: none;
-}
-
-body {
-    font-family: sans-serif;
 }
 
 [hidden] {
@@ -99,32 +106,54 @@ svg.icon {
     fill: none;
 }
 
-.controls {
-    position: absolute;
+main {
+    display: flex;
+    flex-direction: row;
+}
+
+.controls-trigger {
+    position: fixed !important;
     top: 0;
     left: 0;
-    right: 0;
     z-index: 1;
 }
 
-.modal,
-.dropdown .dropdown-menu {
-    display: none;
+.controls {
+    flex: 0 0 0%;
+    overflow: hidden;
+    transition: 250ms flex-basis ease-out;
+    position: relative;
+    z-index: 1;
+    box-shadow: var(--shadow-large);
+}
+
+.controls.is-active {
+    flex-basis: 40ch;
+}
+
+.controls > form {
+    width: 40ch;
     position: absolute;
-    top: 100%;
-    left: 0;
-    background: white;
-    box-shadow: var(--shadow-medium);
-}
-
-.modal:not([hidden]),
-.dropdown .dropdown-menu:target {
-    display: block;
-}
-
-.modal {
     top: 0;
+    right: 0;
+    bottom: 0;
     z-index: 10;
+    background: var(--white);
+    overflow: auto;
+}
+
+.controls > form.modal {
+    left: 100%;
+    transition: 250ms left ease-out;
+}
+
+
+.controls > form.modal.is-active {
+    left: 0%;
+}
+
+.big-text {
+    flex: 1 1 100%;
 }
 
 .big-text {
@@ -467,7 +496,7 @@ svg.icon {
  ******************************************************************************/
 
 button,
-.select-dropdown .trigger,
+.dropdown .trigger,
 .toggle-button input ~ label {
     /*all: unset;*/
     background: var(--light-grey);
@@ -484,29 +513,29 @@ button,
 }
 
 button:hover,
-.select-dropdown .trigger:hover,
+.dropdown .trigger:hover,
 .toggle-button:hover input ~ label {
     background: var(--light-grey);
     box-shadow: var(--shadow-medium);
     position: relative;
-    transform:  translate(-1.5%, -1.5%) scale(1.03);
+    transform: scale(1.05);
 }
 
 button:focus,
-.select-dropdown .trigger:focus,
+.dropdown .trigger:focus,
 .toggle-button:focus-within label {
     outline: orange 2px solid;
     position: relative; /* Pull focussed element to front, so outline won't be interrupted */
 }
 
 button:active,
-.select-dropdown .trigger:active,
+.dropdown .trigger:active,
 .toggle-button input:active ~ label {
     background: var(--light-grey-focus);
 }
 
 button svg.icon,
-.select-dropdown .trigger svg.icon,
+.dropdown .trigger svg.icon,
 .toggle-button label svg.icon {
     vertical-align: middle;
     position: relative;
@@ -523,27 +552,27 @@ button svg.icon,
 }
 
 .button-group button,
-.button-group .select-dropdown .trigger,
+.button-group .dropdown .trigger,
 .button-group .toggle-button label {
     box-shadow: none;
 }
 
 .button-group button:hover,
-.button-group .select-dropdown .trigger:hover,
+.button-group .dropdown .trigger:hover,
 .button-group .toggle-button:hover label {
     box-shadow: var(--shadow-medium);
     border-radius: var(--radius) !important;
 }
 
 .button-group button:focus,
-.button-group .select-dropdown .trigger:focus,
+.button-group .dropdown .trigger:focus,
 .button-group .toggle-button:focus label,
 .button-group .toggle-button:focus-within label {
     border-radius: var(--radius) !important;
 }
 
 .button-group button:not(:first-child),
-.button-group .select-dropdown .trigger:not(:first-child),
+.button-group .dropdown .trigger:not(:first-child),
 .button-group .toggle-button:not(:first-child) label {
     margin-left: -1px;
     border-top-left-radius: 0;
@@ -551,7 +580,7 @@ button svg.icon,
 }
 
 .button-group button:not(:last-child),
-.button-group .select-dropdown .trigger:not(:last-child),
+.button-group .dropdown .trigger:not(:last-child),
 .button-group .toggle-button:not(:last-child) label {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
@@ -583,7 +612,7 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]) {
     background: var(--light-grey);
     box-shadow: var(--shadow-medium);
     position: relative;
-    transform:  translate(-1.5%, -1.5%) scale(1.03);
+    transform: scale(1.05);
 }
 .select select {
     all: unset;
@@ -595,8 +624,8 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]) {
  * Select dropdown
  ******************************************************************************/
 
-.select-dropdown,
-.select-dropdown:not(:last-child) {
+.dropdown,
+.dropdown:not(:last-child) {
     padding: 0;
     border: none;
     margin-bottom: 0;    
@@ -608,17 +637,17 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]) {
 }
 
 .select select,
-.select-dropdown .trigger {
+.dropdown .trigger {
     position: relative;
     padding-right: calc(1.125em + .75em);
 }
 
-.select-dropdown .trigger > * {
+.dropdown .trigger > * {
     vertical-align: top;
 }
 
 .select::after,
-.select-dropdown .trigger::after {
+.dropdown .trigger::after {
     border: 2px solid transparent;
     border-radius: 2px;
     border-right: 0;
@@ -639,7 +668,7 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]) {
     z-index: 4;
 }
 
-.select-dropdown .options {
+.dropdown .options {
     display: none;
     position: absolute;
     left: 0;
@@ -651,23 +680,23 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]) {
     z-index: 1;
 }
 
-.select-dropdown .options input {
+.dropdown .options input {
     display: none;
 }
 
-.select-dropdown .options > :hover {
+.dropdown .options > :hover {
     background: var(--light-grey);
 }
 
-.select-dropdown.active {
+.dropdown.active {
     box-shadow: var(--shadow-medium);
 }
 
-.select-dropdown.active .options {
+.dropdown.active .options {
     display: flex;
 }
 
-.select-dropdown.active .trigger {
+.dropdown.active .trigger {
     position: relative;
     background: white;
     z-index: 10;
@@ -715,11 +744,11 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]) {
     position: relative;
 }
 
-.layout-picker .select-dropdown .options {
+.layout-picker .dropdown .options {
     flex-direction: row;
 }
 
-.layout-picker .select-dropdown .trigger {
+.layout-picker .dropdown .trigger {
     background: none;
     padding: 0;
     border: none;
@@ -728,7 +757,7 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]) {
     transform: none;
 }
 
-.layout-picker .select-dropdown .trigger::after {
+.layout-picker .dropdown .trigger::after {
     display: none;
 }
 
@@ -744,9 +773,9 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]) {
     opacity: .5;
 }
 
-.layout-picker .select-dropdown .options > :hover .icon,
-.layout-picker .select-dropdown:hover .trigger .icon,
-.layout-picker .select-dropdown.active .trigger .icon {
+.layout-picker .dropdown .options > :hover .icon,
+.layout-picker .dropdown:hover .trigger .icon,
+.layout-picker .dropdown.active .trigger .icon {
     opacity: 1;
 }
 

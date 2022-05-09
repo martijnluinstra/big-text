@@ -49,10 +49,10 @@ class SliderInputElement extends HTMLElement {
 customElements.define('slider-input', SliderInputElement);
 
 
-class SelectDropdown {
+class Dropdown {
     static parse(context) {
-        for (let el of context.querySelectorAll('.select-dropdown'))
-            new SelectDropdown(el);
+        for (let el of context.querySelectorAll('.dropdown'))
+            new Dropdown(el);
     }
 
     constructor(element) {
@@ -445,7 +445,7 @@ class BigTextControlForm {
                 el.htmlFor = `${this.prefix}-${el.htmlFor}`;
         }
 
-        SelectDropdown.parse(form);
+        Dropdown.parse(form);
     }
 
     getOptionName(name) {
@@ -578,8 +578,8 @@ class BigTextModal extends BigTextControlForm {
             el.addEventListener('click', this.hide.bind(this));
     }
 
-    show() { this.form.hidden = false; }
-    hide() { this.form.hidden = true; }
+    show() { this.form.classList.add('is-active'); }
+    hide() { this.form.classList.remove('is-active'); }
 }
 
 class BigTextControls extends BigTextControlForm {
@@ -593,6 +593,15 @@ class BigTextControls extends BigTextControlForm {
 
         super(bigText, form);
         this.context = context;
+        this.container = context.querySelector('.controls');
+
+        for (let el of context.querySelectorAll('.controls-trigger')) {
+            console.log(el);
+            el.addEventListener('click', this.show.bind(this));
+        }
+
+        for (let el of this.form.querySelectorAll('[data-modal-close]'))
+            el.addEventListener('click', this.hide.bind(this));
 
         context.querySelector('[data-generate-link-button]').addEventListener('click', this.handleGenerateLink.bind(this));
 
@@ -611,7 +620,8 @@ class BigTextControls extends BigTextControlForm {
         if (!(modalId in this.modals)) {
             const template = this.context.getElementById(evt.target.dataset.modal);
             const form = template.content.firstElementChild.cloneNode(true);
-            document.body.append(form);
+            this.container.append(form);
+            form.clientWidth; // Trigger reflow so animations look right
             this.modals[modalId] = new BigTextModal(this.bigText, form, evt.target.dataset.prefix);
         }
         this.modals[modalId].show();
@@ -621,6 +631,24 @@ class BigTextControls extends BigTextControlForm {
         super.updateForm(...arguments);
         for (let modalId in this.modals)
             this.modals[modalId].updateForm(...arguments);
+    }
+
+    show() {
+        this.container.classList.add('is-active');
+        this.container.addEventListener(
+            'transitionend',
+            () => this.bigText.handleResize(),
+            {once: true},
+        );
+    }
+
+    hide() {
+        this.container.classList.remove('is-active');
+        this.container.addEventListener(
+            'transitionend',
+            () => this.bigText.handleResize(),
+            {once: true},
+        );
     }
 }
 

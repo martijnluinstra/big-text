@@ -8,12 +8,17 @@
 </head>
 <body>
 <main>
-    <section class="dropdown controls">
-        <a href="#settings-form" aria-label="Settings">
+    <section class="controls">
+        <button class="controls-trigger" type="button" aria-label="Settings">
             <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#settings"/></svg>
-        </a>
-        <form id="settings-form" class="dropdown-menu" hidden>
-            <a class="modal-close" href="#" aria-label="Close"><span class="icon">×</span></a>
+        </button>
+        <form id="settings-form">
+            <header>
+                <button data-modal-close type="button" aria-label="Close">
+                    <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#x"/></svg>
+                </button>
+                <h1>BigText</h1>
+            </header>
             <fieldset aria-label="Main text settings">
                 <legend>Text</legend>
                 <button type="button" data-modal="text-form" data-prefix="text">Text style</button>
@@ -67,7 +72,7 @@
             <fieldset>
                 <legend>Layout</legend>
                 <fieldset class="layout-picker" data-toggle="_layout-type!=text">
-                    <fieldset class="select-dropdown l0" data-toggle="_layout-type=text+image">
+                    <fieldset class="dropdown l0" data-toggle="_layout-type=text+image">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=0" data-toggle-property="data-checked"></div>
                         </button>
@@ -82,7 +87,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="select-dropdown l1" data-toggle="_layout-type=text+image">
+                    <fieldset class="dropdown l1" data-toggle="_layout-type=text+image">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=1" data-toggle-property="data-checked"></div>
                         </button>
@@ -97,7 +102,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="select-dropdown l0" data-toggle="_layout-type=text+countdown">
+                    <fieldset class="dropdown l0" data-toggle="_layout-type=text+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=0" data-toggle-property="data-checked"></div>
                         </button>
@@ -112,7 +117,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="select-dropdown l1" data-toggle="_layout-type=text+countdown">
+                    <fieldset class="dropdown l1" data-toggle="_layout-type=text+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=1" data-toggle-property="data-checked"></div>
                         </button>
@@ -127,7 +132,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="select-dropdown l2" data-toggle="_layout-type=text+image+countdown">
+                    <fieldset class="dropdown l2" data-toggle="_layout-type=text+image+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=2" data-toggle-property="data-checked"></div>
                         </button>
@@ -158,7 +163,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="select-dropdown l3" data-toggle="_layout-type=text+image+countdown">
+                    <fieldset class="dropdown l3" data-toggle="_layout-type=text+image+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=3" data-toggle-property="data-checked"></div>
                         </button>
@@ -189,7 +194,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="select-dropdown l4" data-toggle="_layout-type=text+image+countdown">
+                    <fieldset class="dropdown l4" data-toggle="_layout-type=text+image+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=4" data-toggle-property="data-checked"></div>
                         </button>
@@ -220,7 +225,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="select-dropdown l6" data-toggle="_layout-type=text+image+countdown">
+                    <fieldset class="dropdown l6" data-toggle="_layout-type=text+image+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=6" data-toggle-property="data-checked"></div>
                         </button>
@@ -251,7 +256,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="select-dropdown l5" data-toggle="_layout-type=text+image+countdown">
+                    <fieldset class="dropdown l5" data-toggle="_layout-type=text+image+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=5" data-toggle-property="data-checked"></div>
                         </button>
@@ -282,7 +287,7 @@
                             </label>
                         </div>
                     </fieldset>
-                    <fieldset class="select-dropdown l7" data-toggle="_layout-type=text+image+countdown">
+                    <fieldset class="dropdown l7" data-toggle="_layout-type=text+image+countdown">
                         <button type="button" class="trigger">
                             <div class="icon" data-toggle="_layout-group=7" data-toggle-property="data-checked"></div>
                         </button>
@@ -373,8 +378,10 @@
             <button data-generate-link-button>Link</button>
         </form>
         <template id="background-form">
-            <form class="modal" hidden>
-                <button data-modal-close type="button" aria-label="Close"><span class="icon">×</span></button>
+            <form class="modal">
+                <button data-modal-close type="button" aria-label="Close">
+                    <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#arrow-left"/></svg>
+                </button>
                 <p>
                     <label><input type="radio" name="background-type" value="color" checked> Solid Colour</label>
                     <label><input type="radio" name="background-type" value="gradient"> Gradient</label>
@@ -417,14 +424,16 @@
             </form>
         </template>
         <template id="text-form">
-            <form class="modal" hidden>
-                <button data-modal-close type="button" aria-label="Close"><span class="icon">×</span></button>
+            <form class="modal">
+                <button data-modal-close type="button" aria-label="Close">
+                    <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#arrow-left"/></svg>
+                </button>
                 <p>
                     <label for="foreground-color-input">Colour</label>
                     <input type="color" name="foreground-color" id="foreground-color-input">
                 </p>
                 <fieldset class="button-group">
-                    <fieldset class="font-picker select-dropdown" aria-label="Font">
+                    <fieldset class="font-picker dropdown" aria-label="Font">
                         <button type="button" class="trigger">
                             <span data-toggle="!font-family">Font</span>
                             <span data-toggle="font-family=serif">Serif</span>
