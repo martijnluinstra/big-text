@@ -15,7 +15,7 @@
         <form id="settings-form">
             <header>
                 <button data-modal-close type="button" aria-label="Close">
-                    <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#x"/></svg>
+                    <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#arrow-left"/></svg>
                 </button>
                 <h1>BigText</h1>
             </header>
@@ -379,13 +379,22 @@
         </form>
         <template id="background-form">
             <form class="modal">
-                <button data-modal-close type="button" aria-label="Close">
-                    <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#arrow-left"/></svg>
-                </button>
-                <p>
-                    <label><input type="radio" name="background-type" value="color" checked> Solid Colour</label>
-                    <label><input type="radio" name="background-type" value="gradient"> Gradient</label>
-                </p>
+                <header>
+                    <button data-modal-close type="button" aria-label="Close">
+                        <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#arrow-left"/></svg>
+                    </button>
+                    <h2>Background</h2>
+                </header>
+                <fieldset class="button-group">
+                    <div class="toggle-button">
+                        <input type="radio" id="background-type-color" name="background-type" value="color" checked>
+                        <label for="background-type-color">Solid Colour</label>
+                    </div>
+                    <div class="toggle-button">
+                        <input type="radio" id="background-type-gradient" name="background-type" value="gradient">
+                        <label for="background-type-gradient">Gradient</label>
+                    </div>
+                </fieldset>
                 <fieldset data-toggle="background-type=color">
                     <p>
                         <label for="background-color-input">Colour</label>
@@ -393,10 +402,16 @@
                     </p>
                 </fieldset>
                 <fieldset data-toggle="background-type=gradient">
-                    <fieldset>
+                    <fieldset class="button-group">
                         <legend>Gradient type</legend>
-                        <label><input type="radio" name="background-gradient-type" value="linear" checked>Linear</label>
-                        <label><input type="radio" name="background-gradient-type" value="radial">Radial</label>
+                        <div class="toggle-button">
+                            <input type="radio" id="background-gradient-type-linear" name="background-gradient-type" value="linear" checked>
+                            <label for="background-gradient-type-linear">Linear</label>
+                        </div>
+                        <div class="toggle-button">
+                            <input type="radio" id="background-gradient-type-radial" name="background-gradient-type" value="radial">
+                            <label for="background-gradient-type-radial">Radial</label>
+                        </div>
                     </fieldset>
                     <p>
                         <label for="background-gradient-start-input">Colour 1</label>
@@ -425,9 +440,12 @@
         </template>
         <template id="text-form">
             <form class="modal">
-                <button data-modal-close type="button" aria-label="Close">
-                    <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#arrow-left"/></svg>
-                </button>
+                <header>
+                    <button data-modal-close type="button" aria-label="Close">
+                        <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#arrow-left"/></svg>
+                    </button>
+                    <h2>Text</h2>
+                </header>
                 <p>
                     <label for="foreground-color-input">Colour</label>
                     <input type="color" name="foreground-color" id="foreground-color-input">

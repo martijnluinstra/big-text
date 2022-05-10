@@ -5,7 +5,8 @@
     --OFF: ;
 
     --radius: 4px;
-    --gap: 1ch;
+    --gap: .5rem;
+    --local-gap: .5em;
 
     --white: #ffffff;
     --light-grey: #eeeeee;
@@ -46,10 +47,10 @@
     --font-verdana: 'Verdana', 'Geneva', sans-serif;
 }
 
-/*
-  Josh's Custom CSS Reset
-  https://www.joshwcomeau.com/css/custom-css-reset/
-*/
+/*******************************************************************************
+ * Josh's Custom CSS Reset
+ * https://www.joshwcomeau.com/css/custom-css-reset/
+ ******************************************************************************/
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -63,45 +64,27 @@ body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
 }
-/*img, picture, video, canvas, svg {
+img, picture, video, canvas, svg {
     display: block;
     max-width: 100%;
-}*/
+}
 input, button, textarea, select {
     font: inherit;
 }
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/*******************************************************************************
+ * General styling
+ ******************************************************************************/
 
 body {
     font-family: sans-serif;
 }
 
-main {
-    height: 100%;
-    width: 100%;
-}
-
-input:invalid,
-select:invalid {
-    border: 1px solid red;
-    outline: none;
-}
-
 [hidden] {
     display: none !important;
-}
-
-fieldset {
-    border: none;
-    padding: .5em;
-}
-
-fieldset:not(:last-child) {
-    border-bottom: 1px solid var(--grey);
-    margin-bottom: .5em;
-}
-
-fieldset legend {
-    font-weight: bold;
 }
 
 svg.icon {
@@ -115,7 +98,607 @@ svg.icon {
     fill: none;
 }
 
+
+/*******************************************************************************
+ * Components
+ ******************************************************************************/
+
+
+/*******************************************************************************
+ * Buttons (and button-like components)
+ ******************************************************************************/
+
+button,
+.dropdown .trigger,
+.toggle-button input ~ label,
+.select {
+    font-size: inherit;
+    line-height: inherit;
+    background: var(--light-grey);
+    cursor: pointer;
+    display: inline-block;
+    /*border: 1px solid var(--grey);*/
+    border: none;
+    border-radius: var(--radius);
+    padding: .25em .75em;
+    user-select: none;
+    box-shadow: var(--shadow-small);
+    transition-duration: 75ms;
+    transition-property: transform, background-color, box-shadow;
+}
+
+button:not(:last-child),
+.dropdown:not(:last-child) .trigger,
+.toggle-button:not(:last-child),
+.select {
+    margin-right: var(--local-gap);
+}
+
+button:hover,
+.dropdown .trigger:hover,
+.toggle-button:hover input ~ label,
+.select:hover,
+.select:focus-within {
+    background: var(--light-grey);
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    transform: scale(1.05);
+}
+
+button:focus,
+.dropdown .trigger:focus,
+.toggle-button:focus-within label,
+.select:focus-within {
+    outline: var(--outline);
+    position: relative; /* Pull focussed element to front, so outline won't be interrupted */
+}
+
+button:active,
+.dropdown .trigger:active,
+.toggle-button input:active ~ label,
+.select:active {
+    background: var(--light-grey-focus);
+}
+
+button svg.icon,
+.dropdown .trigger svg.icon,
+.toggle-button label svg.icon {
+    position: relative;
+    top: -.075em; /* Magic number to make it look centered… */
+    vertical-align: middle;
+}
+
+/*******************************************************************************
+ * Basic form elements
+ ******************************************************************************/
+
+input:invalid,
+select:invalid {
+    border: 1px solid red;
+    outline: none;
+}
+
+slider-input::part(number),
+input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]) {
+    font-size: inherit;
+    line-height: inherit;
+    box-sizing: border-box;
+    border: 1px solid var(--grey);
+    border-radius: var(--radius);
+    padding: .25em .75em;
+    display: inline-block;
+}
+
+slider-input::part(number),
+input[type=number] {
+    padding-right: .5em;
+}
+
+slider-input::part(number):focus,
+input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]):focus {
+    outline: var(--outline);
+}
+
+.select {
+    padding: 0;
+    position: relative;
+}
+
+.select select {
+    appearance: none;
+    border: none;
+    padding: .25em .75em;
+    background: none;
+}
+
+.select select,
+.dropdown .trigger {
+    position: relative;
+    padding-right: calc(1.125em + .75em);
+    text-align: left;
+}
+
+.select::after,
+.dropdown .trigger::after {
+    border: 2px solid transparent;
+    border-radius: 2px;
+    border-right: 0;
+    border-top: 0;
+    content: " ";
+    display: block;
+    height: .625em;
+    margin-top: -.4375em;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: rotate(-45deg);
+    transform-origin: center;
+    width: .625em;
+    
+    border-color: currentColor;
+    right: .75em;
+    z-index: 4;
+}
+
+fieldset {
+    border: none;
+    padding-top: var(--gap);
+    padding-right: 0;
+    padding-bottom: var(--gap);
+    padding-left: 0;
+}
+
+fieldset:not(:last-child) {
+    border-bottom: 1px solid var(--grey);
+    margin-bottom: var(--gap);
+}
+
+fieldset legend {
+    font-weight: bold;
+}
+
+/*******************************************************************************
+ * Button groups
+ ******************************************************************************/
+
+.button-group {
+    display: inline-flex;
+    justify-content: flex-start;
+    box-shadow: var(--shadow-small);
+    padding: 0;
+    border-radius: var(--radius);
+    background: var(--light-grey);
+}
+
+.button-group:not(:last-child) {
+    margin-right: var(--local-gap);
+}
+
+.button-group button:not(:last-child),
+.button-group .dropdown:not(:last-child) .trigger,
+.button-group .toggle-button:not(:last-child) {
+    margin-right: 0;
+}
+
+.button-group button,
+.button-group .dropdown .trigger,
+.button-group .toggle-button label {
+    box-shadow: none;
+}
+
+.button-group button:hover,
+.button-group .dropdown .trigger:hover,
+.button-group .toggle-button:hover label {
+    box-shadow: var(--shadow-medium);
+    border-radius: var(--radius) !important;
+}
+
+.button-group button:focus,
+.button-group .dropdown .trigger:focus,
+.button-group .toggle-button:focus label,
+.button-group .toggle-button:focus-within label {
+    border-radius: var(--radius) !important;
+}
+
+.button-group button:not(:first-child),
+.button-group .dropdown .trigger:not(:first-child),
+.button-group .toggle-button:not(:first-child) label {
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.button-group button:not(:last-child),
+.button-group .dropdown .trigger:not(:last-child),
+.button-group .toggle-button:not(:last-child) label {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+fieldset.button-group:not(:last-child) {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+/*******************************************************************************
+ * Toggle button
+ ******************************************************************************/
+
+.toggle-button {
+    display: inline-block;
+}
+
+.toggle-button input {
+    outline: 0;
+    user-select: none;
+    display: inline-block;
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+.toggle-button input ~ label {
+    padding: .25em .5em;
+}
+
+.toggle-button input:checked ~ label {
+    background: var(--light-grey-focus);
+}
+
+
+/*******************************************************************************
+ * Dropdown
+ ******************************************************************************/
+
+.dropdown,
+.dropdown:not(:last-child) {
+    padding: 0;
+    border: none;
+    margin-bottom: 0;
+}
+
+.dropdown .trigger > * {
+    vertical-align: top;
+}
+
+.dropdown .options {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: white;
+    box-shadow: var(--shadow-medium);
+    overflow: hidden;
+    z-index: 1;
+}
+
+.dropdown .options input {
+    display: none;
+}
+
+.dropdown .options > :hover {
+    background: var(--light-grey);
+}
+
+.dropdown .options > :checked + span {
+    background: var(--primary);
+}
+
+.dropdown.active {
+    box-shadow: var(--shadow-medium);
+}
+
+.dropdown.active .options {
+    display: flex;
+}
+
+.dropdown.active .trigger {
+    position: relative;
+    background: white;
+    z-index: 10;
+}
+
+
+/*******************************************************************************
+ * Switch
+ * 
+ * Based on Cover Style System's implementation of bulma-switch.
+ * See https://github.com/Wikiki/bulma-switch
+ ******************************************************************************/
+
+.switch {
+    --switch-size: 1em;
+    --switch-height: calc(var(--switch-size) * 1.5);
+    --switch-width: calc(var(--switch-height) * 2);
+    --switch-paddle-offset: .15em;
+    --switch-paddle-height: calc(var(--switch-height) - var(--switch-paddle-offset) * 2);
+    --switch-paddle-width: calc(var(--switch-height) - var(--switch-paddle-offset) * 2);
+    --switch-paddle-active-offset: calc(var(--switch-width) - var(--switch-paddle-width) - var(--switch-paddle-offset));
+
+
+    --switch-checked-color: var(--primary);
+    --switch-unchecked-color: var(--light-grey-focus);
+    --switch-base-color: #ffffff;
+}
+
+.switch.is-small { --switch-size: .75em; }
+.switch.is-medium { --switch-size: 1.25em; }
+.switch.is-large { --switch-size: 1.5em; }
+
+.switch label {
+    position: relative;
+    display: inline-block;
+    font-size: var(--switch-size);
+    line-height: initial;
+    padding-left: calc(var(--switch-width) * 1.2); /* TODO: + spacing */
+    padding-top: 0.2em;
+    cursor: pointer;
+    min-width: var(--switch-width);
+    min-height: var(--switch-height);
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
+.switch input {
+    outline: 0;
+    user-select: none;
+    display: inline-block;
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+.switch input:focus ~ label::before {
+    outline: var(--outline);
+}
+
+.switch input ~ label::before {
+    position: absolute;
+    display: block;
+    top: calc(50% - var(--switch-height) * .5);
+    left: 0;
+    width: var(--switch-width);
+    height: var(--switch-height);
+    /*border: 0.1rem solid transparent;*/
+    border-radius: calc(var(--switch-height) / 2);
+    background: var(--switch-unchecked-color);
+    content: '';
+
+
+    transition-duration: 75ms;
+    transition-property: background;
+    box-shadow: var(--shadow-inset);
+}
+
+.switch input ~ label::after {
+    display: block;
+    position: absolute;
+    top: calc(50% - var(--switch-paddle-height) * .5);
+    left: var(--switch-paddle-offset);
+    width: var(--switch-paddle-width);
+    height: var(--switch-paddle-height);
+    transform: translate3d(0, 0, 0);
+    border-radius: 50%;
+    background: var(--switch-base-color);
+    transition: all 0.25s ease-out;
+    content: '';
+
+    transition-duration: 75ms;
+    transition-property: transform, box-shadow, left, right;
+    box-shadow: var(--shadow-small);
+}
+
+.switch:hover input ~ label::after {
+    box-shadow: var(--shadow-medium);
+    transform: scale(1.05);
+}
+
+.switch input:checked ~ label::before {
+    background: var(--switch-checked-color);
+}
+
+.switch input:checked ~ label::after {
+    left: var(--switch-paddle-active-offset);
+    background-image: linear-gradient(to bottom, var(--switch-base-color) 20%, transparent 20%, transparent 80%, var(--switch-base-color) 80%),
+                      linear-gradient(to right, transparent 43.75%, var(--switch-checked-color) 43.75%, var(--switch-checked-color) 56.25%, transparent 56.25%);
+}
+
+.switch.is-right label {
+    padding-left: 0;
+    padding-right: calc(var(--switch-width) * 1.2); /* TODO: + spacing */
+}
+
+.switch.is-right input ~ label::before {
+    left: auto;
+    right: 0;
+}
+
+.switch.is-right input ~ label::after {
+    left: auto;
+    right: var(--switch-paddle-active-offset); /* for right-aligned, active/inactive states are swapped */
+}
+
+.switch.is-right input:checked ~ label::after {
+    left: auto;
+    right: var(--switch-paddle-offset);
+}
+
+
+/*******************************************************************************
+ * Specific components
+ ******************************************************************************/
+
+
+/*******************************************************************************
+ * Font picker
+ ******************************************************************************/
+
+.font-picker .trigger {
+    width: 15ex;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.font-picker [value=serif] + span,
+.font-picker [data-toggle$=serif] { font-family: var(--font-serif); }
+.font-picker [value=sans-serif] + span,
+.font-picker [data-toggle$=sans-serif] { font-family: var(--font-sans-serif); }
+.font-picker [value=cursive] + span,
+.font-picker [data-toggle$=cursive] { font-family: var(--font-cursive); }
+.font-picker [value=monospace] + span,
+.font-picker [data-toggle$=monospace] { font-family: var(--font-monospace); }
+.font-picker [value=fira-sans] + span,
+.font-picker [data-toggle$=fira-sans] { font-family: var(--font-fira-sans);}
+.font-picker [value=impact] + span,
+.font-picker [data-toggle$=impact] { font-family: var(--font-impact); }
+.font-picker [value=arial-black] + span,
+.font-picker [data-toggle$=arial-black] { font-family: var(--font-arial-black); }
+.font-picker [value=verdana] + span,
+.font-picker [data-toggle$=verdana] { font-family: var(--font-verdana); }
+
+
+
+/*******************************************************************************
+ * Layout picker
+ ******************************************************************************/
+
+.layout-picker,
+.layout-picker:not(:last-child),
+.layout-picker-set,
+.layout-picker-set:not(:last-child) {
+    padding: 0;
+    border: none;
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.layout-picker {
+    --layout-picker-color: #000000;
+    --layout-picker-selected-color: var(--primary);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.layout-picker .dropdown .options {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.layout-picker .dropdown .trigger {
+    background: none;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
+    margin-right: 0;
+}
+
+.layout-picker .dropdown .trigger::after {
+    display: none;
+}
+
+.layout-picker .icon {
+    display: grid;
+    height: 3.5em;
+    width: 3.5em;
+    border-radius: .5em;
+    overflow: hidden;
+    margin: .5em;
+    outline: 2px solid currentColor;
+    outline-offset: -1px;
+    opacity: .5;
+}
+
+.layout-picker .dropdown .options > :hover .icon,
+.layout-picker .dropdown:hover .trigger .icon,
+.layout-picker .dropdown.active .trigger .icon {
+    opacity: 1;
+}
+
+.layout-picker .icon[data-checked],
+.layout-picker :checked + .icon {
+    color: var(--layout-picker-selected-color);
+}
+
+.layout-picker .icon:empty::after,
+.layout-picker .icon:empty::before {
+    display: block;
+    content: '';
+}
+
+.layout-picker .icon:empty::before { grid-area: a; }
+.layout-picker .icon :nth-child(1) { grid-area: a; }
+.layout-picker .icon:empty::after  { grid-area: b; }
+.layout-picker .icon :nth-child(2) { grid-area: b; }
+.layout-picker .icon :nth-child(3) { grid-area: c; }
+
+.layout-picker .icon:empty::after,
+.layout-picker .icon:empty::before,
+.layout-picker .icon * {
+    border: 2px solid currentColor;
+    font-size: 80%;
+    line-height: 1em;
+    margin: -1px;
+}
+
+.layout-picker .icon * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.layout-picker .l0 .icon {
+    grid-template-columns: auto;
+    grid-template-rows: 50% 50%;
+    grid-template-areas: "a" "b";
+}
+
+.layout-picker .l1 .icon {
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto;
+    grid-template-areas: "a b";
+}
+
+.layout-picker .l2 .icon {
+    grid-template-columns: auto;
+    grid-template-rows: 33.333% 33.333% 33.333%;
+    grid-template-areas: "a" "b" "c";
+}
+
+.layout-picker .l3 .icon {
+    grid-template-columns: 33.333% 33.333% 33.333%;
+    grid-template-rows: auto;
+    grid-template-areas: "a b c";
+}
+
+.layout-picker .l4 .icon,
+.layout-picker .l5 .icon,
+.layout-picker .l6 .icon,
+.layout-picker .l7 .icon {
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+}
+
+.layout-picker .l4 .icon { grid-template-areas: "a a" "b c"; }
+.layout-picker .l5 .icon { grid-template-areas: "a b" "a c"; }
+.layout-picker .l6 .icon { grid-template-areas: "a b" "c c"; }
+.layout-picker .l7 .icon { grid-template-areas: "a c" "b c"; }
+
+
+/*******************************************************************************
+ * Layout
+ ******************************************************************************/
+
 main {
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: row;
 }
@@ -130,18 +713,19 @@ main {
 .controls {
     flex: 0 0 0%;
     overflow: hidden;
-    transition: 250ms flex-basis ease-out;
+    transition: flex-basis 250ms ease-out, box-shadow 0ms 250ms;
     position: relative;
     z-index: 1;
-    box-shadow: var(--shadow-large);
 }
 
 .controls.is-active {
-    flex-basis: 40ch;
+    flex-basis: 45ch;
+    box-shadow: var(--shadow-large);
+    transition: flex-basis 250ms ease-out, box-shadow 0ms;
 }
 
-.controls > form {
-    width: 40ch;
+.controls form {
+    width: 45ch;
     position: absolute;
     top: 0;
     right: 0;
@@ -149,21 +733,52 @@ main {
     z-index: 10;
     background: var(--white);
     overflow: auto;
+    padding: var(--gap);
 }
 
-.controls > form.modal {
-    left: 100%;
-    transition: 250ms left ease-out;
+.controls form.modal {
+    right: 100%;
+    transition: right 250ms ease-out, box-shadow 0ms 250ms;
 }
 
 
-.controls > form.modal.is-active {
-    left: 0%;
+.controls form.modal.is-active {
+    right: 0%;
+    box-shadow: var(--shadow-large);
+    transition: right 250ms ease-out, box-shadow 0ms;
 }
 
-.controls > form > * {
+.controls form > * {
     max-width: 100%;
 }
+
+.controls form header {
+    display: flex;
+    gap: var(--gap);
+    background: var(--light-grey);
+    box-shadow: var(--shadow-small);
+    padding: 0;
+    margin-top: calc(var(--gap) * -1);
+    margin-right: calc(var(--gap) * -1);
+    margin-bottom: var(--gap);
+    margin-left: calc(var(--gap) * -1);
+    width: auto;
+    max-width: none;
+}
+
+.controls form header button {
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.controls form header button:hover {
+    transform: scale(1.2);
+}
+
+/*******************************************************************************
+ * Big Text
+ ******************************************************************************/
 
 .big-text {
     flex: 1 1 100%;
@@ -500,533 +1115,4 @@ main {
 .big-text.has-background-image .image-wrapper figure {
     height: 100%;
     width: 100%;
-}
-
-
-
-/*******************************************************************************
- * Buttons
- ******************************************************************************/
-
-button,
-.dropdown .trigger,
-.toggle-button input ~ label {
-    font-size: inherit;
-    line-height: inherit;
-    background: var(--light-grey);
-    cursor: pointer;
-    display: inline-block;
-    /*border: 1px solid var(--grey);*/
-    border: none;
-    border-radius: var(--radius);
-    padding: .25em .75em;
-    user-select: none;
-    box-shadow: var(--shadow-small);
-    transition-duration: 75ms;
-    transition-property: transform, background-color, box-shadow;
-}
-
-button:hover,
-.dropdown .trigger:hover,
-.toggle-button:hover input ~ label {
-    background: var(--light-grey);
-    box-shadow: var(--shadow-medium);
-    position: relative;
-    transform: scale(1.05);
-}
-
-button:focus,
-.dropdown .trigger:focus,
-.toggle-button:focus-within label {
-    outline: var(--outline);
-    position: relative; /* Pull focussed element to front, so outline won't be interrupted */
-}
-
-button:active,
-.dropdown .trigger:active,
-.toggle-button input:active ~ label {
-    background: var(--light-grey-focus);
-}
-
-button svg.icon,
-.dropdown .trigger svg.icon,
-.toggle-button label svg.icon {
-    vertical-align: middle;
-    position: relative;
-    top: -.075em;
-}
-
-.button-group {
-    display: inline-flex;
-    justify-content: flex-start;
-    box-shadow: var(--shadow-small);
-    padding: 0;
-    border-radius: var(--radius);
-    background: var(--light-grey);
-}
-
-.button-group button,
-.button-group .dropdown .trigger,
-.button-group .toggle-button label {
-    box-shadow: none;
-}
-
-.button-group button:hover,
-.button-group .dropdown .trigger:hover,
-.button-group .toggle-button:hover label {
-    box-shadow: var(--shadow-medium);
-    border-radius: var(--radius) !important;
-}
-
-.button-group button:focus,
-.button-group .dropdown .trigger:focus,
-.button-group .toggle-button:focus label,
-.button-group .toggle-button:focus-within label {
-    border-radius: var(--radius) !important;
-}
-
-.button-group button:not(:first-child),
-.button-group .dropdown .trigger:not(:first-child),
-.button-group .toggle-button:not(:first-child) label {
-    margin-left: -1px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-.button-group button:not(:last-child),
-.button-group .dropdown .trigger:not(:last-child),
-.button-group .toggle-button:not(:last-child) label {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-fieldset.button-group:not(:last-child) {
-    border-bottom: none;
-    margin-bottom: 0;
-}
-
-slider-input::part(number),
-input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]) {
-    font-size: inherit;
-    line-height: inherit;
-    box-sizing: border-box;
-    border: 1px solid var(--grey);
-    border-radius: var(--radius);
-    padding: .25em .75em;
-    display: inline-block;
-}
-
-slider-input::part(number),
-input[type=number] {
-    padding-right: .5em;
-}
-
-slider-input::part(number):focus,
-input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]):focus {
-    outline: var(--outline);
-}
-
-.select {
-    background: var(--light-grey);
-    box-shadow: var(--shadow-small);
-    transition-duration: 75ms;
-    transition-property: transform, background-color, box-shadow;
-    border-radius: var(--radius);
-}
-
-.select:focus-within,
-.select:hover {
-    background: var(--light-grey);
-    box-shadow: var(--shadow-medium);
-    position: relative;
-    transform: scale(1.05);
-}
-.select select {
-    all: unset;
-    border: none;
-    padding: .25em .75em;
-}
-
-/*******************************************************************************
- * Select dropdown
- ******************************************************************************/
-
-.dropdown,
-.dropdown:not(:last-child) {
-    padding: 0;
-    border: none;
-    margin-bottom: 0;    
-}
-
-.select {
-    position: relative;
-    display: inline-block;
-}
-
-.select select,
-.dropdown .trigger {
-    position: relative;
-    padding-right: calc(1.125em + .75em);
-    text-align: left;
-}
-
-.dropdown .trigger > * {
-    vertical-align: top;
-}
-
-.select::after,
-.dropdown .trigger::after {
-    border: 2px solid transparent;
-    border-radius: 2px;
-    border-right: 0;
-    border-top: 0;
-    content: " ";
-    display: block;
-    height: .625em;
-    margin-top: -.4375em;
-    pointer-events: none;
-    position: absolute;
-    top: 50%;
-    transform: rotate(-45deg);
-    transform-origin: center;
-    width: .625em;
-    
-    border-color: currentColor;
-    right: .75em;
-    z-index: 4;
-}
-
-.dropdown .options {
-    display: none;
-    position: absolute;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    background: white;
-    box-shadow: var(--shadow-medium);
-    overflow: hidden;
-    z-index: 1;
-}
-
-.dropdown .options input {
-    display: none;
-}
-
-.dropdown .options > :hover {
-    background: var(--light-grey);
-}
-
-.dropdown .options > :checked + span {
-    background: var(--primary);
-}
-
-.dropdown.active {
-    box-shadow: var(--shadow-medium);
-}
-
-.dropdown.active .options {
-    display: flex;
-}
-
-.dropdown.active .trigger {
-    position: relative;
-    background: white;
-    z-index: 10;
-}
-
-.font-picker .trigger {
-    width: 15ex;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.font-picker [value=serif] + span,
-.font-picker [data-toggle$=serif] { font-family: var(--font-serif); }
-.font-picker [value=sans-serif] + span,
-.font-picker [data-toggle$=sans-serif] { font-family: var(--font-sans-serif); }
-.font-picker [value=cursive] + span,
-.font-picker [data-toggle$=cursive] { font-family: var(--font-cursive); }
-.font-picker [value=monospace] + span,
-.font-picker [data-toggle$=monospace] { font-family: var(--font-monospace); }
-.font-picker [value=fira-sans] + span,
-.font-picker [data-toggle$=fira-sans] { font-family: var(--font-fira-sans);}
-.font-picker [value=impact] + span,
-.font-picker [data-toggle$=impact] { font-family: var(--font-impact); }
-.font-picker [value=arial-black] + span,
-.font-picker [data-toggle$=arial-black] { font-family: var(--font-arial-black); }
-.font-picker [value=verdana] + span,
-.font-picker [data-toggle$=verdana] { font-family: var(--font-verdana); }
-
-.layout-picker,
-.layout-picker:not(:last-child),
-.layout-picker-set,
-.layout-picker-set:not(:last-child) {
-    padding: 0;
-    border: none;
-    border-bottom: none;
-    margin-bottom: 0;
-}
-
-.layout-picker {
-    --layout-picker-color: #000000;
-    --layout-picker-selected-color: var(--primary);
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    position: relative;
-}
-
-.layout-picker .dropdown .options {
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.layout-picker .dropdown .trigger {
-    background: none;
-    padding: 0;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    transform: none;
-}
-
-.layout-picker .dropdown .trigger::after {
-    display: none;
-}
-
-.layout-picker .icon {
-    display: grid;
-    height: 3.5em;
-    width: 3.5em;
-    border-radius: .5em;
-    overflow: hidden;
-    margin: .5em;
-    outline: 2px solid currentColor;
-    outline-offset: -1px;
-    opacity: .5;
-}
-
-.layout-picker .dropdown .options > :hover .icon,
-.layout-picker .dropdown:hover .trigger .icon,
-.layout-picker .dropdown.active .trigger .icon {
-    opacity: 1;
-}
-
-.layout-picker .icon[data-checked],
-.layout-picker :checked + .icon {
-    color: var(--layout-picker-selected-color);
-}
-
-.layout-picker .icon:empty::after,
-.layout-picker .icon:empty::before {
-    display: block;
-    content: '';
-}
-
-.layout-picker .icon:empty::before { grid-area: a; }
-.layout-picker .icon :nth-child(1) { grid-area: a; }
-.layout-picker .icon:empty::after  { grid-area: b; }
-.layout-picker .icon :nth-child(2) { grid-area: b; }
-.layout-picker .icon :nth-child(3) { grid-area: c; }
-
-.layout-picker .icon:empty::after,
-.layout-picker .icon:empty::before,
-.layout-picker .icon * {
-    border: 2px solid currentColor;
-    font-size: 80%;
-    line-height: 1em;
-    margin: -1px;
-}
-
-.layout-picker .icon * {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.layout-picker .l0 .icon {
-    grid-template-columns: auto;
-    grid-template-rows: 50% 50%;
-    grid-template-areas: "a" "b";
-}
-
-.layout-picker .l1 .icon {
-    grid-template-columns: 50% 50%;
-    grid-template-rows: auto;
-    grid-template-areas: "a b";
-}
-
-.layout-picker .l2 .icon {
-    grid-template-columns: auto;
-    grid-template-rows: 33.333% 33.333% 33.333%;
-    grid-template-areas: "a" "b" "c";
-}
-
-.layout-picker .l3 .icon {
-    grid-template-columns: 33.333% 33.333% 33.333%;
-    grid-template-rows: auto;
-    grid-template-areas: "a b c";
-}
-
-.layout-picker .l4 .icon,
-.layout-picker .l5 .icon,
-.layout-picker .l6 .icon,
-.layout-picker .l7 .icon {
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 50% 50%;
-}
-
-.layout-picker .l4 .icon { grid-template-areas: "a a" "b c"; }
-.layout-picker .l5 .icon { grid-template-areas: "a b" "a c"; }
-.layout-picker .l6 .icon { grid-template-areas: "a b" "c c"; }
-.layout-picker .l7 .icon { grid-template-areas: "a c" "b c"; }
-
-
-/*******************************************************************************
- * Switch
- * 
- * Based on Cover Style System's implementation of bulma-switch.
- * See https://github.com/Wikiki/bulma-switch
- ******************************************************************************/
-
-
-.switch {
-    --switch-size: 1em;
-    --switch-height: calc(var(--switch-size) * 1.5);
-    --switch-width: calc(var(--switch-height) * 2);
-    --switch-paddle-offset: .15em;
-    --switch-paddle-height: calc(var(--switch-height) - var(--switch-paddle-offset) * 2);
-    --switch-paddle-width: calc(var(--switch-height) - var(--switch-paddle-offset) * 2);
-    --switch-paddle-active-offset: calc(var(--switch-width) - var(--switch-paddle-width) - var(--switch-paddle-offset));
-
-
-    --switch-checked-color: var(--primary);
-    --switch-unchecked-color: var(--light-grey-focus);
-    --switch-base-color: #ffffff;
-}
-
-.switch.is-small { --switch-size: .75em; }
-.switch.is-medium { --switch-size: 1.25em; }
-.switch.is-large { --switch-size: 1.5em; }
-
-.switch label {
-    position: relative;
-    display: inline-block;
-    font-size: var(--switch-size);
-    line-height: initial;
-    padding-left: calc(var(--switch-width) * 1.2); /* TODO: + spacing */
-    padding-top: 0.2em;
-    cursor: pointer;
-    min-width: var(--switch-width);
-    min-height: var(--switch-height);
-    margin-bottom: 0;
-    vertical-align: middle;
-}
-
-.switch input {
-    outline: 0;
-    user-select: none;
-    display: inline-block;
-    position: absolute;
-    opacity: 0;
-    height: 0;
-    width: 0;
-}
-
-.switch input:focus ~ label::before {
-    outline: var(--outline);
-}
-
-.switch input ~ label::before {
-    position: absolute;
-    display: block;
-    top: calc(50% - var(--switch-height) * .5);
-    left: 0;
-    width: var(--switch-width);
-    height: var(--switch-height);
-    /*border: 0.1rem solid transparent;*/
-    border-radius: calc(var(--switch-height) / 2);
-    background: var(--switch-unchecked-color);
-    content: '';
-
-
-    transition-duration: 75ms;
-    transition-property: background;
-    box-shadow: var(--shadow-inset);
-}
-
-.switch input ~ label::after {
-    display: block;
-    position: absolute;
-    top: calc(50% - var(--switch-paddle-height) * .5);
-    left: var(--switch-paddle-offset);
-    width: var(--switch-paddle-width);
-    height: var(--switch-paddle-height);
-    transform: translate3d(0, 0, 0);
-    border-radius: 50%;
-    background: var(--switch-base-color);
-    transition: all 0.25s ease-out;
-    content: '';
-
-    transition-duration: 75ms;
-    transition-property: transform, box-shadow, left, right;
-    box-shadow: var(--shadow-small);
-}
-
-.switch:hover input ~ label::after {
-    box-shadow: var(--shadow-medium);
-    transform: scale(1.05);
-}
-
-.switch input:checked ~ label::before {
-    background: var(--switch-checked-color);
-}
-
-.switch input:checked ~ label::after {
-    left: var(--switch-paddle-active-offset);
-    background-image: linear-gradient(to bottom, var(--switch-base-color) 20%, transparent 20%, transparent 80%, var(--switch-base-color) 80%),
-                      linear-gradient(to right, transparent 43.75%, var(--switch-checked-color) 43.75%, var(--switch-checked-color) 56.25%, transparent 56.25%);
-}
-
-.switch.is-right label {
-    padding-left: 0;
-    padding-right: calc(var(--switch-width) * 1.2); /* TODO: + spacing */
-}
-
-.switch.is-right input ~ label::before {
-    left: auto;
-    right: 0;
-}
-
-.switch.is-right input ~ label::after {
-    left: auto;
-    right: var(--switch-paddle-active-offset); /* for right-aligned, active/inactive states are swapped */
-}
-
-.switch.is-right input:checked ~ label::after {
-    left: auto;
-    right: var(--switch-paddle-offset);
-}
-
-.toggle-button {
-    display: inline-block;
-}
-
-.toggle-button input {
-    outline: 0;
-    user-select: none;
-    display: inline-block;
-    position: absolute;
-    opacity: 0;
-    height: 0;
-    width: 0;
-}
-
-.toggle-button input ~ label {
-    padding: .25em .5em;
-}
-
-.toggle-button input:checked ~ label {
-    background: var(--light-grey-focus);
 }

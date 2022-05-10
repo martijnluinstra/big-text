@@ -1,6 +1,6 @@
 div {
     display: flex;
-    gap: var(--gap);
+    gap: var(--local-gap);
 }
 
 input[type=number] {
