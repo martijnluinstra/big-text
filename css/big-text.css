@@ -257,7 +257,7 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range])
     
     border-color: currentColor;
     right: .75em;
-    z-index: 4;
+    z-index: 1;
 }
 
 fieldset {
@@ -393,7 +393,7 @@ fieldset.button-group:not(:last-child) {
     background: white;
     box-shadow: var(--shadow-medium);
     overflow: hidden;
-    z-index: 1;
+    z-index: 10;
 }
 
 .dropdown .options input {
