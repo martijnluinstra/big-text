@@ -180,7 +180,7 @@ class Dropdown {
     }
 
     constructor(element) {
-        const trigger = element.querySelector('.trigger');
+        const trigger = element.querySelector('.button');
         trigger.addEventListener('click', () => element.classList.toggle('active'));
         document.addEventListener('click', evt => {
             if (!trigger.contains(evt.target))

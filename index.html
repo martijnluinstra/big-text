@@ -86,254 +86,352 @@
             </fieldset>
             <fieldset>
                 <legend>Layout</legend>
-                <fieldset class="layout-picker" data-toggle="_layout-type!=text">
-                    <fieldset class="dropdown l0" data-toggle="_layout-type=text+image">
-                        <button type="button" class="trigger">
-                            <div class="icon" data-toggle="_layout-group=0" data-toggle-property="data-checked"></div>
-                        </button>
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="layout" value="0">
-                                <div class="icon"><span class="a">T</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="1">
-                                <div class="icon"><span class="i">I</span><span class="a">T</span></div>
-                            </label>
-                        </div>
+                <div class="layout-picker" data-toggle="_layout-type=text+image">
+                    <fieldset class="button-group">
+                        <fieldset class="dropdown l0">
+                            <button type="button" class="button"data-toggle="_layout-group=0" data-toggle-property="data-checked">
+                                <div class="icon"></div>
+                            </button>
+                            <ul class="options">
+                                <li>
+                                    <input type="radio" name="layout" value="0" id="layout-0">
+                                    <label for="layout-0">
+                                        <div class="icon"><span class="a">T</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="1" id="layout-1">
+                                    <label for="layout-1">
+                                        <div class="icon"><span class="i">I</span><span class="a">T</span></div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <fieldset class="dropdown l1">
+                            <button type="button" class="button" data-toggle="_layout-group=1" data-toggle-property="data-checked">
+                                <div class="icon"></div>
+                            </button>
+                            <ul class="options">
+                                <li>
+                                    <input type="radio" name="layout" value="10" id="layout-10">
+                                    <label for="layout-10">
+                                        <div class="icon"><span class="t">T</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="11" id="layout-11">
+                                    <label for="layout-11">
+                                        <div class="icon"><span class="i">I</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </fieldset>
                     </fieldset>
-                    <fieldset class="dropdown l1" data-toggle="_layout-type=text+image">
-                        <button type="button" class="trigger">
-                            <div class="icon" data-toggle="_layout-group=1" data-toggle-property="data-checked"></div>
-                        </button>
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="layout" value="10">
-                                <div class="icon"><span class="t">T</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="11">
-                                <div class="icon"><span class="i">I</span><span class="t">T</span></div>
-                            </label>
-                        </div>
+                </div>
+                <div class="layout-picker" data-toggle="_layout-type=text+countdown">
+                    <fieldset class="button-group">
+                        <fieldset class="dropdown l0">
+                            <button type="button" class="button" data-toggle="_layout-group=0" data-toggle-property="data-checked">
+                                <div class="icon"></div>
+                            </button>
+                            <ul class="options">
+                                <li>
+                                    <input type="radio" name="layout" value="2" id="layout-2">
+                                    <label for="layout-2">
+                                        <div class="icon"><span class="t">T</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="3" id="layout-3">
+                                    <label for="layout-3">
+                                        <div class="icon"><span class="c">C</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <fieldset class="dropdown l1">
+                            <button type="button" class="button" data-toggle="_layout-group=1" data-toggle-property="data-checked">
+                                <div class="icon"></div>
+                            </button>
+                            <ul class="options">
+                                <li>
+                                    <input type="radio" name="layout" value="12" id="layout-12">
+                                    <label for="layout-12">
+                                        <div class="icon"><span class="t">T</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="13" id="layout-13">
+                                    <label for="layout-13">
+                                        <div class="icon"><span class="c">C</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </fieldset>
                     </fieldset>
-                    <fieldset class="dropdown l0" data-toggle="_layout-type=text+countdown">
-                        <button type="button" class="trigger">
-                            <div class="icon" data-toggle="_layout-group=0" data-toggle-property="data-checked"></div>
-                        </button>
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="layout" value="2">
-                                <div class="icon"><span class="t">T</span><span class="c">C</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="3">
-                                <div class="icon"><span class="c">C</span><span class="t">T</span></div>
-                            </label>
-                        </div>
+                </div>
+                <div class="layout-picker" data-toggle="_layout-type=text+image+countdown">
+                    <fieldset class="button-group">
+                        <fieldset class="dropdown l2">
+                            <button type="button" class="button" data-toggle="_layout-group=2" data-toggle-property="data-checked">
+                                <div class="icon"></div>
+                            </button>
+                            <ul class="options">
+                                <li>
+                                    <input type="radio" name="layout" value="20" id="layout-20">
+                                    <label for="layout-20">
+                                        <div class="icon"><span class="t">T</span><span class="c">C</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="24" id="layout-24">
+                                    <label for="layout-24">
+                                        <div class="icon"><span class="t">T</span><span class="i">I</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="21" id="layout-21">
+                                    <label for="layout-21">
+                                        <div class="icon"><span class="i">I</span><span class="t">T</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="23" id="layout-23">
+                                    <label for="layout-23">
+                                        <div class="icon"><span class="i">I</span><span class="c">C</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="22" id="layout-22">
+                                    <label for="layout-22">
+                                        <div class="icon"><span class="c">C</span><span class="t">T</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="25" id="layout-25">
+                                    <label for="layout-25">
+                                        <div class="icon"><span class="c">C</span><span class="i">I</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <fieldset class="dropdown l3">
+                            <button type="button" class="button" data-toggle="_layout-group=3" data-toggle-property="data-checked">
+                                <div class="icon"></div>
+                            </button>
+                            <ul class="options">
+                                <li>
+                                    <input type="radio" name="layout" value="30" id="layout-30">
+                                    <label for="layout-30">
+                                        <div class="icon"><span class="t">T</span><span class="c">C</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="34" id="layout-34">
+                                    <label for="layout-34">
+                                        <div class="icon"><span class="t">T</span><span class="i">I</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="31" id="layout-31">
+                                    <label for="layout-31">
+                                        <div class="icon"><span class="i">I</span><span class="t">T</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="33" id="layout-33">
+                                    <label for="layout-33">
+                                        <div class="icon"><span class="i">I</span><span class="c">C</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="32" id="layout-32">
+                                    <label for="layout-32">
+                                        <div class="icon"><span class="c">C</span><span class="t">T</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="35" id="layout-35">
+                                    <label for="layout-35">
+                                        <div class="icon"><span class="c">C</span><span class="i">I</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <fieldset class="dropdown l4">
+                            <button type="button" class="button" data-toggle="_layout-group=4" data-toggle-property="data-checked">
+                                <div class="icon"></div>
+                            </button>
+                            <ul class="options">
+                                <li>
+                                    <input type="radio" name="layout" value="40" id="layout-40">
+                                    <label for="layout-40">
+                                        <div class="icon"><span class="t">T</span><span class="c">C</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="44" id="layout-44">
+                                    <label for="layout-44">
+                                        <div class="icon"><span class="t">T</span><span class="i">I</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="41" id="layout-41">
+                                    <label for="layout-41">
+                                        <div class="icon"><span class="i">I</span><span class="t">T</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="43" id="layout-43">
+                                    <label for="layout-43">
+                                        <div class="icon"><span class="i">I</span><span class="c">C</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="42" id="layout-42">
+                                    <label for="layout-42">
+                                        <div class="icon"><span class="c">C</span><span class="t">T</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="45" id="layout-45">
+                                    <label for="layout-45">
+                                        <div class="icon"><span class="c">C</span><span class="i">I</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <fieldset class="dropdown l6">
+                            <button type="button" class="button" data-toggle="_layout-group=6" data-toggle-property="data-checked">
+                                <div class="icon"></div>
+                            </button>
+                            <ul class="options">
+                                <li>
+                                    <input type="radio" name="layout" value="65" id="layout-65">
+                                    <label for="layout-65">
+                                        <div class="icon"><span class="c">C</span><span class="i">I</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="63" id="layout-63">
+                                    <label for="layout-63">
+                                        <div class="icon"><span class="i">I</span><span class="c">C</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="60" id="layout-60">
+                                    <label for="layout-60">
+                                        <div class="icon"><span class="t">T</span><span class="c">C</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="62" id="layout-62">
+                                    <label for="layout-62">
+                                        <div class="icon"><span class="c">C</span><span class="t">T</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="64" id="layout-64">
+                                    <label for="layout-64">
+                                        <div class="icon"><span class="t">T</span><span class="i">I</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="61" id="layout-61">
+                                    <label for="layout-61">
+                                        <div class="icon"><span class="i">I</span><span class="t">T</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <fieldset class="dropdown l5">
+                            <button type="button" class="button" data-toggle="_layout-group=5" data-toggle-property="data-checked">
+                                <div class="icon"></div>
+                            </button>
+                            <ul class="options">
+                                <li>
+                                    <input type="radio" name="layout" value="50" id="layout-50">
+                                    <label for="layout-50">
+                                        <div class="icon"><span class="t">T</span><span class="c">C</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="54" id="layout-54">
+                                    <label for="layout-54">
+                                        <div class="icon"><span class="t">T</span><span class="i">I</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="51" id="layout-51">
+                                    <label for="layout-51">
+                                        <div class="icon"><span class="i">I</span><span class="t">T</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="53" id="layout-53">
+                                    <label for="layout-53">
+                                        <div class="icon"><span class="i">I</span><span class="c">C</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="52" id="layout-52">
+                                    <label for="layout-52">
+                                        <div class="icon"><span class="c">C</span><span class="t">T</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="55" id="layout-55">
+                                    <label for="layout-55">
+                                        <div class="icon"><span class="c">C</span><span class="i">I</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <fieldset class="dropdown l7">
+                            <button type="button" class="button" data-toggle="_layout-group=7" data-toggle-property="data-checked">
+                                <div class="icon"></div>
+                            </button>
+                            <ul class="options">
+                                <li>
+                                    <input type="radio" name="layout" value="75" id="layout-75">
+                                    <label for="layout-75">
+                                        <div class="icon"><span class="c">C</span><span class="i">I</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="73" id="layout-73">
+                                    <label for="layout-73">
+                                        <div class="icon"><span class="i">I</span><span class="c">C</span><span class="t">T</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="70" id="layout-70">
+                                    <label for="layout-70">
+                                        <div class="icon"><span class="t">T</span><span class="c">C</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="72" id="layout-72">
+                                    <label for="layout-72">
+                                        <div class="icon"><span class="c">C</span><span class="t">T</span><span class="i">I</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="74" id="layout-74">
+                                    <label for="layout-74">
+                                        <div class="icon"><span class="t">T</span><span class="i">I</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="layout" value="71" id="layout-71">
+                                    <label for="layout-71">
+                                        <div class="icon"><span class="i">I</span><span class="t">T</span><span class="c">C</span></div>
+                                    </label>
+                                </li>
+                            </ul>
+                        </fieldset>
                     </fieldset>
-                    <fieldset class="dropdown l1" data-toggle="_layout-type=text+countdown">
-                        <button type="button" class="trigger">
-                            <div class="icon" data-toggle="_layout-group=1" data-toggle-property="data-checked"></div>
-                        </button>
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="layout" value="12">
-                                <div class="icon"><span class="t">T</span><span class="c">C</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="13">
-                                <div class="icon"><span class="c">C</span><span class="t">T</span></div>
-                            </label>
-                        </div>
-                    </fieldset>
-                    <fieldset class="dropdown l2" data-toggle="_layout-type=text+image+countdown">
-                        <button type="button" class="trigger">
-                            <div class="icon" data-toggle="_layout-group=2" data-toggle-property="data-checked"></div>
-                        </button>
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="layout" value="20">
-                                <div class="icon"><span class="t">T</span><span class="c">C</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="24">
-                                <div class="icon"><span class="t">T</span><span class="i">I</span><span class="c">C</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="21">
-                                <div class="icon"><span class="i">I</span><span class="t">T</span><span class="c">C</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="23">
-                                <div class="icon"><span class="i">I</span><span class="c">C</span><span class="t">T</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="22">
-                                <div class="icon"><span class="c">C</span><span class="t">T</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="25">
-                                <div class="icon"><span class="c">C</span><span class="i">I</span><span class="t">T</span></div>
-                            </label>
-                        </div>
-                    </fieldset>
-                    <fieldset class="dropdown l3" data-toggle="_layout-type=text+image+countdown">
-                        <button type="button" class="trigger">
-                            <div class="icon" data-toggle="_layout-group=3" data-toggle-property="data-checked"></div>
-                        </button>
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="layout" value="30">
-                                <div class="icon"><span class="t">T</span><span class="c">C</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="34">
-                                <div class="icon"><span class="t">T</span><span class="i">I</span><span class="c">C</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="31">
-                                <div class="icon"><span class="i">I</span><span class="t">T</span><span class="c">C</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="33">
-                                <div class="icon"><span class="i">I</span><span class="c">C</span><span class="t">T</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="32">
-                                <div class="icon"><span class="c">C</span><span class="t">T</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="35">
-                                <div class="icon"><span class="c">C</span><span class="i">I</span><span class="t">T</span></div>
-                            </label>
-                        </div>
-                    </fieldset>
-                    <fieldset class="dropdown l4" data-toggle="_layout-type=text+image+countdown">
-                        <button type="button" class="trigger">
-                            <div class="icon" data-toggle="_layout-group=4" data-toggle-property="data-checked"></div>
-                        </button>
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="layout" value="40">
-                                <div class="icon"><span class="t">T</span><span class="c">C</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="44">
-                                <div class="icon"><span class="t">T</span><span class="i">I</span><span class="c">C</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="41">
-                                <div class="icon"><span class="i">I</span><span class="t">T</span><span class="c">C</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="43">
-                                <div class="icon"><span class="i">I</span><span class="c">C</span><span class="t">T</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="42">
-                                <div class="icon"><span class="c">C</span><span class="t">T</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="45">
-                                <div class="icon"><span class="c">C</span><span class="i">I</span><span class="t">T</span></div>
-                            </label>
-                        </div>
-                    </fieldset>
-                    <fieldset class="dropdown l6" data-toggle="_layout-type=text+image+countdown">
-                        <button type="button" class="trigger">
-                            <div class="icon" data-toggle="_layout-group=6" data-toggle-property="data-checked"></div>
-                        </button>
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="layout" value="65">
-                                <div class="icon"><span class="c">C</span><span class="i">I</span><span class="t">T</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="63">
-                                <div class="icon"><span class="i">I</span><span class="c">C</span><span class="t">T</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="60">
-                                <div class="icon"><span class="t">T</span><span class="c">C</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="62">
-                                <div class="icon"><span class="c">C</span><span class="t">T</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="64">
-                                <div class="icon"><span class="t">T</span><span class="i">I</span><span class="c">C</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="61">
-                                <div class="icon"><span class="i">I</span><span class="t">T</span><span class="c">C</span></div>
-                            </label>
-                        </div>
-                    </fieldset>
-                    <fieldset class="dropdown l5" data-toggle="_layout-type=text+image+countdown">
-                        <button type="button" class="trigger">
-                            <div class="icon" data-toggle="_layout-group=5" data-toggle-property="data-checked"></div>
-                        </button>
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="layout" value="50">
-                                <div class="icon"><span class="t">T</span><span class="c">C</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="54">
-                                <div class="icon"><span class="t">T</span><span class="i">I</span><span class="c">C</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="51">
-                                <div class="icon"><span class="i">I</span><span class="t">T</span><span class="c">C</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="53">
-                                <div class="icon"><span class="i">I</span><span class="c">C</span><span class="t">T</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="52">
-                                <div class="icon"><span class="c">C</span><span class="t">T</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="55">
-                                <div class="icon"><span class="c">C</span><span class="i">I</span><span class="t">T</span></div>
-                            </label>
-                        </div>
-                    </fieldset>
-                    <fieldset class="dropdown l7" data-toggle="_layout-type=text+image+countdown">
-                        <button type="button" class="trigger">
-                            <div class="icon" data-toggle="_layout-group=7" data-toggle-property="data-checked"></div>
-                        </button>
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="layout" value="75">
-                                <div class="icon"><span class="c">C</span><span class="i">I</span><span class="t">T</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="73">
-                                <div class="icon"><span class="i">I</span><span class="c">C</span><span class="t">T</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="70">
-                                <div class="icon"><span class="t">T</span><span class="c">C</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="72">
-                                <div class="icon"><span class="c">C</span><span class="t">T</span><span class="i">I</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="74">
-                                <div class="icon"><span class="t">T</span><span class="i">I</span><span class="c">C</span></div>
-                            </label>
-                            <label>
-                                <input type="radio" name="layout" value="71">
-                                <div class="icon"><span class="i">I</span><span class="t">T</span><span class="c">C</span></div>
-                            </label>
-                        </div>
-                    </fieldset>
-                </fieldset>
+                </div>
                 <p data-toggle="_layout-type!=text">
                     <label for="size-1-input">Size 1</label>
                     <slider-input id="size-1-input" name="size-1" min="20" max="80" step="5" value="50"></slider-input>
@@ -467,7 +565,7 @@
                 </p>
                 <fieldset class="button-group">
                     <fieldset class="font-picker dropdown" aria-label="Font">
-                        <button type="button" class="trigger">
+                        <button type="button" class="button">
                             <span data-toggle="!font-family">Font</span>
                             <span data-toggle="font-family=serif">Serif</span>
                             <span data-toggle="font-family=sans-serif">Sans Serif</span>
@@ -478,16 +576,40 @@
                             <span data-toggle="font-family=arial-black">Arial Black</span>
                             <span data-toggle="font-family=verdana">Verdana</span>
                         </button>
-                        <div class="options">
-                            <label><input type="radio" name="font-family" value="serif"><span>Serif</span></label>
-                            <label><input type="radio" name="font-family" value="sans-serif"><span>Sans Serif</span></label>
-                            <label><input type="radio" name="font-family" value="cursive"><span>Cursive</span></label>
-                            <label><input type="radio" name="font-family" value="monospace"><span>Monospace</span></label>
-                            <label><input type="radio" name="font-family" value="fira-sans"><span>Fira Sans</span></label>
-                            <label><input type="radio" name="font-family" value="impact"><span>Impact</span></label>
-                            <label><input type="radio" name="font-family" value="arial-black"><span>Arial Black</span></label>
-                            <label><input type="radio" name="font-family" value="verdana"><span>Verdana</span></label>
-                        </div>
+                        <ul class="options">
+                            <li>
+                                <input type="radio" name="font-family" value="serif" id="font-family-serif">
+                                <label for="font-family-serif">Serif</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="font-family" value="sans-serif" id="font-family-sans-serif">
+                                <label for="font-family-sans-serif">Sans Serif</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="font-family" value="cursive" id="font-family-cursive">
+                                <label for="font-family-cursive">Cursive</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="font-family" value="monospace" id="font-family-monospace">
+                                <label for="font-family-monospace">Monospace</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="font-family" value="fira-sans" id="font-family-fira-sans">
+                                <label for="font-family-fira-sans">Fira Sans</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="font-family" value="impact" id="font-family-impact">
+                                <label for="font-family-impact">Impact</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="font-family" value="arial-black" id="font-family-arial-black">
+                                <label for="font-family-arial-black">Arial Black</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="font-family" value="verdana" id="font-family-verdana">
+                                <label for="font-family-verdana">Verdana</label>
+                            </li>
+                        </ul>
                     </fieldset>
                     <div class="toggle-button">
                         <input type="checkbox" id="font-weight-bold-input" name="font-weight-bold" aria-label="Bold">
