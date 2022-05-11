@@ -7,6 +7,21 @@
     <link rel="stylesheet" href="css/big-text.css">
 </head>
 <body>
+    <datalist id="color-options">
+        <option value="#fa5358">Red</option>
+        <option value="#ff9c7e">Orange</option>
+        <option value="#f9f871">Yellow</option>
+        <option value="#80ff80">Green</option>
+        <option value="#00c19d">Teal</option>
+        <option value="#00dfff">Cyan</option>
+        <option value="#008bfd">Blue</option>
+        <option value="#8080ff">Purple</option>
+        <!-- <option value="#ef73e0">Purple</option> -->
+        <option value="#ff78ae">Pink</option>
+        <option value="#000000">Black</option>
+        <option value="#dadada">Grey</option>
+        <option value="#ffffff">White</option>
+    </datalist>
 <main>
     <section class="controls">
         <button class="controls-trigger" type="button" aria-label="Settings">
@@ -398,7 +413,7 @@
                 <fieldset data-toggle="background-type=color">
                     <p>
                         <label for="background-color-input">Colour</label>
-                        <input type="color" name="background-color" id="background-color-input">
+                        <color-input name="background-color" id="background-color-input" list="color-options"></color-input>
                     </p>
                 </fieldset>
                 <fieldset data-toggle="background-type=gradient">
@@ -415,11 +430,11 @@
                     </fieldset>
                     <p>
                         <label for="background-gradient-start-input">Colour 1</label>
-                        <input type="color" data-sync="background-color" id="background-gradient-start-input">
+                        <color-input list="color-options" data-sync="background-color" id="background-gradient-start-input"></color-input>
                     </p>
                     <p>
                         <label for="background-gradient-end-input">Colour 2</label>
-                        <input type="color" name="background-gradient-end" id="background-gradient-end-input">
+                        <color-input list="color-options" name="background-gradient-end" id="background-gradient-end-input"></color-input>
                     </p>
                     <p>
                         <label for="background-gradient-direction-input">Direction</label>
@@ -448,7 +463,7 @@
                 </header>
                 <p>
                     <label for="foreground-color-input">Colour</label>
-                    <input type="color" name="foreground-color" id="foreground-color-input">
+                    <color-input list="color-options" name="foreground-color" id="foreground-color-input"></color-input>
                 </p>
                 <fieldset class="button-group">
                     <fieldset class="font-picker dropdown" aria-label="Font">
@@ -533,7 +548,7 @@
                     </p>
                     <p>
                         <label for="shadow-color-input">Colour</label>
-                        <input type="color" name="shadow-color" id="shadow-color-input">
+                        <color-input list="color-options" name="shadow-color" id="shadow-color-input"></color-input>
                     </p>
                     <p>
                         <label for="shadow-x-input">Horizontal offset</label>
@@ -556,7 +571,7 @@
                     <legend>Text stroke</legend>
                     <p>
                         <label for="stroke-color-input">Colour</label>
-                        <input type="color" name="stroke-color" id="stroke-color-input">
+                        <color-input list="color-options" name="stroke-color" id="stroke-color-input"></color-input>
                     </p>
                     <p>
                         <label for="stroke-width">Width</label>

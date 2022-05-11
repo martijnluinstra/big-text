@@ -51,6 +51,127 @@ class SliderInputElement extends HTMLElement {
 
 customElements.define('slider-input', SliderInputElement);
 
+class ColorInputElement extends HTMLElement {
+    static formAssociated = true;
+    static observedAttributes = ['disabled', 'placeholder', 'value', 'list', 'title'];
+
+    #optionsList;
+    #optionsButtons = {};
+    #customColorButton;
+    #value;
+
+    constructor() {
+        super();
+        this.internals_ = this.attachInternals();
+
+        this.attachShadow({mode: 'open', delegatesFocus: true});
+        this.shadowRoot.innerHTML = `
+            <link href="/css/big-text.css" rel="stylesheet">
+            <link href="/css/color-input.css" rel="stylesheet">
+            <div id="wrapper">
+                <input type="color" id="color-input" aria-label="Custom">
+                <label for="color-input" class="button"><svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#plus"/></svg></label>
+            </div>
+        `;
+        this.wrapperElement_ = this.shadowRoot.getElementById('wrapper');
+        this.colorInput_ = this.shadowRoot.querySelector('[type=color]');
+        this.setAttribute('tabindex', 0);
+        this.colorInput_.addEventListener('input', (evt) => this.value = evt.target.value);
+        this.renderOptions();
+    }
+
+    createColorButton(hex, colorName) {
+        let el = document.createElement('button');
+        el.innerHTML = '<svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#check"/></svg>';
+        el.classList.add('color-button');
+        el.type = 'button';
+        el.title = colorName;
+        el.setAttribute('aria-label', colorName);
+        el.style.backgroundColor = hex;
+        if (!isLight(hex)) 
+            el.style.color = 'var(--white)';
+        el.addEventListener('click', () => {
+            this.value = hex;
+            this.dispatchEvent(new Event('input', {bubbles:true, cancelable: true}));
+        });
+        return el;
+    }
+
+    renderOptions() {
+        if (!this.#optionsList)
+            return;
+
+        for (const key in this.#optionsButtons)
+            this.#optionsButtons[key].remove();
+
+        this.#optionsButtons = {};
+
+        for (const option of this.#optionsList) {
+            const el = this.createColorButton(option.value, option.innerText);
+            this.wrapperElement_.insertBefore(el, this.colorInput_);
+            this.#optionsButtons[option.value] = el;
+        }
+    }
+
+    set disabled(v) { this.attributeChangedCallback('disabled', undefined, v); }
+    get form() { return this.internals_.form; }
+    get name() { return this.getAttribute('name'); }
+    get type() { return this.localName; }
+    get value() { return this.#value; }
+    set value(v) {
+        this.#value = v;
+
+        if (this.#customColorButton) {
+            this.#customColorButton.classList.remove('is-active');
+            this.#customColorButton.setAttribute('aria-label', this.#customColorButton.title);
+        }
+
+        for (const key in this.#optionsButtons) {
+            const el = this.#optionsButtons[key];
+            el.classList.remove('is-active');
+            el.setAttribute('aria-label', el.title);
+        }
+
+        if (v in this.#optionsButtons) {
+            const el = this.#optionsButtons[v];
+            el.classList.add('is-active');
+            el.setAttribute('aria-label', `${el.title} (selected)`);
+        } else {
+            const el = this.createColorButton(v, 'Custom');
+            el.classList.add('is-active');
+            el.setAttribute('aria-label', `${el.title} (selected)`);
+            if (this.#customColorButton)
+                this.wrapperElement_.replaceChild(el, this.#customColorButton);
+            else
+                this.wrapperElement_.insertBefore(el, this.colorInput_);
+            this.#customColorButton = el;
+            this.colorInput_.value = v;
+        }
+
+        this.internals_.setFormValue(v);
+    }
+    get validity() { return this.colorInput_.validity; }
+    get validationMessage() { return this.colorInput_.validationMessage; }
+    get willValidate() { return this.colorInput_.willValidate; }
+    checkValidity() { return this.colorInput_.checkValidity(); }
+    reportValidity() { return this.colorInput_.reportValidity(); }
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'list') {
+            this.#optionsList = document.getElementById(newValue)?.options;
+            this.renderOptions();
+        } else {
+            this.colorInput_[name] = newValue;
+        }
+    }
+    formAssociatedCallback(nullableForm) { /* TODO: Do something */ }
+    formStateRestoreCallback(state, mode) { this.value = state; }
+    formResetCallback() { this.value = this.getAttribute('value') || ''; }
+    formDisabledCallback(disabled) { this.disabled = disabled; }
+}
+
+customElements.define('color-input', ColorInputElement);
+
+
 
 class Dropdown {
     static parse(context) {
@@ -68,6 +189,15 @@ class Dropdown {
     }
 }
 
+function isLight(hex, ) {
+    // Based on https://stackoverflow.com/a/3943023/112731
+    const r = parseInt(hex.slice(1, 3), 16) / 255,
+          g = parseInt(hex.slice(3, 5), 16) / 255,
+          b = parseInt(hex.slice(5, 7), 16) / 255;
+    const fn = c =>  (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)
+    const l = 0.2126 * fn(r) + 0.7152 * fn(g) + 0.0722 * fn(b);
+    return l > 0.179;
+}
 
 function overflows(element) {
     // Triggers reflow, use sparingly.
@@ -598,10 +728,8 @@ class BigTextControls extends BigTextControlForm {
         this.context = context;
         this.container = context.querySelector('.controls');
 
-        for (let el of context.querySelectorAll('.controls-trigger')) {
-            console.log(el);
+        for (let el of context.querySelectorAll('.controls-trigger'))
             el.addEventListener('click', this.show.bind(this));
-        }
 
         for (let el of this.form.querySelectorAll('[data-modal-close]'))
             el.addEventListener('click', this.hide.bind(this));
