@@ -54,6 +54,8 @@
     --font-verdana: 'Verdana', 'Geneva', sans-serif;
 
     --controls-width: 45ch;
+
+    --layout-picker-icon-size: 3.5em;
 }
 
 /*******************************************************************************
@@ -459,6 +461,7 @@ fieldset.button-group:not(:last-child) {
     padding: .25em .75em;
     white-space: nowrap;
     position: relative;
+    font-weight: normal;
 }
 
 .dropdown .options label:hover {
@@ -672,7 +675,7 @@ fieldset.button-group:not(:last-child) {
 }
 
 .layout-picker .dropdown .button {
-    padding: var(--gap);
+    padding: var(--gap-small);
 }
 
 .layout-picker .dropdown .button[data-checked] {
@@ -684,14 +687,15 @@ fieldset.button-group:not(:last-child) {
 }
 
 .layout-picker .dropdown .options {
+    --grid-size: calc(var(--layout-picker-icon-size) + 2 * var(--gap-small));
     top: auto;
     right: auto;
     left: var(--gap);
     min-width: unset;
     max-width: calc(100% - 2 * var(--gap));
     width: 100%;
-    grid-auto-columns: 4.5em;
-    grid-template-rows: 4.5em 4.5em;
+    grid-auto-columns: var(--grid-size);
+    grid-template-rows: var(--grid-size) var(--grid-size);
     grid-auto-flow: column;
     justify-content: center;
 }
@@ -706,14 +710,14 @@ fieldset.button-group:not(:last-child) {
 }
 
 .layout-picker .dropdown .options label {
-    padding: var(--gap);
+    padding: var(--gap-small);
     border-radius: var(--radius);
 }
 
 .layout-picker .icon {
     display: grid;
-    height: 3.5em;
-    width: 3.5em;
+    height: var(--layout-picker-icon-size);
+    width: var(--layout-picker-icon-size);
     border-radius: var(--radius);
     overflow: hidden;
     outline: 2px solid currentColor;
