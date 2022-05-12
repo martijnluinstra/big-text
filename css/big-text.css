@@ -5,8 +5,12 @@
     --OFF: ;
 
     --radius: 4px;
-    --gap: .5rem;
-    --local-gap: .5em;
+    --gap-small: .5rem;
+    --gap: 1rem;
+    --gap-large: 1.5rem;
+    --local-gap-small: .5em;
+    --local-gap: 1em;
+    --local-gap-large: 1.5em;
 
     --white: #ffffff;
     --light-grey: #eeeeee;
@@ -48,6 +52,8 @@
     --font-impact: 'Impact', 'Charcoal', sans-serif;
     --font-arial-black: 'Arial Black', 'Gadget', sans-serif;
     --font-verdana: 'Verdana', 'Geneva', sans-serif;
+
+    --controls-width: 45ch;
 }
 
 /*******************************************************************************
@@ -129,6 +135,7 @@ button,
     box-shadow: var(--shadow-small);
     transition-duration: 75ms;
     transition-property: transform, background-color, box-shadow;
+    font-weight: normal;
 }
 
 button:not(:last-child),
@@ -136,7 +143,7 @@ button:not(:last-child),
 .dropdown:not(:last-child),
 .toggle-button:not(:last-child),
 .select {
-    margin-right: var(--local-gap);
+    margin-right: var(--local-gap-small);
 }
 
 button:hover,
@@ -188,10 +195,24 @@ button svg.icon:only-child,
  * Basic form elements
  ******************************************************************************/
 
-input:invalid,
-select:invalid {
-    border: 1px solid red;
-    outline: none;
+.field:not(:last-child) {
+    margin-bottom: var(--gap);
+}
+
+label,
+.label {
+    font-weight: bold;
+    display: block;
+    width: 100%;
+}
+
+label:not(:last-child),
+.label:not(:last-child) {
+    margin-bottom: var(--gap-small);
+}
+
+input {
+    width: 100%;
 }
 
 slider-input::part(number),
@@ -215,9 +236,16 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range])
     outline: var(--outline);
 }
 
+input:invalid,
+select:invalid {
+    border: 1px solid red;
+    outline: none;
+}
+
 .select {
     padding: 0;
     position: relative;
+    width: 100%;
 }
 
 .select select {
@@ -225,6 +253,8 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range])
     border: none;
     padding: .25em .75em;
     background: none;
+    width: 100%;
+    cursor: inherit;
 }
 
 .select select:focus {
@@ -262,19 +292,28 @@ input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range])
 
 fieldset {
     border: none;
-    padding-top: var(--gap);
-    padding-right: 0;
-    padding-bottom: var(--gap);
-    padding-left: 0;
 }
 
-fieldset:not(:last-child) {
-    border-bottom: 1px solid var(--grey);
+fieldset.field {
+    padding: 0 var(--gap);
+    margin: 0 calc(var(--gap) * -1);
+}
+
+fieldset:not(.field):not(.dropdown):not(.button-group) {
+    padding: var(--gap);
+    /*border-top: 1px solid var(--primary);*/
+    border-bottom: 1px solid var(--primary);
+    box-shadow: var(--shadow-medium);
+    border-radius: var(--radius);
     margin-bottom: var(--gap);
 }
 
 fieldset legend {
     font-weight: bold;
+    padding: 0;
+    float: left;
+    width: 100%;
+    margin-bottom: var(--gap-small);
 }
 
 /*******************************************************************************
@@ -291,7 +330,7 @@ fieldset legend {
 }
 
 .button-group:not(:last-child) {
-    margin-right: var(--local-gap);
+    margin-right: var(--local-gap-small);
 }
 
 .button-group > button:not(:last-child),
@@ -617,13 +656,15 @@ fieldset.button-group:not(:last-child) {
 .layout-picker {
     overflow-x: auto;
     overflow-y: visible;
-    max-width: 100%;
-    margin: calc(var(--gap) * -1);
-    padding: var(--gap);
+    margin-top: calc(var(--gap-small) * -1);
+    margin-right: calc(var(--gap) * -1);
+    margin-bottom: 0;
+    margin-left: calc(var(--gap) * -1);
 }
 
 .layout-picker .button-group {
     flex-wrap: nowrap;
+    margin: var(--gap-small) var(--gap);
 }
 
 .layout-picker .dropdown {
@@ -643,12 +684,25 @@ fieldset.button-group:not(:last-child) {
 }
 
 .layout-picker .dropdown .options {
-    flex-flow: row wrap;
     top: auto;
     right: auto;
     left: var(--gap);
     min-width: unset;
     max-width: calc(100% - 2 * var(--gap));
+    width: 100%;
+    grid-auto-columns: 4.5em;
+    grid-template-rows: 4.5em 4.5em;
+    grid-auto-flow: column;
+    justify-content: center;
+}
+
+.layout-picker .dropdown:is(.l0, .l1) .options {
+    grid-template-rows: 4.5em;
+    width: auto;
+}
+
+.dropdown.active .options {
+    display: grid;
 }
 
 .layout-picker .dropdown .options label {
@@ -717,10 +771,7 @@ fieldset.button-group:not(:last-child) {
     grid-template-areas: "a b c";
 }
 
-.layout-picker .l4 .icon,
-.layout-picker .l5 .icon,
-.layout-picker .l6 .icon,
-.layout-picker .l7 .icon {
+.layout-picker :is(.l4, .l5, .l6, .l7) .icon {
     grid-template-columns: 50% 50%;
     grid-template-rows: 50% 50%;
 }
@@ -758,20 +809,22 @@ main {
 }
 
 .controls.is-active {
-    flex-basis: 45ch;
+    flex-basis: var(--controls-width);
     box-shadow: var(--shadow-large);
     transition: flex-basis 250ms ease-out, box-shadow 0ms;
 }
 
 .controls form {
-    width: 45ch;
+    width: var(--controls-width);
+    max-width: var(--controls-width);
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     z-index: 10;
     background: var(--white);
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: var(--gap);
 }
 
@@ -785,10 +838,6 @@ main {
     right: 0%;
     box-shadow: var(--shadow-large);
     transition: right 250ms ease-out, box-shadow 0ms;
-}
-
-.controls form > * {
-    max-width: 100%;
 }
 
 .controls form header {
@@ -1016,43 +1065,29 @@ main {
 }
 
 /* Layouts: 2 areas  */
-.big-text.has-countdown .layout,
-.big-text.has-image .layout {
+.big-text:is(.has-image, .has-countdown) .layout {
     grid-template-columns: auto;
     grid-template-rows: var(--grid-size-1, auto) auto;
 }
 
-.big-text.has-countdown .layout,
-.big-text.has-image .layout {
+.big-text:is(.has-image, .has-countdown) .layout {
     grid-template-areas: "txt" "aside";
 }
 
-.big-text.has-countdown.l01 .layout,
-.big-text.has-countdown.l03 .layout,
-.big-text.has-image.l01 .layout,
-.big-text.has-image.l02 .layout {
+.big-text:is(.has-image, .has-countdown):is(.l01, .l03) .layout {
     grid-template-areas: "aside" "txt";
 }
 
-.big-text.has-image[class^="l1"] .layout,
-.big-text.has-image[class*="l1"] .layout,
-.big-text.has-countdown[class^="l1"] .layout,
-.big-text.has-countdown[class*="l1"] .layout {
+.big-text:is(.has-image, .has-countdown):is([class^="l1"], [class*="l1"]) .layout {
     grid-template-columns: var(--grid-size-1, auto) auto;
     grid-template-rows: auto;
 }
 
-.big-text.has-countdown.l10 .layout,
-.big-text.has-countdown.l12 .layout,
-.big-text.has-image.l10 .layout,
-.big-text.has-image.l12 .layout {
+.big-text:is(.has-image, .has-countdown):is(.l10, .l12) .layout {
     grid-template-areas: "txt aside";
 }
 
-.big-text.has-countdown.l11 .layout,
-.big-text.has-countdown.l13 .layout,
-.big-text.has-image.l11 .layout,
-.big-text.has-image.l13 .layout {
+.big-text:is(.has-image, .has-countdown):is(.l11, .l13) .layout {
     grid-template-areas: "aside txt";
 }
 
@@ -1073,8 +1108,7 @@ main {
 .big-text.has-image.has-countdown.l25 .layout { grid-template-areas: "cnt" "img" "txt"; }
 
 /* Layouts: 3 areas (simple, row) */
-.big-text.has-image.has-countdown[class^="l3"] .layout,
-.big-text.has-image.has-countdown[class*="l3"] .layout {
+.big-text.has-image.has-countdown:is([class^="l3"], [class*="l3"]) .layout {
     grid-template-columns: var(--_grid-size-1) var(--_grid-size-2) auto;
     grid-template-rows: auto;
 }
@@ -1089,14 +1123,7 @@ main {
 
 
 /* Layouts: 3 areas (complex) */
-.big-text.has-image.has-countdown[class^="l4"] .layout,
-.big-text.has-image.has-countdown[class*="l4"] .layout,
-.big-text.has-image.has-countdown[class^="l5"] .layout,
-.big-text.has-image.has-countdown[class*="l5"] .layout,
-.big-text.has-image.has-countdown[class^="l6"] .layout,
-.big-text.has-image.has-countdown[class*="l6"] .layout,
-.big-text.has-image.has-countdown[class^="l7"] .layout,
-.big-text.has-image.has-countdown[class*="l7"] .layout {
+.big-text.has-image.has-countdown:is([class^="l4"], [class*="l4"], [class^="l5"], [class*="l5"], [class^="l6"], [class*="l6"], [class^="l7"], [class*="l7"]) .layout {
     grid-template-columns: var(--grid-size-1) auto;
     grid-template-rows: var(--grid-size-2) auto;
 }

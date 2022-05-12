@@ -1,6 +1,6 @@
 div {
     display: flex;
-    gap: var(--local-gap);
+    gap: var(--local-gap-small);
 }
 
 input[type=number] {
@@ -46,6 +46,7 @@ input[type=range]::-moz-range-thumb {
     border-radius: 50%;
     transition-duration: 75ms;
     transition-property: transform, box-shadow;
+    cursor: pointer;
 }
 
 input[type=range]::-moz-range-thumb:hover {
@@ -74,6 +75,7 @@ input[type=range]::-webkit-slider-thumb {
     border-radius: 50%;
     transition-duration: 75ms;
     transition-property: transform, box-shadow;
+    cursor: pointer;
 }
 
 input[type=range]::-webkit-slider-thumb:hover {

@@ -661,7 +661,12 @@ class BigTextControlForm {
                 if (field)
                     propertyValue &&= !field.checkValidity || field.checkValidity(); // Field has to be valid
 
-                const value = this.bigText.options[this.getOptionName(n)].value;
+                let value;
+                try {
+                    value = this.bigText.options[this.getOptionName(n)].value;
+                } catch {
+                    value = this.bigText.options[n].value;
+                }
                 propertyValue &&= check(value);
             }
 
