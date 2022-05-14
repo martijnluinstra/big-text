@@ -730,6 +730,18 @@ fieldset legend {
 /*******************************************************************************
  * Dialog
  ******************************************************************************/
+
+@keyframes animateZoom {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 dialog {
     border-radius: var(--radius);
     border: none;
@@ -739,11 +751,13 @@ dialog {
     padding: var(--gap);
 }
 
+dialog[open] {
+    animation: animateZoom 75ms linear forwards;
+}
+
 dialog form {
     text-align: right;
 }
-
-
 
 /*******************************************************************************
  * Specific components
