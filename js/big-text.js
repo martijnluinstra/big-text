@@ -1097,13 +1097,15 @@ new BigText(document, {
             'content-height': {
                 default: 100,
                 sanitize: parseInt,
-                cssValue: value => `${value}%`,
+                cssName: 'content-h-scale',
+                cssValue: value => value / 100,
                 resize: true,
             },
             'content-width': {
                 default: 100,
                 sanitize: parseInt,
-                cssValue: value => `${value}%`,
+                cssName: 'content-v-scale',
+                cssValue: value => value / 100,
                 resize: true,
             },
             'content-v-placement': {

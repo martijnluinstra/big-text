@@ -1065,19 +1065,11 @@ main {
 }
 
 .big-text {
-    --padding-narrow: 3.75vmin 5vmin;
-    --padding-regular: 7.5vmin 10vmin;
-    --padding-wide: 11.5vmin 15vmin;
-    --padding-ultrawide: 15vmin 20vmin;
-    /*--padding-narrow: .375em .5em;
-    --padding-regular: .75em 1em;
-    --padding-wide: 1.15em 1.5em;
-    --padding-ultrawide: 1.5em 2.0em;*/
-
-    /*--padding-narrow: min(.375em, 3.75vmin) min(.5em, 5vmin);
-    --padding-regular: min(.75em, 7.5vmin) min(1em, 10vmin);
-    --padding-wide: min(1.15em, 11.5vmin) min(1.5em, 15vmin);
-    --padding-ultrawide: min(1.5em, 15vmin) min(2.0em, 20vmin);*/
+    --content-h-scale: 1;
+    --content-v-scale: 1;
+    --padding-narrow: 5vmin;
+    --padding-regular: 10vmin;
+    --padding-wide: 15vmin;
 
     --placement-start: -999;
     --placement-end: 999;
@@ -1182,6 +1174,9 @@ main {
 
 .big-text .countdown-wrapper .countdown,
 .big-text .text-wrapper .text {
+    --_scale: min(var(--content-h-scale), var(--content-v-scale));
+    --_h-padding: calc(var(--padding, var(--padding-regular)) * var(--_scale));
+    --_v-padding: calc(0.75 * var(--padding, var(--padding-regular)) * var(--_scale));
     position: absolute;
     top: 0;
     right: 0;
@@ -1193,7 +1188,10 @@ main {
     justify-content: center;
     align-items: center;
 
-    padding: var(--padding, var(--padding-regular));
+    padding-top: var(--_v-padding);
+    padding-right: min(var(--_h-padding), 40%);
+    padding-bottom: var(--_v-padding);
+    padding-left: min(var(--_h-padding), 40%);
 }
 
 .big-text .countdown-wrapper .countdown p,
@@ -1358,8 +1356,8 @@ main {
 }
 
 .big-text.has-background-image .layout {
-    max-height: var(--content-height, 100%);
-    max-width: var(--content-width, 100%);
+    max-height: calc(var(--content-h-scale) * 100%);
+    max-width: calc(var(--content-v-scale) * 100%);
 }
 
 .big-text.has-background-image .image-wrapper {
