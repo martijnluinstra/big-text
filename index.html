@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Big Text</title>
+    <title>BigText</title>
     <link rel="stylesheet" href="css/big-text.css">
 </head>
 <body>
@@ -23,7 +23,7 @@
         <option value="#ffffff">White</option>
     </datalist>
 <main>
-    <section class="controls">
+    <section class="controls" hidden>
         <button class="controls-trigger" type="button" aria-label="Settings">
             <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#settings"/></svg>
         </button>
@@ -490,10 +490,14 @@
             </div>
             <p class="field switch is-right">
                 <input type="checkbox" name="controls-enabled" id="controls-enabled-input">
-                <label for="controls-enabled-input">Show settings button</label>
+                <label for="controls-enabled-input">Allow edits</label>
+                <span class="help">If disabled, the settings button will be hidden on the shared page and the contents will not be editable.</span>
             </p>
             <p class="field">
-                <button data-generate-link-button>Link</button>
+                <button type="button" class="is-primary is-expanded" data-generate-link-button>
+                    <span class="cta">Copy share link</span>
+                    <span class="success-message">Copied!</span>
+                </button>
             </p>
         </form>
         <template id="background-form">
@@ -502,7 +506,7 @@
                     <button data-modal-close type="button" aria-label="Close">
                         <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#arrow-left"/></svg>
                     </button>
-                    <h2>Background</h2>
+                    <h2>Background style</h2>
                 </header>
                 <div class="field">
                     <fieldset class="button-group">
@@ -565,7 +569,7 @@
                     <button data-modal-close type="button" aria-label="Close">
                         <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#arrow-left"/></svg>
                     </button>
-                    <h2>Text</h2>
+                    <h2>Text style</h2>
                 </header>
                 <div class="field">
                     <fieldset class="button-group" aria-label="Font">
@@ -705,7 +709,7 @@
                     </p>
                     <p class="field">
                         <label for="stroke-width">Width</label>
-                        <slider-input id="stroke-width-input" name="stroke-width" min="0" max=".15" step=".005" value=".01"></slider-input>
+                        <slider-input id="stroke-width-input" name="stroke-width" min="0" max="1" step=".01" value=".05"></slider-input>
                     </p>
                 </fieldset>
             </form>

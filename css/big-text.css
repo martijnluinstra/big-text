@@ -19,7 +19,10 @@
 
     --primary: #8080ff;
     --primary-hsl-val: 240deg 100% 75%;
-    --primary-hsl: hsl(--primary-hsl);
+    --primary-hsl: hsl(var(--primary-hsl-val));
+    --primary-invert: var(--white);
+    --success: #00c19d;
+    --success-invert: var(--white);
 
     --shadow-small-color: hsl(0deg 0% 0% / 0.333);
     --shadow-small: 0.5px 1px 1px  var(--shadow-small-color),
@@ -42,7 +45,7 @@
                     8px 16px 16px var(--shadow-large-color),
                     16px 32px 32px var(--shadow-large-color);
 
-    --outline: 3px solid hsl(240deg 100% 75% / .75);
+    --outline: 3px solid hsl(var(--primary-hsl-val) / .75);
 
     --font-serif: serif;
     --font-sans-serif: sans-serif;
@@ -54,6 +57,7 @@
     --font-verdana: 'Verdana', 'Geneva', sans-serif;
 
     --controls-width: 45ch;
+    --header-height: 2.5rem;
 
     --layout-picker-icon-size: 3.5em;
 }
@@ -96,6 +100,10 @@ body {
 
 [hidden] {
     display: none !important;
+}
+
+[disabled] {
+    cursor: not-allowed;
 }
 
 svg.icon {
@@ -193,6 +201,63 @@ button svg.icon:only-child,
     margin-right: -.375em;
 }
 
+button.is-expanded,
+.button.is-expanded,
+.toggle-button.is-expanded input ~ label,
+.select.is-expanded {
+    display: block;
+    width: 100%;
+}
+
+button.is-primary,
+.button.is-primary,
+.toggle-button.is-primary input ~ label,
+.select.is-primary {
+    background: var(--primary);
+    color: var(--primary-invert);
+    font-size: 1.2em;
+}
+
+button.is-success,
+.button.is-success,
+.toggle-button.is-success input ~ label,
+.select.is-success {
+    background: var(--success);
+    color: var(--success-invert);
+    font-size: 1.2em;
+}
+
+button.is-success:focus,
+.button.is-success:focus,
+.toggle-button.is-success:focus-within label,
+.select.is-success:focus-within {
+    outline: none;
+}
+
+button:not(.is-success) .success-message,
+.button:not(.is-success) .success-message {
+    display: none;
+}
+
+button.is-success .success-message,
+.button.is-success .success-message {
+    display: inline;
+}
+
+button.is-success .cta,
+.button.is-success .cta {
+    display: none;
+}
+
+
+button[disabled]:hover,
+.button[disabled]:hover,
+.dropdown .button[disabled]:hover,
+.toggle-button:hover input[disabled] ~ label{
+    box-shadow: var(--shadow-small);
+    transform: none;
+}
+
 /*******************************************************************************
  * Basic form elements
  ******************************************************************************/
@@ -201,16 +266,20 @@ button svg.icon:only-child,
     margin-bottom: var(--gap);
 }
 
+.field .help {
+    display: block;
+    font-size: 80%;
+}
+
+.field > :not(:last-child) {
+    margin-bottom: var(--gap-small);
+}
+
 label,
 .label {
     font-weight: bold;
     display: block;
     width: 100%;
-}
-
-label:not(:last-child),
-.label:not(:last-child) {
-    margin-bottom: var(--gap-small);
 }
 
 input {
@@ -316,6 +385,7 @@ fieldset legend {
     float: left;
     width: 100%;
     margin-bottom: var(--gap-small);
+    font-size: 1.2em;
 }
 
 /*******************************************************************************
@@ -797,11 +867,24 @@ main {
     flex-direction: row;
 }
 
-.controls-trigger {
-    position: fixed !important;
-    top: 0;
-    left: 0;
+.controls-trigger,
+.controls-trigger:hover,
+.controls-trigger:focus {
+    position: fixed;
+    top: .4em;
+    left: .4em;
     z-index: 1;
+    box-shadow: none;
+    background: none;
+    font-size: 1.2em;
+    padding: 0 .5em;
+}
+
+.controls-trigger:hover,
+.controls-trigger:focus {
+    transform: scale(1.2);
+    background: var(--light-grey);
+    box-shadow: var(--shadow-medium);
 }
 
 .controls {
@@ -846,7 +929,7 @@ main {
 
 .controls form header {
     display: flex;
-    gap: var(--gap);
+    gap: var(--gap-small);
     background: var(--light-grey);
     box-shadow: var(--shadow-small);
     padding: 0;
@@ -856,16 +939,39 @@ main {
     margin-left: calc(var(--gap) * -1);
     width: auto;
     max-width: unset;
+    height: var(--header-height);
+    line-height: var(--header-height);
 }
 
 .controls form header button {
     background: none;
     box-shadow: none;
     border-radius: 0;
+    margin-right: 0;
+    padding-left: calc(.75em + var(--gap-small));
 }
 
 .controls form header button:hover {
-    transform: scale(1.2);
+    transform: scale(1.2); /* exaggerated effect, as it's the only hover effect on this button */
+}
+
+.controls form header button:focus {
+    outline: none;
+}
+
+.controls form header button:focus .icon{
+    outline: var(--outline);
+    outline-offset: 1px;
+    border-radius: var(--radius);
+}
+
+.controls form header button .icon {
+    top: 0;
+    vertical-align: baseline;
+}
+
+.controls form header :is(h1, h2, h3, h4, h5, h6) {
+    font-size: 1.2rem;
 }
 
 /*******************************************************************************

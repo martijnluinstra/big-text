@@ -145,9 +145,9 @@ class ColorInputElement extends HTMLElement {
             else
                 this.wrapperElement_.insertBefore(el, this.colorInput_);
             this.#customColorButton = el;
-            this.colorInput_.value = v;
         }
-
+        // Always set colorInput, so a predefined colour can be easily edited
+        this.colorInput_.value = v;
         this.internals_.setFormValue(v);
     }
     get validity() { return this.colorInput_.validity; }
@@ -723,11 +723,12 @@ class BigTextModal extends BigTextControlForm {
 class BigTextControls extends BigTextControlForm {
     constructor(bigText, context) {
         const form = context.querySelector('#settings-form');
+        const container = context.querySelector('.controls'); 
 
         if (bigText.options['controls-enabled']?.value)
-            form.hidden = false;
+            container.hidden = false;
         else
-            form.hidden = true;
+            container.hidden = true;
 
         super(bigText, form);
         this.context = context;
@@ -739,16 +740,29 @@ class BigTextControls extends BigTextControlForm {
         for (let el of this.form.querySelectorAll('[data-modal-close]'))
             el.addEventListener('click', this.hide.bind(this));
 
-        context.querySelector('[data-generate-link-button]').addEventListener('click', this.handleGenerateLink.bind(this));
+        this.generateLinkButton = context.querySelector('[data-generate-link-button]');
+        this.generateLinkButton.addEventListener('click', this.handleGenerateLink.bind(this));
 
         this.modals = {};
         for (let el of context.querySelectorAll('[data-modal]'))
             el.addEventListener('click', this.handleModal.bind(this));
     }
 
-    handleGenerateLink(evt) {
-        evt.preventDefault();
-        console.log(this.bigText.generateUrl());
+    async handleGenerateLink(evt) {
+        const url = this.bigText.generateUrl();
+        try {
+            await navigator.clipboard.writeText(url);
+            this.generateLinkButton.blur();
+            this.generateLinkButton.disabled = true;
+            this.generateLinkButton.classList.replace('is-primary', 'is-success');
+            setTimeout(() => {
+                this.generateLinkButton.disabled = false;
+                this.generateLinkButton.classList.replace('is-success', 'is-primary');
+            }, 2000);
+        } catch (e) {
+            console.error(e);
+            prompt('Error copying link. Please copy it from here instead:', url);
+        }
     }
 
     handleModal(evt) {
@@ -935,10 +949,10 @@ new BigText(document, {
                 sanitize: value => value.toLowerCase(),                
             },
             'stroke-width': {
-                default: 0.01,
+                default: 0.05,
                 sanitize: parseFloat,
                 cssName: 'stroke-width',
-                cssValue: value => `${value}em`,
+                cssValue: value => `${value * .15}em`,
             },
         },
     },
