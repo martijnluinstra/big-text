@@ -7,32 +7,40 @@
     <link rel="stylesheet" href="css/big-text.css">
 </head>
 <body>
-    <datalist id="color-options">
-        <option value="#fa5358">Red</option>
-        <option value="#ff9c7e">Orange</option>
-        <option value="#f9f871">Yellow</option>
-        <option value="#80ff80">Green</option>
-        <option value="#00c19d">Teal</option>
-        <option value="#00dfff">Cyan</option>
-        <option value="#008bfd">Blue</option>
-        <option value="#8080ff">Purple</option>
-        <!-- <option value="#ef73e0">Purple</option> -->
-        <option value="#ff78ae">Pink</option>
-        <option value="#000000">Black</option>
-        <option value="#dadada">Grey</option>
-        <option value="#ffffff">White</option>
-    </datalist>
+<datalist id="color-options">
+    <option value="#fa5358">Red</option>
+    <option value="#ff9c7e">Orange</option>
+    <option value="#f9f871">Yellow</option>
+    <option value="#80ff80">Green</option>
+    <option value="#00c19d">Teal</option>
+    <option value="#00dfff">Cyan</option>
+    <option value="#008bfd">Blue</option>
+    <option value="#8080ff">Purple</option>
+    <!-- <option value="#ef73e0">Purple</option> -->
+    <option value="#ff78ae">Pink</option>
+    <option value="#000000">Black</option>
+    <option value="#dadada">Grey</option>
+    <option value="#ffffff">White</option>
+</datalist>
 <main>
+    <noscript>
+        <h2>Oh no!</h2>
+        <p>It looks like your browser has disabled JavaScript. This page needs JavaScript to function, it would be impossible to do without. Please turn on JavaScript for the best experience.</p>
+        <p>This page doesn't use any third party code or cookies. You can check this for yourself on <a href="https://github.com/martijnluinstra/big-text" target="_blank" rel="noopener noreferrer nofollow">GitHub</a>!</p>
+    </noscript>
     <section class="controls" hidden>
-        <button class="controls-trigger" type="button" aria-label="Settings">
+        <button class="controls-trigger" type="button" aria-label="Settings" title="Settings">
             <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#settings"/></svg>
         </button>
         <form id="settings-form">
             <header>
-                <button data-modal-close type="button" aria-label="Close">
+                <button data-modal-close type="button" aria-label="Close" title="Close">
                     <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#arrow-left"/></svg>
                 </button>
                 <h1>BigText</h1>
+                <button data-about type="button" aria-label="About" title="About">
+                    <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#info"/></svg>
+                </button>
             </header>
             <p class="field">
                 <button type="button" data-modal="text-form" data-prefix="text">Text style</button>
@@ -503,7 +511,7 @@
         <template id="background-form">
             <form class="modal">
                 <header>
-                    <button data-modal-close type="button" aria-label="Close">
+                    <button data-modal-close type="button" aria-label="Back" title="Back">
                         <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#arrow-left"/></svg>
                     </button>
                     <h2>Background style</h2>
@@ -566,7 +574,7 @@
         <template id="text-form">
             <form class="modal">
                 <header>
-                    <button data-modal-close type="button" aria-label="Close">
+                    <button data-modal-close type="button" aria-label="Back" title="Back">
                         <svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#arrow-left"/></svg>
                     </button>
                     <h2>Text style</h2>
@@ -715,7 +723,7 @@
             </form>
         </template>
     </section>
-    <section class="big-text">
+    <section class="big-text" hidden>
         <div class="layout">
             <div class="image-wrapper">
                 <figure>
@@ -733,6 +741,18 @@
                 </div>
             </div>
         </div>
+    </section>
+    <section>
+        <dialog id="about-dialog" aria-labelledby="about-dialog-title">
+            <h2 id="about-dialog-title">About BigText</h2>
+            <p>
+                BigText was made in 2022 by me, <a href="https://martijnluinstra.nl" target="_blank" rel="noopener noreferrer nofollow">Martijn Luinstra</a>, as an experiment and exercise in some modern web technology I hadn't used before. The source is available on <a href="https://github.com/martijnluinstra/big-text" target="_blank" rel="noopener noreferrer nofollow">GitHub</a>.
+            </p>
+            <p>If you find any mistakes, typos, or bugs, please don't hessitate to <a href="mailto:mail@martijnluinstra.nl">contact me</a>. (Or submit a pull request on GitHub.)</p>
+            <form method="dialog">
+                <button>Close</button>
+            </form>
+        </dialog>
     </section>
 </main>
 <script src="js/big-text.js"></script>

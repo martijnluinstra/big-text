@@ -24,6 +24,8 @@
     --success: #00c19d;
     --success-invert: var(--white);
 
+    --link-color: #4C56CE;
+
     --shadow-small-color: hsl(0deg 0% 0% / 0.333);
     --shadow-small: 0.5px 1px 1px  var(--shadow-small-color),
                     1px 2px 2px var(--shadow-small-color);
@@ -116,6 +118,35 @@ svg.icon {
     stroke-linejoin: round;
     fill: none;
     max-width: unset;
+}
+
+a,
+a:visited {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    /* On this page, different h#'s are only used for accessibility, but
+     * there'll never be a need to differentiate visually. */
+    font-size: 1.2rem;
+} 
+
+:is(p, h1, h2, h3, h4, h5, h6):not(:last-child) {
+    margin-bottom: var(--gap);
+}
+
+noscript {
+    border-radius: var(--radius);
+    border: none;
+    box-shadow: var(--shadow-large);
+    margin: auto;
+    max-width: var(--controls-width);
+    padding: var(--gap);
 }
 
 
@@ -688,6 +719,24 @@ fieldset.button-group:not(:last-child) {
 
 
 /*******************************************************************************
+ * Dialog
+ ******************************************************************************/
+dialog {
+    border-radius: var(--radius);
+    border: none;
+    box-shadow: var(--shadow-large);
+    margin: auto;
+    max-width: var(--controls-width);
+    padding: var(--gap);
+}
+
+dialog form {
+    text-align: right;
+}
+
+
+
+/*******************************************************************************
  * Specific components
  ******************************************************************************/
 
@@ -951,6 +1000,12 @@ main {
     padding-left: calc(.75em + var(--gap-small));
 }
 
+.controls form header button:last-child {
+
+    padding-right: calc(.75em + var(--gap-small));
+    padding-left: 0;
+}
+
 .controls form header button:hover {
     transform: scale(1.2); /* exaggerated effect, as it's the only hover effect on this button */
 }
@@ -971,7 +1026,7 @@ main {
 }
 
 .controls form header :is(h1, h2, h3, h4, h5, h6) {
-    font-size: 1.2rem;
+    flex-grow: 1;
 }
 
 /*******************************************************************************

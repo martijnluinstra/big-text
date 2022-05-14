@@ -455,6 +455,7 @@ class BigText {
         this.parseSpec(spec, {updateCallback: this.handleOptionUpdate.bind(this)});
 
         this.container = context.querySelector('.big-text');
+        this.container.hidden = false;
         this.textContainer = this.container.querySelector('.text-wrapper');
         this.textElement = this.container.querySelector('.text-wrapper div');
 
@@ -733,12 +734,16 @@ class BigTextControls extends BigTextControlForm {
         super(bigText, form);
         this.context = context;
         this.container = context.querySelector('.controls');
+        this.aboutDialog = context.querySelector('#about-dialog');
 
         for (let el of context.querySelectorAll('.controls-trigger'))
             el.addEventListener('click', this.show.bind(this));
 
         for (let el of this.form.querySelectorAll('[data-modal-close]'))
             el.addEventListener('click', this.hide.bind(this));
+
+        for (let el of this.form.querySelectorAll('[data-about]'))
+            el.addEventListener('click', () => this.aboutDialog.showModal());
 
         this.generateLinkButton = context.querySelector('[data-generate-link-button]');
         this.generateLinkButton.addEventListener('click', this.handleGenerateLink.bind(this));
