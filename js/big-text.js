@@ -751,6 +751,9 @@ class BigTextControls extends BigTextControlForm {
         this.modals = {};
         for (let el of context.querySelectorAll('[data-modal]'))
             el.addEventListener('click', this.handleModal.bind(this));
+
+
+        this.container.addEventListener('transitionend', this.handleTransitionEnd.bind(this));
     }
 
     async handleGenerateLink(evt) {
@@ -782,29 +785,20 @@ class BigTextControls extends BigTextControlForm {
         this.modals[modalId].show();
     }
 
+    handleTransitionEnd(evt) {
+        if (evt.target == this.container) {
+            this.bigText.handleResize();
+        }
+    }
+
     updateForm() {
         super.updateForm(...arguments);
         for (let modalId in this.modals)
             this.modals[modalId].updateForm(...arguments);
     }
 
-    show() {
-        this.container.classList.add('is-active');
-        this.container.addEventListener(
-            'transitionend',
-            () => this.bigText.handleResize(),
-            {once: true},
-        );
-    }
-
-    hide() {
-        this.container.classList.remove('is-active');
-        this.container.addEventListener(
-            'transitionend',
-            () => this.bigText.handleResize(),
-            {once: true},
-        );
-    }
+    show() { this.container.classList.add('is-active'); }
+    hide() { this.container.classList.remove('is-active'); }
 }
 
 
