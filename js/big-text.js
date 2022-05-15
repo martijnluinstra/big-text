@@ -886,15 +886,15 @@ class BigText {
     }
 
     _handleResize() {
-        if (this.isInitialized) {
-            resizeText(this.context.textContainer);
-            if (this.options['has-countdown'].value)
-                resizeText(this.context.countdownContainer);
-        }
+        resizeText(this.context.textContainer);
+        if (this.options['has-countdown'].value)
+            resizeText(this.context.countdownContainer);
     }
 
     handleResize() {
-        debounce(this._handleResize(), 100);
+        if (this.isInitialized) {
+            debounce(this._handleResize(), 100);
+        }
     }
 
     handleOptionUpdate(key, value) {
