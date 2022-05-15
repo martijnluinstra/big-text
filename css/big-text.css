@@ -461,7 +461,6 @@ main {
     grid-template-rows: auto;
 }
 
-.big-text.has-image.has-countdown .layout,
 .big-text.has-image.has-countdown.l30 .layout { grid-template-areas: "txt cnt img"; }
 .big-text.has-image.has-countdown.l31 .layout { grid-template-areas: "img txt cnt"; }
 .big-text.has-image.has-countdown.l32 .layout { grid-template-areas: "cnt txt img"; }
@@ -505,6 +504,33 @@ main {
 .big-text.has-image.has-countdown.l74 .layout { grid-template-areas: "txt cnt" "img cnt"; }
 .big-text.has-image.has-countdown.l75 .layout { grid-template-areas: "cnt txt" "img txt"; }
 
+@media (max-aspect-ratio: 1/1.5) {
+    .big-text:is(.has-image, .has-countdown):is([class^="l1"], [class*="l1"]) .layout {
+        grid-template-columns: auto;
+        grid-template-rows: var(--grid-size-1, auto) auto;
+    }
+
+    .big-text:is(.has-image, .has-countdown):is(.l10, .l12) .layout {
+        grid-template-areas: "txt" "aside";
+    }
+
+    .big-text:is(.has-image, .has-countdown):is(.l11, .l13) .layout {
+        grid-template-areas: "aside" "txt";
+    }
+
+    .big-text.has-image.has-countdown:is([class^="l3"], [class*="l3"], [class^="l4"], [class*="l4"], [class^="l5"], [class*="l5"], [class^="l6"], [class*="l6"], [class^="l7"], [class*="l7"]) .layout {
+        grid-template-columns: auto;
+        grid-template-rows: var(--_grid-size-1) var(--_grid-size-2) auto;
+    }
+
+    .big-text.has-image.has-countdown .layout,
+    .big-text.has-image.has-countdown:is(.l20, .l30, .l40, .l50, .l60, .l70) .layout { grid-template-areas: "txt" "cnt" "img"; }
+    .big-text.has-image.has-countdown:is(.l21, .l31, .l41, .l51, .l61, .l71) .layout { grid-template-areas: "img" "txt" "cnt"; }
+    .big-text.has-image.has-countdown:is(.l22, .l32, .l42, .l52, .l62, .l72) .layout { grid-template-areas: "cnt" "txt" "img"; }
+    .big-text.has-image.has-countdown:is(.l23, .l33, .l43, .l53, .l63, .l73) .layout { grid-template-areas: "img" "cnt" "txt"; }
+    .big-text.has-image.has-countdown:is(.l24, .l34, .l44, .l54, .l64, .l74) .layout { grid-template-areas: "txt" "img" "cnt"; }
+    .big-text.has-image.has-countdown:is(.l25, .l35, .l45, .l55, .l65, .l75) .layout { grid-template-areas: "cnt" "img" "txt"; }
+}
 
 /*******************************************************************************
  * Buttons (and button-like components)
@@ -1478,7 +1504,6 @@ font-select:invalid::part(trigger):not(:focus) {
     transition: right var(--duration-long) ease-out, box-shadow 0ms var(--duration-long);
 }
 
-
 .controls form.modal.is-active {
     right: 0%;
     box-shadow: var(--shadow-large);
@@ -1499,6 +1524,9 @@ font-select:invalid::part(trigger):not(:focus) {
     max-width: unset;
     height: var(--header-height);
     line-height: var(--header-height);
+    position: sticky;
+    top: calc(var(--gap) * -1);
+    z-index: 30;
 }
 
 .controls form header button {
@@ -1536,4 +1564,25 @@ font-select:invalid::part(trigger):not(:focus) {
 
 .controls form header :is(h1, h2, h3, h4, h5, h6) {
     flex-grow: 1;
+}
+
+@media (max-width: 900px) {
+    .controls {
+        position: absolute;
+        top: 0;
+        right: 100%;
+        bottom: 0;
+        width: 100%;
+        max-width: 100%;
+        z-index: 10;
+    }
+
+    .controls.is-active {
+        right: 0;
+    }
+
+    .controls form {
+        width: 100%;
+        max-width: 100%;
+    }
 }
