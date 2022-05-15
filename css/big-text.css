@@ -11,7 +11,7 @@
     /* Fonts */
     --font-serif: serif;
     --font-sans-serif: sans-serif;
-    --font-cursive: cursive;
+    --font-cursive: 'Comic Sans MS', 'Comic Sans', cursive;
     --font-monospace: monospace;
     --font-fira-sans: 'Fira Sans', sans-serif;
     --font-impact: 'Impact', 'Charcoal', sans-serif;
