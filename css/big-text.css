@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+@import url('/fonts/comic-neue.css');
+@import url('/fonts/cascadia-code.css');
+@import url('/fonts/fira-sans.css');
+@import url('/fonts/lora.css');
 
 :root {
     /* Conditionals css hack (see: https://lea.verou.me/2020/10/the-var-space-hack-to-toggle-multiple-values-with-one-custom-property/)*/
@@ -14,6 +17,10 @@
     --font-impact: 'Impact', 'Charcoal', sans-serif;
     --font-arial-black: 'Arial Black', 'Gadget', sans-serif;
     --font-verdana: 'Verdana', 'Geneva', sans-serif;
+    --font-comic-neue: 'Comic Neue', cursive;
+    --font-comic-neue-angular: 'Comic Neue Angular', cursive;
+    --font-cascadia-code: 'Cascadia Code', monospace;
+    --font-lora: 'Lora', serif;
 
     /* Colours */
     --white: #ffffff;

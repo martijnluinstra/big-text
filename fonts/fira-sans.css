@@ -1,0 +1,33 @@
+/* Actually use FiraGo instead of Fira Sans */
+
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/FiraGo-Regular.woff2') format('woff2'),
+       url('/fonts/FiraGo-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: url('/fonts/FiraGo-Italic.woff2') format('woff2'),
+       url('/fonts/FiraGo-Italic.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/FiraGo-Bold.woff2') format('woff2'),
+       url('/fonts/FiraGo-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: url('/fonts/FiraGo-BoldItalic.woff2') format('woff2'),
+       url('/fonts/FiraGo-BoldItalic.woff') format('woff');
+}
