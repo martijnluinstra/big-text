@@ -720,10 +720,12 @@ class BigTextControls extends BigTextControlForm {
         const form = context.querySelector('#settings-form');
         const container = context.querySelector('.controls'); 
 
-        if (bigText.options['controls-enabled']?.value)
+        if (bigText.options['controls-enabled']?.value) {
             container.hidden = false;
-        else
+            bigText.context.textElement.setAttribute('contenteditable', true);
+        } else {
             container.hidden = true;
+        }
 
         super(bigText, form);
         this.context = context;
