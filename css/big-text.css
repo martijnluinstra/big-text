@@ -543,6 +543,7 @@ button,
     font-size: inherit;
     line-height: inherit;
     background: var(--light-grey);
+    color: var(--black);
     cursor: pointer;
     display: inline-block;
     border: none;
