@@ -1,3 +1,120 @@
+/*******************************************************************************
+ * Helper functions
+ ******************************************************************************/
+
+function isLight(hex) {
+    // Based on https://stackoverflow.com/a/3943023/112731
+    const r = parseInt(hex.slice(1, 3), 16) / 255,
+          g = parseInt(hex.slice(3, 5), 16) / 255,
+          b = parseInt(hex.slice(5, 7), 16) / 255;
+    const fn = c =>  (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)
+    const l = 0.2126 * fn(r) + 0.7152 * fn(g) + 0.0722 * fn(b);
+    return l > 0.179;
+}
+
+function isObject(value) {
+    return typeof value === 'object' && value !== null;
+}
+
+function parseBool(value) {
+    return typeof value === 'boolean' ? value : value !== 'false';
+}
+
+function overflows(element) {
+    // Triggers reflow, use sparingly.
+    return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+}
+
+function valueIn() {
+    const args = [...arguments];
+    return (value) => args.includes(value) ? value : args[0];
+}
+
+function getCharacterAspect(container) {
+    let element = document.createElement('span');
+    container.appendChild(element);
+    element.style.height = 'auto';
+    element.style.width = 'auto';
+    element.style.position = 'absolute';
+    element.style.whiteSpace = 'nowrap';
+    element.innerText = '0l'; // "average" character, too narrow is better than too wide.
+    
+    const rect = element.getBoundingClientRect();
+    container.removeChild(element);
+
+    // Get font metrics
+    const style = getComputedStyle(container);
+    const lineHeight = Number(style.getPropertyValue('line-height').match(/\d+/)[0]);
+    const fontSize = Number(style.getPropertyValue('font-size').match(/\d+/)[0]);
+    const relativeLineHeight = lineHeight / fontSize;
+
+    // Calculate, factor 2 because innerText is 2 chars
+    return rect.width / (2 * rect.height * relativeLineHeight);
+}
+
+function roundPrecision(number, precision) {
+    return Math.round(number * Math.pow(10, precision)) / Math.pow(10, precision);
+}
+
+function resizeText(container, overflowCallback=null) {
+    // Get innertext first, as style might make the container appear empty.
+    const chars = container.innerText.length;
+    // Add class so css can hide stuff if so desired
+    container.classList.add('is-resizing');
+    const rect = container.getBoundingClientRect()
+    const aspect = rect.width / rect.height;
+    const textAspect = getCharacterAspect(container);
+
+    // Dry run. Get upperbound on font size cheaply (without triggering reflows)
+    let min, max;
+    if (aspect < textAspect) {
+        min = Math.floor(Math.sqrt(chars));
+        max = chars;
+    } else {
+        min = 1;
+        max = Math.ceil(Math.sqrt(chars));
+    }
+
+    let rows = 1;
+    let rowSize = Math.ceil((rows * aspect) / textAspect);
+    while (Math.abs(max - min) > 1 ||  rows * rowSize < chars) {
+        rows = Math.ceil((max + min) / 2);
+        rowSize = Math.ceil((rows * aspect) / textAspect);
+        if (rows * rowSize < chars)
+            min = rows;
+        else if (rows * rowSize > chars)
+            max = rows;
+        else
+            break;
+    }
+
+    // Wet run. Home in on a nice fontsize using the renderer
+    let fits = !(overflowCallback?.(container) || overflows(container));
+    max = Math.max(100 / rows, 1);
+    min = 0;
+    size = max;
+    let precision = Math.max(roundPrecision(max / 50, 1), .1);
+    let count = 0;
+    while (Math.abs(max - min) > precision + .01) {
+        count++;
+        size = roundPrecision((max + min) / 2, 1);
+        container.style.setProperty('--font-size', `${size}vh`);
+        fits = !(overflowCallback?.(container) || overflows(container));
+        if (fits)
+            min = size;
+        else
+            max = size;
+    }
+
+    if (!fits)
+        container.style.setProperty('--font-size', `${min}vh`);
+    container.classList.remove('is-resizing');
+}
+
+/*******************************************************************************
+ * Form components
+ ******************************************************************************/
+
 class Dropdown {
     static parse(context) {
         for (let el of context.querySelectorAll('.dropdown'))
@@ -26,10 +143,10 @@ class SliderInputElement extends HTMLElement {
 
         this.attachShadow({mode: 'open', delegatesFocus: true});
         this.shadowRoot.innerHTML = `
-            <link href="/css/slider-input.css" rel="stylesheet">
-            <div part="wrapper">
-                <input part="slider" type="range" aria-hidden="true" tabindex="-1">
-                <input part="number" type="number">
+            <link href="/css/big-text.css" rel="stylesheet">
+            <div class="slider-input">
+                <input type="range" aria-hidden="true" tabindex="-1">
+                <input type="number">
             </div>
         `;
         this.range_input_ = this.shadowRoot.querySelector('[type=range]');
@@ -83,8 +200,7 @@ class ColorInputElement extends HTMLElement {
         this.attachShadow({mode: 'open', delegatesFocus: true});
         this.shadowRoot.innerHTML = `
             <link href="/css/big-text.css" rel="stylesheet">
-            <link href="/css/color-input.css" rel="stylesheet">
-            <div id="wrapper">
+            <div id="wrapper" class="color-input">
                 <input type="color" id="color-input" aria-label="Custom">
                 <label for="color-input" class="button"><svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#plus"/></svg></label>
             </div>
@@ -202,7 +318,7 @@ class FontSelectElement extends HTMLElement {
         this.attachShadow({mode: 'open', delegatesFocus: true});
         this.shadowRoot.innerHTML = `
             <link href="/css/big-text.css" rel="stylesheet">
-            <div class="dropdown font-picker">
+            <div class="font-select dropdown">
                 <button type="button" class="button" part="trigger">Font</button>
                 <ul class="options" part="options"></ul>
             </div>
@@ -287,128 +403,10 @@ class FontSelectElement extends HTMLElement {
 
 customElements.define('font-select', FontSelectElement);
 
-function isLight(hex, ) {
-    // Based on https://stackoverflow.com/a/3943023/112731
-    const r = parseInt(hex.slice(1, 3), 16) / 255,
-          g = parseInt(hex.slice(3, 5), 16) / 255,
-          b = parseInt(hex.slice(5, 7), 16) / 255;
-    const fn = c =>  (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)
-    const l = 0.2126 * fn(r) + 0.7152 * fn(g) + 0.0722 * fn(b);
-    return l > 0.179;
-}
 
-function overflows(element) {
-    // Triggers reflow, use sparingly.
-    return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
-}
-
-function getCharacterAspect(container) {
-    let element = document.createElement('span');
-    container.appendChild(element);
-    element.style.height = 'auto';
-    element.style.width = 'auto';
-    element.style.position = 'absolute';
-    element.style.whiteSpace = 'nowrap';
-    element.innerText = '0l'; // "average" character, too narrow is better than too wide.
-    
-    const rect = element.getBoundingClientRect();
-    container.removeChild(element);
-
-    // Get font metrics
-    const style = getComputedStyle(container);
-    const lineHeight = Number(style.getPropertyValue('line-height').match(/\d+/)[0]);
-    const fontSize = Number(style.getPropertyValue('font-size').match(/\d+/)[0]);
-    const relativeLineHeight = lineHeight / fontSize;
-
-    // Calculate, factor 2 because innerText is 2 chars
-    return rect.width / (2 * rect.height * relativeLineHeight);
-}
-
-function roundPrecision(number, precision) {
-    return Math.round(number * Math.pow(10, precision)) / Math.pow(10, precision);
-}
-
-function resizeText(container, overflowCallback=null) {
-    // Get innertext first, as style might make the container appear empty.
-    const chars = container.innerText.length;
-    // Add class so css can hide stuff if so desired
-    container.classList.add('is-resizing');
-    const rect = container.getBoundingClientRect()
-    const aspect = rect.width / rect.height;
-    const textAspect = getCharacterAspect(container);
-
-    // Dry run. Get upperbound on font size cheaply (without triggering reflows)
-    let min, max;
-    if (aspect < textAspect) {
-        min = Math.floor(Math.sqrt(chars));
-        max = chars;
-    } else {
-        min = 1;
-        max = Math.ceil(Math.sqrt(chars));
-    }
-
-    let rows = 1;
-    let rowSize = Math.ceil((rows * aspect) / textAspect);
-    while (Math.abs(max - min) > 1 ||  rows * rowSize < chars) {
-        rows = Math.ceil((max + min) / 2);
-        rowSize = Math.ceil((rows * aspect) / textAspect);
-        if (rows * rowSize < chars)
-            min = rows;
-        else if (rows * rowSize > chars)
-            max = rows;
-        else
-            break;
-    }
-
-    // Wet run. Home in on a nice fontsize using the renderer
-    let fits = !(overflowCallback?.(container) || overflows(container));
-    max = Math.max(100 / rows, 1);
-    min = 0;
-    size = max;
-    let precision = Math.max(roundPrecision(max / 50, 1), .1);
-    let count = 0;
-    while (Math.abs(max - min) > precision + .01) {
-        count++;
-        size = roundPrecision((max + min) / 2, 1);
-        container.style.setProperty('--font-size', `${size}vh`);
-        fits = !(overflowCallback?.(container) || overflows(container));
-        if (fits)
-            min = size;
-        else
-            max = size;
-    }
-
-    if (!fits)
-        container.style.setProperty('--font-size', `${min}vh`);
-    container.classList.remove('is-resizing');
-}
-
-// function toCamelCase(value) {
-//     return value.toLowerCase().replace(
-//         /([-_][a-z])/g,
-//         group => group.toUpperCase().replace('-', '').replace('_', '')
-//     );
-// }
-
-// function toKebabCase(value, separator='-') {
-//     return value.replace(
-//         /[A-Z]+(?![a-z])|[A-Z]/g,
-//         (group, offset) => (offset ? separator : '')  + group.toLowerCase()
-//     );
-// }
-
-function isObject(value) {
-    return typeof value === 'object' && value !== null;
-}
-
-function parseBool(value) {
-    return typeof value === 'boolean' ? value : value !== 'false';
-}
-
-function valueIn() {
-    const args = [...arguments];
-    return (value) => args.includes(value) ? value : args[0];
-}
+/*******************************************************************************
+ * BigText parts
+ ******************************************************************************/
 
 class Countdown {
     #interval;
@@ -542,120 +540,6 @@ class BigTextOption {
 
     get resize() {
         return this.spec.resize || false;
-    }
-}
-
-class BigText {
-    #options;
-
-    constructor(context, spec) {
-        this.#options = {};
-        this.parseSpec(spec, {updateCallback: this.handleOptionUpdate.bind(this)});
-
-        this.container = context.querySelector('.big-text');
-        this.container.hidden = false;
-        this.textContainer = this.container.querySelector('.text-wrapper');
-        this.textElement = this.container.querySelector('.text-wrapper div');
-
-        this.context = {
-            main: this.container,
-            imageContainer: this.container.querySelector('.image-wrapper'),
-            imageElement: this.container.querySelector('.image-wrapper img'),
-            textContainer: this.container.querySelector('.text-wrapper'),
-            textElement: this.container.querySelector('.text-wrapper .text p'),
-            countdownContainer: this.container.querySelector('.countdown-wrapper'),
-            countdownElement: this.container.querySelector('.countdown-wrapper .countdown p'),
-        };
-
-        this.options = new Proxy(this.#options, {set: (o,k,v) => this.setProperty(o,k,v)});
-
-        this.parseUrl(window.location.href);
-
-        for (let option in this.options)
-            this.options[option].render(this.context, this.options);
-
-        window.addEventListener('resize', this.handleResize.bind(this));
-        this.textElement.addEventListener('input', this.handleResize.bind(this));
-
-        this.controls = new BigTextControls(this, context);
-
-        this.isInitialized = true;
-        this.handleResize();
-    }
-
-    parseSpec(spec, defaults) {
-        for (let option in spec) {
-            if (isObject(spec[option]) && 'context' in spec[option] && isObject(spec[option].context)) {
-                for (let prefix in spec[option].context) {
-                    const d = {...defaults, ...spec[option]};
-                    delete d.spec;
-                    d.context = spec[option].context[prefix];
-                    d.prefix = prefix;
-                    this.parseSpec(spec[option].spec, d);
-                }
-            } else if (isObject(spec[option]) &&'spec' in spec[option]) {
-                const d = {...defaults, ...spec[option]};
-                delete d.spec;
-                if ('prefix' in d && defaults && 'prefix' in defaults) {
-                    d.prefix = `${defaults.prefix}-${d.prefix}`;
-                } else if (defaults && 'prefix' in defaults) {
-                    d.prefix = defaults.prefix;
-                }
-                this.parseSpec(spec[option].spec, d);
-            } else {
-                let name = option;
-                if (defaults && 'prefix' in defaults)
-                    name = `${defaults.prefix}-${option}`;
-                this.#options[name] = new BigTextOption(name, undefined, {...defaults, ...spec[option]});
-            }
-        }
-    }
-
-    generateUrl() {
-        const baseUrl = new URL(window.location.href);
-        const params = baseUrl.searchParams;
-        params.set('text', this.textElement.innerText);
-        for (let option in this.options)
-            if (this.options[option].inUrl)
-                params.set(option, this.options[option].value);
-        baseUrl.search = params.toString();
-        return baseUrl.toString();
-    }
-
-    parseUrl(url) {
-        if (!(url instanceof URL))
-            url = new URL(url);
-        const params = url.searchParams;
-
-        if (url.searchParams.has('text'))
-            this.textElement.innerText = url.searchParams.get('text');
-
-        for (let option in this.options) {
-            if (url.searchParams.has(option))
-                this.options[option] = url.searchParams.get(option);
-        }
-    }
-
-    handleResize() {
-        if (this.isInitialized) {
-            resizeText(this.context.textContainer);
-            if (this.options['has-countdown'].value)
-                resizeText(this.context.countdownContainer);
-        }
-    }
-
-    handleOptionUpdate(key, value) {
-        this.controls?.updateForm(key, value);
-    }
-
-    setProperty(options, key, value) {
-        if (key in options) {
-            options[key].value = value
-            options[key].render(this.context, this.options);
-            if (options[key].resize)
-                this.handleResize();
-        }
-        return true;
     }
 }
 
@@ -899,11 +783,129 @@ class BigTextControls extends BigTextControlForm {
     hide() { this.container.classList.remove('is-active'); }
 }
 
+class BigText {
+    #options;
 
+    constructor(context, spec) {
+        this.#options = {};
+        this.parseSpec(spec, {updateCallback: this.handleOptionUpdate.bind(this)});
+
+        this.container = context.querySelector('.big-text');
+        this.container.hidden = false;
+        this.textContainer = this.container.querySelector('.text-wrapper');
+        this.textElement = this.container.querySelector('.text-wrapper div');
+
+        this.context = {
+            main: this.container,
+            imageContainer: this.container.querySelector('.image-wrapper'),
+            imageElement: this.container.querySelector('.image-wrapper img'),
+            textContainer: this.container.querySelector('.text-wrapper'),
+            textElement: this.container.querySelector('.text-wrapper .text p'),
+            countdownContainer: this.container.querySelector('.countdown-wrapper'),
+            countdownElement: this.container.querySelector('.countdown-wrapper .countdown p'),
+        };
+
+        this.options = new Proxy(this.#options, {set: (o,k,v) => this.setProperty(o,k,v)});
+
+        this.parseUrl(window.location.href);
+
+        for (let option in this.options)
+            this.options[option].render(this.context, this.options);
+
+        window.addEventListener('resize', this.handleResize.bind(this));
+        this.textElement.addEventListener('input', this.handleResize.bind(this));
+
+        this.controls = new BigTextControls(this, context);
+
+        this.isInitialized = true;
+        this.handleResize();
+    }
+
+    parseSpec(spec, defaults) {
+        for (let option in spec) {
+            if (isObject(spec[option]) && 'context' in spec[option] && isObject(spec[option].context)) {
+                for (let prefix in spec[option].context) {
+                    const d = {...defaults, ...spec[option]};
+                    delete d.spec;
+                    d.context = spec[option].context[prefix];
+                    d.prefix = prefix;
+                    this.parseSpec(spec[option].spec, d);
+                }
+            } else if (isObject(spec[option]) &&'spec' in spec[option]) {
+                const d = {...defaults, ...spec[option]};
+                delete d.spec;
+                if ('prefix' in d && defaults && 'prefix' in defaults) {
+                    d.prefix = `${defaults.prefix}-${d.prefix}`;
+                } else if (defaults && 'prefix' in defaults) {
+                    d.prefix = defaults.prefix;
+                }
+                this.parseSpec(spec[option].spec, d);
+            } else {
+                let name = option;
+                if (defaults && 'prefix' in defaults)
+                    name = `${defaults.prefix}-${option}`;
+                this.#options[name] = new BigTextOption(name, undefined, {...defaults, ...spec[option]});
+            }
+        }
+    }
+
+    generateUrl() {
+        const baseUrl = new URL(window.location.href);
+        const params = baseUrl.searchParams;
+        params.set('text', this.textElement.innerText);
+        for (let option in this.options)
+            if (this.options[option].inUrl)
+                params.set(option, this.options[option].value);
+        baseUrl.search = params.toString();
+        return baseUrl.toString();
+    }
+
+    parseUrl(url) {
+        if (!(url instanceof URL))
+            url = new URL(url);
+        const params = url.searchParams;
+
+        if (url.searchParams.has('text'))
+            this.textElement.innerText = url.searchParams.get('text');
+
+        for (let option in this.options) {
+            if (url.searchParams.has(option))
+                this.options[option] = url.searchParams.get(option);
+        }
+    }
+
+    handleResize() {
+        if (this.isInitialized) {
+            resizeText(this.context.textContainer);
+            if (this.options['has-countdown'].value)
+                resizeText(this.context.countdownContainer);
+        }
+    }
+
+    handleOptionUpdate(key, value) {
+        this.controls?.updateForm(key, value);
+    }
+
+    setProperty(options, key, value) {
+        if (key in options) {
+            options[key].value = value
+            options[key].render(this.context, this.options);
+            if (options[key].resize)
+                this.handleResize();
+        }
+        return true;
+    }
+}
+
+
+/*******************************************************************************
+ * Initialisation
+ ******************************************************************************/
 new BigText(document, {
     'controls-enabled': {
         default: true,
         sanitize: parseBool,
+        render: () => {},
     },
     background: {
         context: {
@@ -1067,7 +1069,6 @@ new BigText(document, {
                         else
                             context.main.classList.add('has-image');
                     }
-                    context.main.style.setProperty('--has-image', this.value ? 'var(--ON)' : 'var(--OFF)');
                     options['layout'].render(...arguments);
                 },
                 resize: true,
@@ -1102,7 +1103,6 @@ new BigText(document, {
                         context.main.classList.add('has-countdown');
                     else if (!this.value)
                         context.main.classList.remove('has-countdown');
-                    context.main.style.setProperty('--has-countdown', this.value ? 'var(--ON)' : 'var(--OFF)');
                     options['layout'].render(...arguments);
                 },
                 resize: true,
@@ -1195,22 +1195,22 @@ new BigText(document, {
             'content-height': {
                 default: 100,
                 sanitize: parseInt,
-                cssName: 'content-h-scale',
+                cssName: 'content-scale-h',
                 cssValue: value => value / 100,
                 resize: true,
             },
             'content-width': {
                 default: 100,
                 sanitize: parseInt,
-                cssName: 'content-v-scale',
+                cssName: 'content-scale-v',
                 cssValue: value => value / 100,
                 resize: true,
             },
-            'content-v-placement': {
+            'content-placement-v': {
                 default: 'center',
                 sanitize: valueIn('flex-start', 'flex-end', 'center'),
             },
-            'content-h-placement': {
+            'content-placement-h': {
                 default: 'center',
                 sanitize: valueIn('flex-start', 'flex-end', 'center'),
             },

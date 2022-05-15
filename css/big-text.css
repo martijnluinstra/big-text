@@ -1,56 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
 
 :root {
+    /* Conditionals css hack (see: https://lea.verou.me/2020/10/the-var-space-hack-to-toggle-multiple-values-with-one-custom-property/)*/
     --ON: initial;
     --OFF: ;
 
-    --radius: 4px;
-    --gap-small: .5rem;
-    --gap: 1rem;
-    --gap-large: 1.5rem;
-    --local-gap-small: .5em;
-    --local-gap: 1em;
-    --local-gap-large: 1.5em;
-
-    --white: #ffffff;
-    --light-grey: #eeeeee;
-    --light-grey-focus: #dddddd;
-    --grey: #999999;
-
-    --primary: #8080ff;
-    --primary-hsl-val: 240deg 100% 75%;
-    --primary-hsl: hsl(var(--primary-hsl-val));
-    --primary-invert: var(--white);
-    --success: #00c19d;
-    --success-invert: var(--white);
-    --danger: #fa5358;
-
-    --link-color: #4C56CE;
-
-    --shadow-small-color: hsl(0deg 0% 0% / 0.333);
-    --shadow-small: 0.5px 1px 1px  var(--shadow-small-color),
-                    1px 2px 2px var(--shadow-small-color);
-
-    --shadow-small-filter: drop-shadow(0.5px 1px 1px  var(--shadow-small-color))
-                           drop-shadow(1px 2px 2px var(--shadow-small-color));
-    --shadow-inset: inset 0.5px 1px 1px  var(--shadow-small-color),
-                    inset 1px 2px 2px var(--shadow-small-color);
-
-    --shadow-medium-color: hsl(0deg 0% 0% / 0.2);
-    --shadow-medium: 1px 2px 2px var(--shadow-medium-color),
-                     2px 4px 4px var(--shadow-medium-color),
-                     3px 6px 6px var(--shadow-medium-color);
-
-    --shadow-large-color:  hsl(0deg 0% 0% / 0.1);
-    --shadow-large: 1px 2px 2px var(--shadow-large-color),
-                    2px 4px 4px var(--shadow-large-color),
-                    4px 8px 8px var(--shadow-large-color),
-                    8px 16px 16px var(--shadow-large-color),
-                    16px 32px 32px var(--shadow-large-color);
-
-    --outline: 3px solid hsl(var(--primary-hsl-val) / .75);
-    --outline-invalid: 3px solid var(--danger);
-
+    /* Fonts */
     --font-serif: serif;
     --font-sans-serif: sans-serif;
     --font-cursive: cursive;
@@ -60,6 +15,68 @@
     --font-arial-black: 'Arial Black', 'Gadget', sans-serif;
     --font-verdana: 'Verdana', 'Geneva', sans-serif;
 
+    /* Colours */
+    --white: #ffffff;
+    --light-grey: #eeeeee;
+    --grey: #dadada;
+    --dark-grey: #999999;
+
+    --primary: #8080ff;
+    --primary-hsl-val: 240deg 100% 75%;
+    --primary-hsl: hsl(var(--primary-hsl-val));
+    --primary-invert: var(--white);
+    --primary-dark: #4C56CE;
+    --primary-dark-invert: var(--white);
+    --success: #00c19d;
+    --success-invert: var(--white);
+    --danger: #fa5358;
+    --danger-invert: var(--white);
+
+    --link-color: var(--primary-dark);
+
+    /* Spacing */
+    --radius: 4px;
+
+    --gap-small: .5rem;
+    --gap: 1rem;
+    --gap-large: 1.5rem;
+    --local-gap-small: .5em;
+    --local-gap: 1em;
+    --local-gap-large: 1.5em;
+
+    --component-padding-v: .25em;
+    --component-padding-h: .75em;
+    --component-padding: var(--component-padding-v) var(--component-padding-h);
+    --component-padding-v-rem: .25rem;
+    --component-padding-h-rem: .75rem;
+    --component-padding-rem: var(--component-padding-v-rem) var(--component-padding-h-rem);
+
+    /* Timing  */
+    --duration: 75ms;
+    --duration-long: 250ms;
+
+    /* Outlines */
+    --outline: 3px solid hsl(var(--primary-hsl-val) / .75);
+    --outline-invalid: 3px solid var(--danger);
+
+    /* Shadows */
+    --shadow-color: 240deg 8% 43%;
+    --shadow-small: 0.5px 1px 1px  hsl(var(--shadow-color) / 0.333),
+                    1px 2px 2px hsl(var(--shadow-color) / 0.333);
+    --shadow-small-filter: drop-shadow(0.5px 1px 1px  hsl(var(--shadow-color) / 0.333))
+                           drop-shadow(1px 2px 2px hsl(var(--shadow-color) / 0.333));
+    --shadow-medium: 1px 2px 2px hsl(var(--shadow-color) / 0.2),
+                     2px 4px 4px hsl(var(--shadow-color) / 0.2),
+                     3px 6px 6px hsl(var(--shadow-color) / 0.2);
+    --shadow-large: 1px 2px 2px hsl(var(--shadow-color) / 0.1),
+                    2px 4px 4px hsl(var(--shadow-color) / 0.1),
+                    4px 8px 8px hsl(var(--shadow-color) / 0.1),
+                    8px 16px 16px hsl(var(--shadow-color) / 0.1),
+                    16px 32px 32px hsl(var(--shadow-color) / 0.1);
+    --shadow-inset: inset 0.5px 1px 1px  hsl(var(--shadow-color) / 0.5),
+                    inset 1px 2px 2px hsl(var(--shadow-color) / 0.5);
+
+    /* Components */
     --controls-width: 45ch;
     --header-height: 2.5rem;
 
@@ -93,6 +110,7 @@ input, button, textarea, select {
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
+
 
 /*******************************************************************************
  * General styling
@@ -139,6 +157,16 @@ noscript {
     padding: var(--gap);
 }
 
+[contenteditable]:focus {
+    outline: var(--outline);   
+    border-radius: var(--radius);
+}
+
+hr {
+    border: 1px solid var(--grey);
+    margin: var(--gap-large) 0;
+}
+
 svg.icon {
     display: inline-block;
     width: 1.25em;
@@ -151,20 +179,324 @@ svg.icon {
     max-width: unset;
 }
 
-[contenteditable]:focus {
-    outline: var(--outline);   
-    border-radius: var(--radius);
-}
-
-hr {
-    border: 1px solid var(--light-grey-focus);
-    margin: var(--gap-large) 0;
+main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 
 /*******************************************************************************
- * Components
+ * Big Text
  ******************************************************************************/
+
+
+/* Basic implementation
+ ******************************************************************************/
+
+.big-text {
+    /* Properties assigned to main container */
+    --content-scale-h: 1;
+    --content-scale-v: 1;
+
+    --padding-narrow: 5vmin;
+    --padding-regular: 10vmin;
+    --padding-wide: 15vmin;
+    --padding-ultrawide: 20vmin;
+
+    position: relative;
+    flex: 1 1 100%;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.big-text .countdown-wrapper,
+.big-text .text-wrapper {
+    /* Properties assigned to wrapper */
+    --_background-color: var(--background-color, #fff9);
+    --_background-gradient-color: var(--background-gradient-color, #ccc9);
+    --background-gradient-linear: linear-gradient(var(--background-gradient-direction, 0deg), var(--_background-color) 0%, var(--_background-gradient-color) 100%);
+    --background-gradient-radial: radial-gradient(circle, var(--_background-gradient-color) 0%, var(--_background-color) 100%);
+    --background-gradient: var(--background-gradient-linear);
+    --background: var(--_background-color);
+    --background: var(--background-gradient);
+
+    --shadow-regular: var(--shadow-x, 0) var(--shadow-y, 0) var(--shadow-blur, 0) var(--shadow-color, currentColor);
+    --shadow-ugly: calc(var(--shadow-x, 0) * .333) calc(var(--shadow-y, 0) * .333) calc(var(--shadow-blur, 0) * .333) #ffffff,
+                   calc(var(--shadow-x, 0) * .666) calc(var(--shadow-y, 0) * .666) calc(var(--shadow-blur, 0) * .666) #000000,
+                   var(--shadow-x, 0) var(--shadow-y, 0) var(--shadow-blur, 0) var(--shadow-color, red);
+    --shadow-fire: 0 -.01em .04em #ffffff,
+                   0 -.02em .1em #ffff00,
+                   0 -.1em .2em #ff8000,
+                   0 -.18em .4em #ff0000;
+    --shadow-glow: 0 0 calc(var(--shadow-blur, 0) * .07) #ffffff,
+                   0 0 calc(var(--shadow-blur, 0) * .13) #ffffff,
+                   0 0 calc(var(--shadow-blur, 0) * .2) #ffffff,
+                   0 0 calc(var(--shadow-blur, 0) * .27) var(--shadow-color, lime),
+                   0 0 calc(var(--shadow-blur, 0) * .4) var(--shadow-color, lime),
+                   0 0 calc(var(--shadow-blur, 0) * .53) var(--shadow-color, lime),
+                   0 0 calc(var(--shadow-blur, 0) * .73) var(--shadow-color, lime),
+                   0 0 var(--shadow-blur, 0) var(--shadow-color, lime);
+    --shadow-offset: calc(var(--shadow-x, 0) / 2) calc(var(--shadow-y, 0) / 2) 0 var(--background-color, #ffffff),
+                     var(--shadow-x, 0) var(--shadow-y, 0) var(--shadow-blur, 0) var(--shadow-color, currentColor);
+
+    --has-shadow: var(--OFF);
+    --shadow: var(--shadow-regular);
+
+    --has-stroke: var(--OFF);
+    --stroke: var(--stroke-width, .01em) var(--stroke-color, #000000);
+
+    position: relative;
+    background: var(--background);
+
+    color: var(--foreground-color, black);
+    font-family: var(--font-family, sans-serif);
+    font-weight: var(--font-weight, normal);
+    font-style: var(--font-style, normal);
+    font-size: max(var(--font-size, 100vh), 1vh);
+    text-align: var(--text-align, center);
+    text-shadow: var(--has-shadow, var(--shadow));
+    -webkit-text-stroke: var(--has-stroke, var(--stroke));
+}
+
+.big-text .countdown-wrapper .countdown,
+.big-text .text-wrapper .text {
+    /* Private properties for neatness */
+    --_scale: min(var(--content-scale-h), var(--content-scale-v));
+    --_padding-h: calc(var(--padding, var(--padding-regular)) * var(--_scale));
+    --_padding-v: calc(0.75 * var(--padding, var(--padding-regular)) * var(--_scale));
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding-top: var(--_padding-v);
+    padding-right: min(var(--_padding-h), 40%);
+    padding-bottom: var(--_padding-v);
+    padding-left: min(var(--_padding-h), 40%);
+}
+
+.big-text .countdown-wrapper .countdown p,
+.big-text .text-wrapper .text p {
+    width: 100%;
+}
+
+
+/* Customisable resizing behaviour
+ ******************************************************************************/
+
+.big-text .is-resizing {
+    visibility: hidden;
+}
+
+.big-text .is-resizing .countdown,
+.big-text .is-resizing .text {
+    display: block;
+    bottom:  auto;
+    right:  auto;
+}
+
+/* Add an extra character to coundown when resizing, to compensate for narrow numbers */
+.big-text .is-resizing .countdown > ::after {
+    display: inline;
+    content: '.';
+    visibility: hidden;
+}
+
+/* Countdown
+ ******************************************************************************/
+
+.big-text .countdown {
+    font-variant-numeric: tabular-nums;
+}
+
+.big-text:not(.has-countdown) .countdown-wrapper {
+    display: none;
+}
+
+/* Image
+ ******************************************************************************/
+
+.big-text .image-wrapper {
+    position: relative;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.big-text:not(.has-image):not(.has-background-image) .image-wrapper {
+    display: none;
+}
+
+.big-text .image-wrapper figure {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.big-text .image-wrapper figure img {
+    display: block;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+/* Background image
+ ******************************************************************************/
+.big-text.has-background-image {
+    display: flex;
+    justify-content: var(--content-placement-h, center);
+    align-items: var(--content-placement-v, center);
+}
+
+.big-text.has-background-image .layout {
+    max-height: calc(var(--content-scale-h) * 100%);
+    max-width: calc(var(--content-scale-v) * 100%);
+}
+
+.big-text.has-background-image .image-wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.big-text.has-background-image .image-wrapper figure {
+    height: 100%;
+    width: 100%;
+}
+
+/******************************************************************************
+ * BigText Layout
+ ******************************************************************************/
+
+/* Grid Setup
+ ******************************************************************************/
+.big-text .countdown-wrapper { grid-area: cnt; }
+.big-text .image-wrapper { grid-area: img; }
+.big-text .text-wrapper { grid-area: txt; }
+
+.big-text.has-countdown:not(.has-image) .countdown-wrapper,
+.big-text.has-image:not(.has-countdown) .image-wrapper {
+    grid-area: aside;
+}
+
+.big-text .layout {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    grid-template-areas: "txt";
+    height: 100%;
+    width: 100%;
+}
+
+/* Layouts: 2 areas
+ ******************************************************************************/
+.big-text:is(.has-image, .has-countdown) .layout {
+    grid-template-columns: auto;
+    grid-template-rows: var(--grid-size-1, auto) auto;
+}
+
+.big-text:is(.has-image, .has-countdown) .layout {
+    grid-template-areas: "txt" "aside";
+}
+
+.big-text:is(.has-image, .has-countdown):is(.l01, .l03) .layout {
+    grid-template-areas: "aside" "txt";
+}
+
+.big-text:is(.has-image, .has-countdown):is([class^="l1"], [class*="l1"]) .layout {
+    grid-template-columns: var(--grid-size-1, auto) auto;
+    grid-template-rows: auto;
+}
+
+.big-text:is(.has-image, .has-countdown):is(.l10, .l12) .layout {
+    grid-template-areas: "txt aside";
+}
+
+.big-text:is(.has-image, .has-countdown):is(.l11, .l13) .layout {
+    grid-template-areas: "aside txt";
+}
+
+/* Layouts: 3 areas (simple, column)
+ ******************************************************************************/
+.big-text.has-image.has-countdown .layout {
+    /* Some magic to make slider behaviour somewhat intuitive */
+    --_grid-size-1: clamp(20%, calc(0.666 * var(--grid-size-1, 100%)), 60%);
+    --_grid-size-2: clamp(20%, calc(0.666 * var(--grid-size-2, 100%)), calc(80% - var(--_grid-size-1)));
+    grid-template-columns: auto;
+    grid-template-rows: var(--_grid-size-1) var(--_grid-size-2) auto;
+}
+
+.big-text.has-image.has-countdown .layout,
+.big-text.has-image.has-countdown.l20 .layout { grid-template-areas: "txt" "cnt" "img"; }
+.big-text.has-image.has-countdown.l21 .layout { grid-template-areas: "img" "txt" "cnt"; }
+.big-text.has-image.has-countdown.l22 .layout { grid-template-areas: "cnt" "txt" "img"; }
+.big-text.has-image.has-countdown.l23 .layout { grid-template-areas: "img" "cnt" "txt"; }
+.big-text.has-image.has-countdown.l24 .layout { grid-template-areas: "txt" "img" "cnt"; }
+.big-text.has-image.has-countdown.l25 .layout { grid-template-areas: "cnt" "img" "txt"; }
+
+/* Layouts: 3 areas (simple, row)
+ ******************************************************************************/
+.big-text.has-image.has-countdown:is([class^="l3"], [class*="l3"]) .layout {
+    grid-template-columns: var(--_grid-size-1) var(--_grid-size-2) auto;
+    grid-template-rows: auto;
+}
+
+.big-text.has-image.has-countdown .layout,
+.big-text.has-image.has-countdown.l30 .layout { grid-template-areas: "txt cnt img"; }
+.big-text.has-image.has-countdown.l31 .layout { grid-template-areas: "img txt cnt"; }
+.big-text.has-image.has-countdown.l32 .layout { grid-template-areas: "cnt txt img"; }
+.big-text.has-image.has-countdown.l33 .layout { grid-template-areas: "img cnt txt"; }
+.big-text.has-image.has-countdown.l34 .layout { grid-template-areas: "txt img cnt"; }
+.big-text.has-image.has-countdown.l35 .layout { grid-template-areas: "cnt img txt"; }
+
+
+/* Layouts: 3 areas (complex)
+ ******************************************************************************/
+.big-text.has-image.has-countdown:is([class^="l4"], [class*="l4"], [class^="l5"], [class*="l5"], [class^="l6"], [class*="l6"], [class^="l7"], [class*="l7"]) .layout {
+    grid-template-columns: var(--grid-size-1, 100%) auto;
+    grid-template-rows: var(--grid-size-2, 100%) auto;
+}
+
+.big-text.has-image.has-countdown.l40 .layout { grid-template-areas: "txt txt" "cnt img"; }
+.big-text.has-image.has-countdown.l41 .layout { grid-template-areas: "img img" "txt cnt"; }
+.big-text.has-image.has-countdown.l42 .layout { grid-template-areas: "cnt cnt" "txt img"; }
+.big-text.has-image.has-countdown.l43 .layout { grid-template-areas: "img img" "cnt txt"; }
+.big-text.has-image.has-countdown.l44 .layout { grid-template-areas: "txt txt" "img cnt"; }
+.big-text.has-image.has-countdown.l45 .layout { grid-template-areas: "cnt cnt" "img txt"; }
+
+.big-text.has-image.has-countdown.l50 .layout { grid-template-areas: "txt cnt" "txt img"; }
+.big-text.has-image.has-countdown.l51 .layout { grid-template-areas: "img txt" "img cnt"; }
+.big-text.has-image.has-countdown.l52 .layout { grid-template-areas: "cnt txt" "cnt img"; }
+.big-text.has-image.has-countdown.l53 .layout { grid-template-areas: "img cnt" "img txt"; }
+.big-text.has-image.has-countdown.l54 .layout { grid-template-areas: "txt img" "txt cnt"; }
+.big-text.has-image.has-countdown.l55 .layout { grid-template-areas: "cnt img" "cnt txt"; }
+
+.big-text.has-image.has-countdown.l60 .layout { grid-template-areas: "txt cnt" "img img"; }
+.big-text.has-image.has-countdown.l61 .layout { grid-template-areas: "img txt" "cnt cnt"; }
+.big-text.has-image.has-countdown.l62 .layout { grid-template-areas: "cnt txt" "img img"; }
+.big-text.has-image.has-countdown.l63 .layout { grid-template-areas: "img cnt" "txt txt"; }
+.big-text.has-image.has-countdown.l64 .layout { grid-template-areas: "txt img" "cnt cnt"; }
+.big-text.has-image.has-countdown.l65 .layout { grid-template-areas: "cnt img" "txt txt"; }
+
+.big-text.has-image.has-countdown.l70 .layout { grid-template-areas: "txt img" "cnt img"; }
+.big-text.has-image.has-countdown.l71 .layout { grid-template-areas: "img cnt" "txt cnt"; }
+.big-text.has-image.has-countdown.l72 .layout { grid-template-areas: "cnt img" "txt img"; }
+.big-text.has-image.has-countdown.l73 .layout { grid-template-areas: "img txt" "cnt txt"; }
+.big-text.has-image.has-countdown.l74 .layout { grid-template-areas: "txt cnt" "img cnt"; }
+.big-text.has-image.has-countdown.l75 .layout { grid-template-areas: "cnt txt" "img txt"; }
 
 
 /*******************************************************************************
@@ -180,13 +512,12 @@ button,
     background: var(--light-grey);
     cursor: pointer;
     display: inline-block;
-    /*border: 1px solid var(--grey);*/
     border: none;
     border-radius: var(--radius);
-    padding: .25em .75em;
+    padding: var(--component-padding);
     user-select: none;
     box-shadow: var(--shadow-small);
-    transition-duration: 75ms;
+    transition-duration: var(--duration);
     transition-property: transform, background-color, box-shadow;
     font-weight: normal;
 }
@@ -226,7 +557,7 @@ button:active,
 .button:active,
 .toggle-button input:active ~ label,
 .select:active {
-    background: var(--light-grey-focus);
+    background: var(--grey);
 }
 
 button svg.icon,
@@ -302,8 +633,9 @@ button[disabled]:hover,
     transform: none;
 }
 
+
 /*******************************************************************************
- * Basic form elements
+ * Basic form parts
  ******************************************************************************/
 
 .field:not(:last-child) {
@@ -323,7 +655,6 @@ button[disabled]:hover,
     margin-bottom: 0;
 }
 
-
 label,
 .label {
     font-weight: bold;
@@ -340,73 +671,22 @@ select:invalid {
     outline: var(--outline-invalid);
 }
 
-slider-input::part(number),
 input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]) {
     font-size: inherit;
     line-height: inherit;
     box-sizing: border-box;
-    border: 1px solid var(--grey);
+    border: 1px solid var(--dark-grey);
     border-radius: var(--radius);
-    padding: .25em .75em;
+    padding: var(--component-padding);
     display: inline-block;
 }
 
-slider-input::part(number),
 input[type=number] {
-    padding-right: .5em;
+    padding-right: var(--local-gap-small);
 }
 
-slider-input::part(number):focus,
 input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]):focus {
     outline: var(--outline);
-}
-
-.select {
-    padding: 0;
-    position: relative;
-    width: 100%;
-}
-
-.select select {
-    appearance: none;
-    border: none;
-    padding: .25em .75em;
-    background: none;
-    width: 100%;
-    cursor: inherit;
-}
-
-.select select:focus {
-    outline: none;
-}
-
-.select select,
-.dropdown .button {
-    position: relative;
-    padding-right: calc(1.125em + .75em);
-    text-align: left;
-}
-
-.select::after,
-.dropdown .button::after {
-    border: 2px solid transparent;
-    border-radius: 2px;
-    border-right: 0;
-    border-top: 0;
-    content: " ";
-    display: block;
-    height: .625em;
-    margin-top: -.4375em;
-    pointer-events: none;
-    position: absolute;
-    top: 50%;
-    transform: rotate(-45deg);
-    transform-origin: center;
-    width: .625em;
-    
-    border-color: currentColor;
-    right: .75em;
-    z-index: 1;
 }
 
 fieldset {
@@ -434,8 +714,139 @@ fieldset legend {
     font-size: 1.2em;
 }
 
+
 /*******************************************************************************
- * Button groups
+ * Components
+ ******************************************************************************/
+
+
+/* Range input
+ ******************************************************************************/
+input[type=range] {
+    -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+    /* Range input is not focussable, number input can be used instead */
+    outline: none;
+}
+
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: .5em;
+    border-radius: .25em;
+    background: var(--grey);
+    box-shadow: var(--shadow-inset);
+}
+
+input[type=range]::-moz-range-progress {
+    background: var(--primary);
+    width: 100%;
+    height: .5em;
+    border-radius: .25em;
+    box-shadow: var(--shadow-inset);
+}
+
+input[type=range]::-moz-range-thumb {
+    background: var(--grey);
+    box-shadow: var(--shadow-small);
+    border: none;
+    height: 1.5em;
+    width: 1.5em;
+    border-radius: 50%;
+    transition-duration: 75ms;
+    transition-property: transform, box-shadow;
+    cursor: pointer;
+}
+
+input[type=range]::-moz-range-thumb:hover {
+    box-shadow: var(--shadow-medium);
+    transform: scale(1.05);
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: .5em;
+    border-radius: .25em;
+    background: var(--grey);
+    box-shadow: var(--shadow-inset);
+}
+
+/* Webkit doesn't support styling of value indicator */
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: var(--grey);
+    box-shadow: var(--shadow-small);
+    border: none;
+    height: 1.5em;
+    width: 1.5em;
+    margin-top: -.5em;
+    border-radius: 50%;
+    transition-duration: 75ms;
+    transition-property: transform, box-shadow;
+    cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+    box-shadow: var(--shadow-medium);
+    transform: scale(1.05);
+}
+
+
+/*******************************************************************************
+ * Select
+ ******************************************************************************/
+
+.select {
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+
+.select select {
+    appearance: none;
+    border: none;
+    padding: var(--component-padding);
+    background: none;
+    width: 100%;
+    cursor: inherit;
+}
+
+.select select:focus {
+    outline: none;
+}
+
+.select select,
+.dropdown .button {
+    position: relative;
+    padding-right: calc(1.125em + var(--component-padding-h));
+    text-align: left;
+}
+
+.select::after,
+.dropdown .button::after {
+    border: 2px solid transparent;
+    border-radius: 2px;
+    border-right: 0;
+    border-top: 0;
+    content: " ";
+    display: block;
+    height: .625em;
+    margin-top: -.4375em;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: rotate(-45deg);
+    transform-origin: center;
+    width: .625em;
+    
+    border-color: currentColor;
+    right: var(--component-padding-h);
+    z-index: 1;
+}
+
+/* Button groups
  ******************************************************************************/
 
 .button-group {
@@ -504,8 +915,7 @@ fieldset legend {
     border-radius: var(--radius);
 }
 
-/*******************************************************************************
- * Toggle button
+/* Toggle button
  ******************************************************************************/
 
 .toggle-button {
@@ -523,12 +933,11 @@ fieldset legend {
 }
 
 .toggle-button input:checked ~ label {
-    background: var(--light-grey-focus);
+    background: var(--grey);
 }
 
 
-/*******************************************************************************
- * Dropdown
+/* Dropdown
  ******************************************************************************/
 
 .dropdown,
@@ -577,7 +986,7 @@ fieldset legend {
 .dropdown .options button,
 .dropdown .options label {
     display: block;
-    padding: .25em .75em;
+    padding: var(--component-padding);
     white-space: nowrap;
     position: relative;
     font-weight: normal;
@@ -606,7 +1015,7 @@ fieldset legend {
 .dropdown .options :checked:focus + label,
 .dropdown .options button.is-active:hover,
 .dropdown .options button.is-active:focus {
-    background: var(--light-grey-focus);
+    background: var(--grey);
 }
 
 .dropdown.is-active .button {
@@ -619,12 +1028,10 @@ fieldset legend {
 
 .dropdown.is-active .button {
     position: relative;
-    /*background: white;*/
 }
 
 
-/*******************************************************************************
- * Switch
+/* Switch
  * 
  * Based on Cover Style System's implementation of bulma-switch.
  * See https://github.com/Wikiki/bulma-switch
@@ -639,22 +1046,21 @@ fieldset legend {
     --switch-paddle-width: calc(var(--switch-height) - var(--switch-paddle-offset) * 2);
     --switch-paddle-active-offset: calc(var(--switch-width) - var(--switch-paddle-width) - var(--switch-paddle-offset));
 
-
     --switch-checked-color: var(--primary);
-    --switch-unchecked-color: var(--light-grey-focus);
-    --switch-base-color: #ffffff;
+    --switch-unchecked-color: var(--grey);
+    --switch-base-color: var(--white);
 }
 
-.switch.is-small { --switch-size: .75em; }
+.switch.is-small  { --switch-size: .75em; }
 .switch.is-medium { --switch-size: 1.25em; }
-.switch.is-large { --switch-size: 1.5em; }
+.switch.is-large  { --switch-size: 1.5em; }
 
 .switch label {
     position: relative;
     display: inline-block;
     font-size: var(--switch-size);
     line-height: initial;
-    padding-left: calc(var(--switch-width) * 1.2); /* TODO: + spacing */
+    padding-left: calc(var(--switch-width) + var(--local-gap-small));
     padding-top: 0.2em;
     margin-bottom: 0;
     cursor: pointer;
@@ -684,33 +1090,31 @@ fieldset legend {
     left: 0;
     width: var(--switch-width);
     height: var(--switch-height);
-    /*border: 0.1rem solid transparent;*/
     border-radius: calc(var(--switch-height) / 2);
     background: var(--switch-unchecked-color);
     content: '';
 
 
-    transition-duration: 75ms;
+    transition-duration: var(--duration);
     transition-property: background;
     box-shadow: var(--shadow-inset);
 }
 
 .switch input ~ label::after {
+    background: var(--switch-base-color);
+    border-radius: 50%;
+    box-shadow: var(--shadow-small);
+    content: '';
     display: block;
+    height: var(--switch-paddle-height);
+    left: var(--switch-paddle-offset);
     position: absolute;
     top: calc(50% - var(--switch-paddle-height) * .5);
-    left: var(--switch-paddle-offset);
-    width: var(--switch-paddle-width);
-    height: var(--switch-paddle-height);
     transform: translate3d(0, 0, 0);
-    border-radius: 50%;
-    background: var(--switch-base-color);
-    transition: all 0.25s ease-out;
-    content: '';
-
-    transition-duration: 75ms;
+    transition-duration: var(--duration);
     transition-property: transform, box-shadow, left, right;
-    box-shadow: var(--shadow-small);
+    transition: all 0.25s ease-out;
+    width: var(--switch-paddle-width);
 }
 
 .switch:hover input ~ label::after {
@@ -730,7 +1134,7 @@ fieldset legend {
 
 .switch.is-right label {
     padding-left: 0;
-    padding-right: calc(var(--switch-width) * 1.2); /* TODO: + spacing */
+    padding-right: calc(var(--switch-width) + var(--local-gap-small));
 }
 
 .switch.is-right input ~ label::before {
@@ -749,8 +1153,7 @@ fieldset legend {
 }
 
 
-/*******************************************************************************
- * Dialog
+/* Dialog
  ******************************************************************************/
 
 @keyframes animateZoom {
@@ -774,28 +1177,85 @@ dialog {
 }
 
 dialog[open] {
-    animation: animateZoom 75ms linear forwards;
+    animation: animateZoom var(--duration);
 }
 
 dialog form {
     text-align: right;
 }
 
+
 /*******************************************************************************
  * Specific components
  ******************************************************************************/
 
+/* Slider input
+ ******************************************************************************/
+.slider-input {
+    display: flex;
+    gap: var(--local-gap-small);
+}
 
-/*******************************************************************************
- * Font picker
+.slider-input input[type=number] {
+    flex: 0 0 10ch;
+    width: 100%;
+}
+
+.slider-input input[type=range] {
+    flex: 0 1 100%;
+    width: 100%;
+}
+
+/* Colour input
+ ******************************************************************************/
+.color-input {
+    display: flex;
+    gap: var(--local-gap-small);
+    flex-flow: row wrap;
+}
+
+.color-input input[type=color] {
+    outline: 0;
+    user-select: none;
+    display: inline-block;
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+.color-input input[type=color]:focus + .button {
+    outline: var(--outline);
+}
+
+.color-input button,
+.color-input .button {
+    height: 2em;
+    width: 2em;
+}
+
+.color-input .color-button svg.icon {
+    display: none;
+}
+
+.color-input .color-button.is-active svg.icon {
+    display: inline-block;
+}
+
+.color-input button:not(:last-child) {
+    margin-right: 0;
+}
+
+
+/* Font picker
  ******************************************************************************/
 
 font-select:invalid::part(trigger):not(:focus) {
     outline: var(--outline-invalid);
 }
 
-/*font-select::part(trigger),*/
-.font-picker .button {
+/* Redo everything in rems... */
+.font-select .button {
     width: 8rem;
     overflow: hidden;
     white-space: nowrap;
@@ -807,41 +1267,21 @@ font-select:invalid::part(trigger):not(:focus) {
     line-height: 1.5rem;
 }
 
-.font-picker .button::after {
+.font-select .button::after {
     height: .625rem;
     margin-top: -.4375rem;
     width: .625rem;
     right: .75rem;
 }
 
-/*font-select::part(options) button,*/
-.font-picker .options button,
-.font-picker .options label {
+.font-select .options button,
+.font-select .options label {
     padding: .25rem .75rem;
     line-height: 1.5rem;
 }
 
-.font-picker [value=serif] + label,
-.font-picker [data-toggle$=serif] { font-family: var(--font-serif); }
-.font-picker [value=sans-serif] + label,
-.font-picker [data-toggle$=sans-serif] { font-family: var(--font-sans-serif); }
-.font-picker [value=cursive] + label,
-.font-picker [data-toggle$=cursive] { font-family: var(--font-cursive); }
-.font-picker [value=monospace] + label,
-.font-picker [data-toggle$=monospace] { font-family: var(--font-monospace); }
-.font-picker [value=fira-sans] + label,
-.font-picker [data-toggle$=fira-sans] { font-family: var(--font-fira-sans);}
-.font-picker [value=impact] + label,
-.font-picker [data-toggle$=impact] { font-family: var(--font-impact); }
-.font-picker [value=arial-black] + label,
-.font-picker [data-toggle$=arial-black] { font-family: var(--font-arial-black); }
-.font-picker [value=verdana] + label,
-.font-picker [data-toggle$=verdana] { font-family: var(--font-verdana); }
 
-
-
-/*******************************************************************************
- * Layout picker
+/* Layout picker
  ******************************************************************************/
 
 .layout-picker {
@@ -867,7 +1307,7 @@ font-select:invalid::part(trigger):not(:focus) {
 }
 
 .layout-picker .dropdown .button[data-checked] {
-    background: var(--light-grey-focus);
+    background: var(--grey);
 }
 
 .layout-picker .dropdown .button::after {
@@ -975,15 +1415,8 @@ font-select:invalid::part(trigger):not(:focus) {
 
 
 /*******************************************************************************
- * Layout
+ * Controls
  ******************************************************************************/
-
-main {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-}
 
 .controls-trigger,
 .controls-trigger:hover,
@@ -1008,7 +1441,7 @@ main {
 .controls {
     flex: 0 0 0%;
     overflow: hidden;
-    transition: flex-basis 250ms ease-out, box-shadow 0ms 250ms;
+    transition: flex-basis var(--duration-long) ease-out, box-shadow 0ms var(--duration-long);
     position: relative;
     z-index: 1;
 }
@@ -1016,7 +1449,7 @@ main {
 .controls.is-active {
     flex-basis: var(--controls-width);
     box-shadow: var(--shadow-large);
-    transition: flex-basis 250ms ease-out, box-shadow 0ms;
+    transition: flex-basis var(--duration-long) ease-out, box-shadow 0ms;
 }
 
 .controls form {
@@ -1035,14 +1468,14 @@ main {
 
 .controls form.modal {
     right: 100%;
-    transition: right 250ms ease-out, box-shadow 0ms 250ms;
+    transition: right var(--duration-long) ease-out, box-shadow 0ms var(--duration-long);
 }
 
 
 .controls form.modal.is-active {
     right: 0%;
     box-shadow: var(--shadow-large);
-    transition: right 250ms ease-out, box-shadow 0ms;
+    transition: right var(--duration-long) ease-out, box-shadow 0ms;
 }
 
 .controls form header {
@@ -1066,12 +1499,12 @@ main {
     box-shadow: none;
     border-radius: 0;
     margin-right: 0;
-    padding-left: calc(.75em + var(--gap-small));
+    padding-left: calc(var(--component-padding-h) + var(--gap-small));
 }
 
 .controls form header button:last-child {
 
-    padding-right: calc(.75em + var(--gap-small));
+    padding-right: calc(var(--component-padding-h) + var(--gap-small));
     padding-left: 0;
 }
 
@@ -1096,322 +1529,4 @@ main {
 
 .controls form header :is(h1, h2, h3, h4, h5, h6) {
     flex-grow: 1;
-}
-
-/*******************************************************************************
- * Big Text
- ******************************************************************************/
-
-.big-text {
-    flex: 1 1 100%;
-}
-
-.big-text {
-    --content-h-scale: 1;
-    --content-v-scale: 1;
-    --padding-narrow: 5vmin;
-    --padding-regular: 10vmin;
-    --padding-wide: 15vmin;
-
-    --placement-start: -999;
-    --placement-end: 999;
-
-    --has-image: var(--OFF);
-    --_image-size: var(--has-image, var(--image-size, 50%));
-
-    position: relative;
-    /*display: flex;*/
-    /*flex-direction: var(--layout, column);*/
-    /*align-items: stretch;*/
-    /*justify-content: var(--has-image, var(--justify, center));*/
-    overflow: hidden;
-
-    height: 100%;
-    width: 100%;
-}
-
-.big-text:not(.has-image):not(.has-background-image) .image-wrapper {
-    display: none;
-}
-
-.big-text .image-wrapper {
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: var(--_image-size);
-    position: relative;
-    order: var(--image-placement, var(--placement-start));
-}
-
-.big-text .image-wrapper figure {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-}
-
-.big-text .image-wrapper figure img {
-    display: block;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-}
-
-.big-text:not(.has-countdown) .countdown-wrapper {
-    display: none;
-}
-
-.big-text .countdown-wrapper,
-.big-text .text-wrapper {
-    --_background-color: var(--background-color, #fff9);
-    --_background-gradient-color: var(--background-gradient-color, #ccc9);
-    --background-gradient-linear: linear-gradient(var(--background-gradient-direction, 0deg), var(--_background-color) 0%, var(--_background-gradient-color) 100%);
-    --background-gradient-radial: radial-gradient(circle, var(--_background-gradient-color) 0%, var(--_background-color) 100%);
-    --background-gradient: var(--background-gradient-linear);
-    --background: var(--_background-color);
-    --background: var(--background-gradient);
-
-    --shadow-regular: var(--shadow-x, 0) var(--shadow-y, 0) var(--shadow-blur, 0) var(--shadow-color, currentColor);
-    --shadow-ugly: calc(var(--shadow-x, 0) * .333) calc(var(--shadow-y, 0) * .333) calc(var(--shadow-blur, 0) * .333) #ffffff,
-                   calc(var(--shadow-x, 0) * .666) calc(var(--shadow-y, 0) * .666) calc(var(--shadow-blur, 0) * .666) #000000,
-                   var(--shadow-x, 0) var(--shadow-y, 0) var(--shadow-blur, 0) var(--shadow-color, red);
-    --shadow-fire: 0 -.01em .04em #ffffff,
-                   0 -.02em .1em #ffff00,
-                   0 -.1em .2em #ff8000,
-                   0 -.18em .4em #ff0000;
-    --shadow-glow: 0 0 calc(var(--shadow-blur, 0) * .07) #ffffff,
-                   0 0 calc(var(--shadow-blur, 0) * .13) #ffffff,
-                   0 0 calc(var(--shadow-blur, 0) * .2) #ffffff,
-                   0 0 calc(var(--shadow-blur, 0) * .27) var(--shadow-color, lime),
-                   0 0 calc(var(--shadow-blur, 0) * .4) var(--shadow-color, lime),
-                   0 0 calc(var(--shadow-blur, 0) * .53) var(--shadow-color, lime),
-                   0 0 calc(var(--shadow-blur, 0) * .73) var(--shadow-color, lime),
-                   0 0 var(--shadow-blur, 0) var(--shadow-color, lime);
-    --shadow-offset: calc(var(--shadow-x, 0) / 2) calc(var(--shadow-y, 0) / 2) 0 var(--background-color, #ffffff),
-                     var(--shadow-x, 0) var(--shadow-y, 0) var(--shadow-blur, 0) var(--shadow-color, currentColor);
-
-    --has-shadow: var(--OFF);
-    --shadow: var(--shadow-regular);
-
-    --has-stroke: var(--OFF);
-    --stroke: var(--stroke-width, .01em) var(--stroke-color, #000000);
-    position: relative;
-
-    background: var(--background);
-
-    color: var(--foreground-color, black);
-
-    font-family: var(--font-family, sans-serif);
-    font-weight: var(--font-weight, normal);
-    font-style: var(--font-style, normal);
-    font-size: max(var(--font-size, 100vh), 1vh);
-
-    text-align: var(--text-align, center);
-    text-shadow: var(--has-shadow, var(--shadow));
-
-    -webkit-text-stroke: var(--has-stroke, var(--stroke));
-    
-}
-
-.big-text .countdown-wrapper .countdown,
-.big-text .text-wrapper .text {
-    --_scale: min(var(--content-h-scale), var(--content-v-scale));
-    --_h-padding: calc(var(--padding, var(--padding-regular)) * var(--_scale));
-    --_v-padding: calc(0.75 * var(--padding, var(--padding-regular)) * var(--_scale));
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    padding-top: var(--_v-padding);
-    padding-right: min(var(--_h-padding), 40%);
-    padding-bottom: var(--_v-padding);
-    padding-left: min(var(--_h-padding), 40%);
-}
-
-.big-text .countdown-wrapper .countdown p,
-.big-text .text-wrapper .text p {
-    width: 100%;
-}
-
-.big-text .countdown {
-    font-variant-numeric: tabular-nums;
-    order: var(--countdown-placement, var(--placement-start));
-}
-
-.big-text .is-resizing {
-    visibility: hidden;
-}
-
-.big-text .is-resizing .countdown,
-.big-text .is-resizing .text {
-    display: block;
-    bottom:  auto;
-    /*right:  auto;*/
-}
-
-/* Add an extra character to coundown when resizing, to compensate for narrow numbers */
-.big-text .is-resizing .countdown-wrapper .countdown > ::after,
-.big-text .is-resizing.countdown-wrapper .countdown > ::after {
-    display: inline;
-    content: '.';
-    visibility: hidden;
-}
-
-
-/*******************************************************************************
- * Grid
- ******************************************************************************/
-
-/* Setup  */
-.countdown-wrapper {
-    grid-area: cnt;
-}
-
-.image-wrapper {
-    grid-area: img;
-}
-
-.text-wrapper {
-    grid-area: txt;
-}
-
-.big-text.has-countdown:not(.has-image) .countdown-wrapper,
-.big-text.has-image:not(.has-countdown) .image-wrapper {
-    grid-area: aside;
-}
-
-.big-text .layout {
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
-    grid-template-areas: "txt";
-    height: 100%;
-    width: 100%;
-}
-
-/* Layouts: 2 areas  */
-.big-text:is(.has-image, .has-countdown) .layout {
-    grid-template-columns: auto;
-    grid-template-rows: var(--grid-size-1, auto) auto;
-}
-
-.big-text:is(.has-image, .has-countdown) .layout {
-    grid-template-areas: "txt" "aside";
-}
-
-.big-text:is(.has-image, .has-countdown):is(.l01, .l03) .layout {
-    grid-template-areas: "aside" "txt";
-}
-
-.big-text:is(.has-image, .has-countdown):is([class^="l1"], [class*="l1"]) .layout {
-    grid-template-columns: var(--grid-size-1, auto) auto;
-    grid-template-rows: auto;
-}
-
-.big-text:is(.has-image, .has-countdown):is(.l10, .l12) .layout {
-    grid-template-areas: "txt aside";
-}
-
-.big-text:is(.has-image, .has-countdown):is(.l11, .l13) .layout {
-    grid-template-areas: "aside txt";
-}
-
-/* Layouts: 3 areas (simple, column) */
-.big-text.has-image.has-countdown .layout {
-    --_grid-size-1: clamp(20%, calc(0.666 * var(--grid-size-1)), 60%);
-    --_grid-size-2: clamp(20%, calc(0.666 * var(--grid-size-2)), calc(80% - var(--_grid-size-1)));
-    grid-template-columns: auto;
-    grid-template-rows: var(--_grid-size-1) var(--_grid-size-2) auto;
-}
-
-.big-text.has-image.has-countdown .layout,
-.big-text.has-image.has-countdown.l20 .layout { grid-template-areas: "txt" "cnt" "img"; }
-.big-text.has-image.has-countdown.l21 .layout { grid-template-areas: "img" "txt" "cnt"; }
-.big-text.has-image.has-countdown.l22 .layout { grid-template-areas: "cnt" "txt" "img"; }
-.big-text.has-image.has-countdown.l23 .layout { grid-template-areas: "img" "cnt" "txt"; }
-.big-text.has-image.has-countdown.l24 .layout { grid-template-areas: "txt" "img" "cnt"; }
-.big-text.has-image.has-countdown.l25 .layout { grid-template-areas: "cnt" "img" "txt"; }
-
-/* Layouts: 3 areas (simple, row) */
-.big-text.has-image.has-countdown:is([class^="l3"], [class*="l3"]) .layout {
-    grid-template-columns: var(--_grid-size-1) var(--_grid-size-2) auto;
-    grid-template-rows: auto;
-}
-
-.big-text.has-image.has-countdown .layout,
-.big-text.has-image.has-countdown.l30 .layout { grid-template-areas: "txt cnt img"; }
-.big-text.has-image.has-countdown.l31 .layout { grid-template-areas: "img txt cnt"; }
-.big-text.has-image.has-countdown.l32 .layout { grid-template-areas: "cnt txt img"; }
-.big-text.has-image.has-countdown.l33 .layout { grid-template-areas: "img cnt txt"; }
-.big-text.has-image.has-countdown.l34 .layout { grid-template-areas: "txt img cnt"; }
-.big-text.has-image.has-countdown.l35 .layout { grid-template-areas: "cnt img txt"; }
-
-
-/* Layouts: 3 areas (complex) */
-.big-text.has-image.has-countdown:is([class^="l4"], [class*="l4"], [class^="l5"], [class*="l5"], [class^="l6"], [class*="l6"], [class^="l7"], [class*="l7"]) .layout {
-    grid-template-columns: var(--grid-size-1) auto;
-    grid-template-rows: var(--grid-size-2) auto;
-}
-
-.big-text.has-image.has-countdown.l40 .layout { grid-template-areas: "txt txt" "cnt img"; }
-.big-text.has-image.has-countdown.l41 .layout { grid-template-areas: "img img" "txt cnt"; }
-.big-text.has-image.has-countdown.l42 .layout { grid-template-areas: "cnt cnt" "txt img"; }
-.big-text.has-image.has-countdown.l43 .layout { grid-template-areas: "img img" "cnt txt"; }
-.big-text.has-image.has-countdown.l44 .layout { grid-template-areas: "txt txt" "img cnt"; }
-.big-text.has-image.has-countdown.l45 .layout { grid-template-areas: "cnt cnt" "img txt"; }
-
-.big-text.has-image.has-countdown.l50 .layout { grid-template-areas: "txt cnt" "txt img"; }
-.big-text.has-image.has-countdown.l51 .layout { grid-template-areas: "img txt" "img cnt"; }
-.big-text.has-image.has-countdown.l52 .layout { grid-template-areas: "cnt txt" "cnt img"; }
-.big-text.has-image.has-countdown.l53 .layout { grid-template-areas: "img cnt" "img txt"; }
-.big-text.has-image.has-countdown.l54 .layout { grid-template-areas: "txt img" "txt cnt"; }
-.big-text.has-image.has-countdown.l55 .layout { grid-template-areas: "cnt img" "cnt txt"; }
-
-.big-text.has-image.has-countdown.l60 .layout { grid-template-areas: "txt cnt" "img img"; }
-.big-text.has-image.has-countdown.l61 .layout { grid-template-areas: "img txt" "cnt cnt"; }
-.big-text.has-image.has-countdown.l62 .layout { grid-template-areas: "cnt txt" "img img"; }
-.big-text.has-image.has-countdown.l63 .layout { grid-template-areas: "img cnt" "txt txt"; }
-.big-text.has-image.has-countdown.l64 .layout { grid-template-areas: "txt img" "cnt cnt"; }
-.big-text.has-image.has-countdown.l65 .layout { grid-template-areas: "cnt img" "txt txt"; }
-
-.big-text.has-image.has-countdown.l70 .layout { grid-template-areas: "txt img" "cnt img"; }
-.big-text.has-image.has-countdown.l71 .layout { grid-template-areas: "img cnt" "txt cnt"; }
-.big-text.has-image.has-countdown.l72 .layout { grid-template-areas: "cnt img" "txt img"; }
-.big-text.has-image.has-countdown.l73 .layout { grid-template-areas: "img txt" "cnt txt"; }
-.big-text.has-image.has-countdown.l74 .layout { grid-template-areas: "txt cnt" "img cnt"; }
-.big-text.has-image.has-countdown.l75 .layout { grid-template-areas: "cnt txt" "img txt"; }
-
-
-/* Background image */
-.big-text.has-background-image {
-    display: flex;
-    justify-content: var(--content-h-placement, center);
-    align-items: var(--content-v-placement, center);
-}
-
-.big-text.has-background-image .layout {
-    max-height: calc(var(--content-h-scale) * 100%);
-    max-width: calc(var(--content-v-scale) * 100%);
-}
-
-.big-text.has-background-image .image-wrapper {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-}
-
-.big-text.has-background-image .image-wrapper figure {
-    height: 100%;
-    width: 100%;
 }
