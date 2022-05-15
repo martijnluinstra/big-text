@@ -1,3 +1,19 @@
+class Dropdown {
+    static parse(context) {
+        for (let el of context.querySelectorAll('.dropdown'))
+            new Dropdown(el);
+    }
+
+    constructor(element) {
+        const trigger = element.querySelector('.button');
+        trigger.addEventListener('click', evt => element.classList.toggle('is-active'));
+        document.addEventListener('click', evt => {
+            if (!trigger.contains(evt.target))
+                element.classList.remove('is-active');
+        });
+    }
+}
+
 class SliderInputElement extends HTMLElement {
     static formAssociated = true;
     static observedAttributes = ['disabled', 'placeholder', 'min', 'max', 'step', 'value'];
@@ -53,7 +69,7 @@ customElements.define('slider-input', SliderInputElement);
 
 class ColorInputElement extends HTMLElement {
     static formAssociated = true;
-    static observedAttributes = ['disabled', 'placeholder', 'value', 'list', 'title'];
+    static observedAttributes = ['disabled', 'placeholder', 'value', 'list'];
 
     #optionsList;
     #optionsButtons = {};
@@ -171,23 +187,105 @@ class ColorInputElement extends HTMLElement {
 
 customElements.define('color-input', ColorInputElement);
 
+class FontSelectElement extends HTMLElement {
+    static formAssociated = true;
+    static observedAttributes = ['disabled', 'placeholder', 'value', 'list'];
 
+    #optionsList;
+    #optionsButtons = {};
+    #value;
 
-class Dropdown {
-    static parse(context) {
-        for (let el of context.querySelectorAll('.dropdown'))
-            new Dropdown(el);
-    }
+    constructor() {
+        super();
+        this.internals_ = this.attachInternals();
 
-    constructor(element) {
-        const trigger = element.querySelector('.button');
-        trigger.addEventListener('click', () => element.classList.toggle('active'));
-        document.addEventListener('click', evt => {
-            if (!trigger.contains(evt.target))
-                element.classList.remove('active');
+        this.attachShadow({mode: 'open', delegatesFocus: true});
+        this.shadowRoot.innerHTML = `
+            <link href="/css/big-text.css" rel="stylesheet">
+            <div class="dropdown font-picker">
+                <button type="button" class="button" part="trigger">Font</button>
+                <ul class="options" part="options"></ul>
+            </div>
+        `;
+        this.dropdownElement_ = this.shadowRoot.querySelector('.dropdown');
+        this.triggerElement_ = this.shadowRoot.querySelector('.button');
+        this.optionsElement_ = this.shadowRoot.querySelector('.options');
+        this.triggerElement_.addEventListener('click', (evt) => {
+            evt.stopPropagation();
+            this.dropdownElement_.classList.toggle('is-active');
         });
+        document.addEventListener('click', () => {
+            this.dropdownElement_.classList.remove('is-active');
+        });
+        this.setAttribute('tabindex', 0);
+        this.renderOptions();
     }
+
+    renderOptions() {
+        if (!this.#optionsList)
+            return;
+
+        for (const key in this.#optionsButtons)
+            this.#optionsButtons[key].remove();
+
+        this.#optionsButtons = {};
+        for (const option of this.#optionsList) {
+            let el = document.createElement('button');
+            el.innerText = option.innerText;
+            el.type = 'button';
+            el.style.fontFamily = `var(--font-${option.value})`;
+            el.addEventListener('click', () => {
+                this.value = option.value;
+                this.dispatchEvent(new Event('input', {bubbles:true, cancelable: true}));
+            });
+            let wrapper = document.createElement('li');
+            wrapper.append(el);
+            this.optionsElement_.append(wrapper);
+            this.#optionsButtons[option.value] = el;
+        }
+    }
+
+    set disabled(v) { this.attributeChangedCallback('disabled', undefined, v); }
+    get form() { return this.internals_.form; }
+    get name() { return this.getAttribute('name'); }
+    get type() { return this.localName; }
+    get value() { return this.#value; }
+    set value(v) {
+        this.#value = v;
+
+        for (const key in this.#optionsButtons)
+            this.#optionsButtons[key].classList.remove('is-active');
+
+        if (v in this.#optionsButtons) {
+            this.#optionsButtons[v].classList.add('is-active');
+            this.triggerElement_.innerText = this.#optionsButtons[v].innerText;
+            this.triggerElement_.style.fontFamily = `var(--font-${v})`;
+            this.internals_.setValidity({});
+        } else {
+            this.triggerElement_.innerText = this.#optionsButtons[v].innerText;
+            this.triggerElement_.style.font = 'inherit';
+            this.internals_.setValidity({'badInput': true}, 'Unknown font option');
+        }
+        this.internals_.setFormValue(v);
+    }
+    get validity() { return this.internals_.validity; }
+    get validationMessage() { return this.internals_.validationMessage; }
+    get willValidate() { return this.internals_.willValidate; }
+    checkValidity() { return this.internals_.checkValidity(); }
+    reportValidity() { return this.internals_.reportValidity(); }
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'list') {
+            this.#optionsList = document.getElementById(newValue)?.options;
+            this.renderOptions();
+        }
+    }
+    formAssociatedCallback(nullableForm) { /* TODO: Do something */ }
+    formStateRestoreCallback(state, mode) { this.value = state; }
+    formResetCallback() { this.value = this.getAttribute('value') || ''; }
+    formDisabledCallback(disabled) { this.disabled = disabled; }
 }
+
+customElements.define('font-select', FontSelectElement);
 
 function isLight(hex, ) {
     // Based on https://stackoverflow.com/a/3943023/112731

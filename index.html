@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="css/big-text.css">
 </head>
 <body>
+<datalist id="font-options">
+    <option value="serif">Serif</option>
+    <option value="sans-serif">Sans Serif</option>
+    <option value="cursive">Cursive</option>
+    <option value="monospace">Monospace</option>
+    <option value="fira-sans">Fira Sans</option>
+    <option value="impact">Impact</option>
+    <option value="arial-black">Arial Black</option>
+    <option value="verdana">Verdana</option>
+</datalist>
 <datalist id="color-options">
     <option value="#fa5358">Red</option>
     <option value="#ff9c7e">Orange</option>
@@ -582,53 +592,7 @@
                 </header>
                 <div class="field">
                     <fieldset class="button-group" aria-label="Font">
-                        <fieldset class="font-picker dropdown" aria-label="Font family">
-                            <button type="button" class="button">
-                                <span data-toggle="!font-family">Font</span>
-                                <span data-toggle="font-family=serif">Serif</span>
-                                <span data-toggle="font-family=sans-serif">Sans Serif</span>
-                                <span data-toggle="font-family=cursive">Cursive</span>
-                                <span data-toggle="font-family=monospace">Monospace</span>
-                                <span data-toggle="font-family=fira-sans">Fira Sans</span>
-                                <span data-toggle="font-family=impact">Impact</span>
-                                <span data-toggle="font-family=arial-black">Arial Black</span>
-                                <span data-toggle="font-family=verdana">Verdana</span>
-                            </button>
-                            <ul class="options">
-                                <li>
-                                    <input type="radio" name="font-family" value="serif" id="font-family-serif">
-                                    <label for="font-family-serif">Serif</label>
-                                </li>
-                                <li>
-                                    <input type="radio" name="font-family" value="sans-serif" id="font-family-sans-serif">
-                                    <label for="font-family-sans-serif">Sans Serif</label>
-                                </li>
-                                <li>
-                                    <input type="radio" name="font-family" value="cursive" id="font-family-cursive">
-                                    <label for="font-family-cursive">Cursive</label>
-                                </li>
-                                <li>
-                                    <input type="radio" name="font-family" value="monospace" id="font-family-monospace">
-                                    <label for="font-family-monospace">Monospace</label>
-                                </li>
-                                <li>
-                                    <input type="radio" name="font-family" value="fira-sans" id="font-family-fira-sans">
-                                    <label for="font-family-fira-sans">Fira Sans</label>
-                                </li>
-                                <li>
-                                    <input type="radio" name="font-family" value="impact" id="font-family-impact">
-                                    <label for="font-family-impact">Impact</label>
-                                </li>
-                                <li>
-                                    <input type="radio" name="font-family" value="arial-black" id="font-family-arial-black">
-                                    <label for="font-family-arial-black">Arial Black</label>
-                                </li>
-                                <li>
-                                    <input type="radio" name="font-family" value="verdana" id="font-family-verdana">
-                                    <label for="font-family-verdana">Verdana</label>
-                                </li>
-                            </ul>
-                        </fieldset>
+                        <font-select list="font-options" name="font-family" aria-label="Font family"></font-select>
                         <p class="toggle-button">
                             <input type="checkbox" id="font-weight-bold-input" name="font-weight-bold" aria-label="Bold">
                             <label for="font-weight-bold-input" title="Bold" aria-hidden="true">

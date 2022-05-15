@@ -23,6 +23,7 @@
     --primary-invert: var(--white);
     --success: #00c19d;
     --success-invert: var(--white);
+    --danger: #fa5358;
 
     --link-color: #4C56CE;
 
@@ -48,6 +49,7 @@
                     16px 32px 32px var(--shadow-large-color);
 
     --outline: 3px solid hsl(var(--primary-hsl-val) / .75);
+    --outline-invalid: 3px solid var(--danger);
 
     --font-serif: serif;
     --font-sans-serif: sans-serif;
@@ -333,6 +335,11 @@ input {
     width: 100%;
 }
 
+input:invalid,
+select:invalid {
+    outline: var(--outline-invalid);
+}
+
 slider-input::part(number),
 input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]) {
     font-size: inherit;
@@ -352,12 +359,6 @@ input[type=number] {
 slider-input::part(number):focus,
 input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]):focus {
     outline: var(--outline);
-}
-
-input:invalid,
-select:invalid {
-    border: 1px solid red;
-    outline: none;
 }
 
 .select {
@@ -460,30 +461,17 @@ fieldset legend {
 .button-group > button,
 .button-group > .button,
 .button-group > .dropdown .button,
-.button-group > .toggle-button label {
+.button-group > .toggle-button label,
+.button-group > font-select::part(trigger) {
     box-shadow: none;
-}
-
-.button-group > button:hover,
-.button-group > .button:hover,
-.button-group > .dropdown .button:hover,
-.button-group > .toggle-button:hover label {
-    box-shadow: var(--shadow-medium);
-    border-radius: var(--radius) !important;
-}
-
-.button-group > button:focus,
-.button-group > .button:focus,
-.button-group > .dropdown .button:focus,
-.button-group > .toggle-button:focus label,
-.button-group > .toggle-button:focus-within label {
-    border-radius: var(--radius) !important;
+    vertical-align: top;
 }
 
 .button-group > button:not(:first-child),
 .button-group > .button:not(:first-child),
 .button-group > .dropdown:not(:first-child) .button,
-.button-group > .toggle-button:not(:first-child) label {
+.button-group > .toggle-button:not(:first-child) label,
+.button-group > font-select:not(:first-child)::part(trigger) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
@@ -491,9 +479,29 @@ fieldset legend {
 .button-group > button:not(:last-child),
 .button-group > .button:not(:last-child),
 .button-group > .dropdown:not(:last-child) .button,
-.button-group > .toggle-button:not(:last-child) label {
+.button-group > .toggle-button:not(:last-child) label,
+.button-group > font-select:not(:last-child)::part(trigger) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+}
+
+.button-group > button:hover,
+.button-group > .button:hover,
+.button-group > .dropdown .button:hover,
+.button-group > .toggle-button:hover label,
+.button-group > font-select:hover::part(trigger) {
+    box-shadow: var(--shadow-medium);
+    border-radius: var(--radius);
+}
+
+.button-group > button:focus,
+.button-group > .button:focus,
+.button-group > .dropdown .button:focus,
+.button-group > .toggle-button:focus label,
+.button-group > .toggle-button:focus-within label,
+.button-group > font-select::part(trigger):focus,
+.button-group > font-select:invalid::part(trigger) {
+    border-radius: var(--radius);
 }
 
 /*******************************************************************************
@@ -566,36 +574,50 @@ fieldset legend {
     width: 0;
 }
 
+.dropdown .options button,
 .dropdown .options label {
     display: block;
     padding: .25em .75em;
     white-space: nowrap;
     position: relative;
     font-weight: normal;
+    width: 100%;
+    text-align: left;
+    box-shadow: none;
+    background: none;
+    transform: none;
+    outline: none;
+    border-radius: 0;
 }
 
-.dropdown .options label:hover {
+.dropdown .options label:hover,
+.dropdown .options label:focus,
+.dropdown .options button:hover,
+.dropdown .options button:focus {
     background: var(--light-grey);
 }
 
-.dropdown .options :checked + label {
+.dropdown .options :checked + label,
+.dropdown .options button.is-active {
     background: var(--light-grey);
 }
 
 .dropdown .options :checked + label:hover,
-.dropdown .options :checked:focus + label {
+.dropdown .options :checked:focus + label,
+.dropdown .options button.is-active:hover,
+.dropdown .options button.is-active:focus {
     background: var(--light-grey-focus);
 }
 
-.dropdown.active {
+.dropdown.is-active .button {
     box-shadow: var(--shadow-medium);
 }
 
-.dropdown.active .options {
+.dropdown.is-active .options {
     display: flex;
 }
 
-.dropdown.active .button {
+.dropdown.is-active .button {
     position: relative;
     /*background: white;*/
 }
@@ -768,15 +790,35 @@ dialog form {
  * Font picker
  ******************************************************************************/
 
+font-select:invalid::part(trigger):not(:focus) {
+    outline: var(--outline-invalid);
+}
+
+/*font-select::part(trigger),*/
 .font-picker .button {
-    width: 15ex;
+    width: 8rem;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    padding-top: .25rem;
+    padding-right: calc(1.125rem + .75rem);
+    padding-bottom: .25rem;
+    padding-left: .75rem;
+    line-height: 1.5rem;
 }
 
+.font-picker .button::after {
+    height: .625rem;
+    margin-top: -.4375rem;
+    width: .625rem;
+    right: .75rem;
+}
+
+/*font-select::part(options) button,*/
+.font-picker .options button,
 .font-picker .options label {
     padding: .25rem .75rem;
+    line-height: 1.5rem;
 }
 
 .font-picker [value=serif] + label,
@@ -851,7 +893,7 @@ dialog form {
     width: auto;
 }
 
-.dropdown.active .options {
+.dropdown.is-active .options {
     display: grid;
 }
 
