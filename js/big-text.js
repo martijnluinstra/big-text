@@ -829,7 +829,8 @@ class BigText {
         this.controls = new BigTextControls(this, context);
 
         this.isInitialized = true;
-        this.handleResize();
+        // Wait until fonts are ready
+        document.fonts.ready.then(() => this.handleResize());
     }
 
     parseSpec(spec, defaults) {
