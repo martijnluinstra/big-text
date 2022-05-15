@@ -676,6 +676,7 @@ button[disabled]:hover,
     margin-bottom: var(--gap);
 }
 
+form .help,
 .field .help {
     display: block;
     font-size: 80%;

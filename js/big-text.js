@@ -2,6 +2,18 @@
  * Helper functions
  ******************************************************************************/
 
+
+function debounce (callback, wait) {
+    // https://www.joshwcomeau.com/snippets/javascript/debounce/
+    let timeoutId = null;
+    return (...args) => {
+        window.clearTimeout(timeoutId);
+        timeoutId = window.setTimeout(() => {
+            callback.apply(null, args);
+        }, wait);
+    };
+}
+
 function isLight(hex) {
     // Based on https://stackoverflow.com/a/3943023/112731
     const r = parseInt(hex.slice(1, 3), 16) / 255,
@@ -768,9 +780,8 @@ class BigTextControls extends BigTextControlForm {
     }
 
     handleTransitionEnd(evt) {
-        if (evt.target == this.container) {
+        if (evt.target == this.container)
             this.bigText.handleResize();
-        }
     }
 
     updateForm() {
@@ -792,8 +803,6 @@ class BigText {
 
         this.container = context.querySelector('.big-text');
         this.container.hidden = false;
-        this.textContainer = this.container.querySelector('.text-wrapper');
-        this.textElement = this.container.querySelector('.text-wrapper div');
 
         this.context = {
             main: this.container,
@@ -813,7 +822,7 @@ class BigText {
             this.options[option].render(this.context, this.options);
 
         window.addEventListener('resize', this.handleResize.bind(this));
-        this.textElement.addEventListener('input', this.handleResize.bind(this));
+        this.context.textElement.addEventListener('input', this.handleResize.bind(this));
 
         this.controls = new BigTextControls(this, context);
 
@@ -852,7 +861,7 @@ class BigText {
     generateUrl() {
         const baseUrl = new URL(window.location.href);
         const params = baseUrl.searchParams;
-        params.set('text', this.textElement.innerText);
+        params.set('text', this.context.textElement.innerText);
         for (let option in this.options)
             if (this.options[option].inUrl)
                 params.set(option, this.options[option].value);
@@ -866,7 +875,7 @@ class BigText {
         const params = url.searchParams;
 
         if (url.searchParams.has('text'))
-            this.textElement.innerText = url.searchParams.get('text');
+            this.context.textElement.innerText = url.searchParams.get('text');
 
         for (let option in this.options) {
             if (url.searchParams.has(option))
@@ -874,12 +883,16 @@ class BigText {
         }
     }
 
-    handleResize() {
+    _handleResize() {
         if (this.isInitialized) {
             resizeText(this.context.textContainer);
             if (this.options['has-countdown'].value)
                 resizeText(this.context.countdownContainer);
         }
+    }
+
+    handleResize() {
+        debounce(this._handleResize(), 100);
     }
 
     handleOptionUpdate(key, value) {
