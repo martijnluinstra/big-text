@@ -293,6 +293,8 @@ class ColorInputElement extends HTMLElement {
         // Always set colorInput, so a predefined colour can be easily edited
         this.colorInput_.value = v;
         this.internals_.setFormValue(v);
+        // Unfocus colorInput to prevent glitches in some browsers
+        this.colorInput_.blur();
     }
     get validity() { return this.colorInput_.validity; }
     get validationMessage() { return this.colorInput_.validationMessage; }

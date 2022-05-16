@@ -1,5 +1,5 @@
-@import url('/fonts/comic-neue.css');
-@import url('/fonts/cascadia-code.css');
+/*@import url('/fonts/comic-neue.css');
+@import url('/fonts/cascadia-code.css');*/
 @import url('/fonts/fira-sans.css');
 @import url('/fonts/lora.css');
 
@@ -17,9 +17,9 @@
     --font-impact: 'Impact', 'Charcoal', sans-serif;
     --font-arial-black: 'Arial Black', 'Gadget', sans-serif;
     --font-verdana: 'Verdana', 'Geneva', sans-serif;
-    --font-comic-neue: 'Comic Neue', cursive;
+    /*--font-comic-neue: 'Comic Neue', cursive;
     --font-comic-neue-angular: 'Comic Neue Angular', cursive;
-    --font-cascadia-code: 'Cascadia Code', monospace;
+    --font-cascadia-code: 'Cascadia Code', monospace;*/
     --font-lora: 'Lora', serif;
 
     /* Colours */
@@ -707,13 +707,15 @@ select:invalid {
 }
 
 input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]) {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--dark-grey);
+    box-sizing: border-box;
+    color: var(--black);
+    display: inline-block;
     font-size: inherit;
     line-height: inherit;
-    box-sizing: border-box;
-    border: 1px solid var(--dark-grey);
-    border-radius: var(--radius);
     padding: var(--component-padding);
-    display: inline-block;
 }
 
 input[type=number] {
