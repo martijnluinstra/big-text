@@ -165,7 +165,7 @@ noscript {
 }
 
 hr {
-    border: 1px solid var(--grey);
+    border-top: 1px solid var(--grey);
     margin: var(--gap-large) 0;
 }
 
@@ -597,12 +597,22 @@ button svg.icon,
     vertical-align: middle;
 }
 
-
-button svg.icon:only-child,
-.button svg.icon:only-child,
-.toggle-button label svg.icon:only-child {
+button svg.icon:first-child,
+.button svg.icon:first-child,
+.toggle-button label svg.icon:first-child {
     margin-left: -.375em;
+}
+
+button svg.icon:last-child,
+.button svg.icon:last-child,
+.toggle-button label svg.icon:last-child {
     margin-right: -.375em;
+}
+
+button svg.icon:not(:last-child),
+.button svg.icon:not(:last-child),
+.toggle-button label svg.icon:not(:last-child) {
+    margin-right: var(--local-gap-small);
 }
 
 button.is-expanded,
@@ -613,13 +623,19 @@ button.is-expanded,
     width: 100%;
 }
 
+button.is-large,
+.button.is-large,
+.toggle-button.is-large input ~ label,
+.select.is-large {
+    font-size: 1.2em;
+}
+
 button.is-primary,
 .button.is-primary,
 .toggle-button.is-primary input ~ label,
 .select.is-primary {
     background: var(--primary);
     color: var(--primary-invert);
-    font-size: 1.2em;
 }
 
 button.is-success,
@@ -628,7 +644,6 @@ button.is-success,
 .select.is-success {
     background: var(--success);
     color: var(--success-invert);
-    font-size: 1.2em;
 }
 
 button.is-success:focus,
@@ -1565,6 +1580,7 @@ font-select:invalid::part(trigger):not(:focus) {
 
 .controls form header :is(h1, h2, h3, h4, h5, h6) {
     flex-grow: 1;
+    margin-bottom: 0;
 }
 
 @media (max-width: 900px) {
