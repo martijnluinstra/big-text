@@ -5,8 +5,8 @@
   font-style: normal;
   font-weight: 400;
   src: local(''),
-       url('/fonts/FiraGO-Regular.woff2') format('woff2'),
-       url('/fonts/FiraGO-Regular.woff') format('woff');
+       url('FiraGO-Regular.woff2') format('woff2'),
+       url('FiraGO-Regular.woff') format('woff');
 }
 
 @font-face {
@@ -14,8 +14,8 @@
   font-style: italic;
   font-weight: 400;
   src: local(''),
-       url('/fonts/FiraGO-Italic.woff2') format('woff2'),
-       url('/fonts/FiraGO-Italic.woff') format('woff');
+       url('FiraGO-Italic.woff2') format('woff2'),
+       url('FiraGO-Italic.woff') format('woff');
 }
 
 @font-face {
@@ -23,8 +23,8 @@
   font-style: normal;
   font-weight: 700;
   src: local(''),
-       url('/fonts/FiraGO-Bold.woff2') format('woff2'),
-       url('/fonts/FiraGO-Bold.woff') format('woff');
+       url('FiraGO-Bold.woff2') format('woff2'),
+       url('FiraGO-Bold.woff') format('woff');
 }
 
 @font-face {
@@ -32,6 +32,6 @@
   font-style: italic;
   font-weight: 700;
   src: local(''),
-       url('/fonts/FiraGO-BoldItalic.woff2') format('woff2'),
-       url('/fonts/FiraGO-BoldItalic.woff') format('woff');
+       url('FiraGO-BoldItalic.woff2') format('woff2'),
+       url('FiraGO-BoldItalic.woff') format('woff');
 }

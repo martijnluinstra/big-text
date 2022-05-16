@@ -155,7 +155,7 @@ class SliderInputElement extends HTMLElement {
 
         this.attachShadow({mode: 'open', delegatesFocus: true});
         this.shadowRoot.innerHTML = `
-            <link href="/css/big-text.css" rel="stylesheet">
+            <link href="css/big-text.css" rel="stylesheet">
             <div class="slider-input">
                 <input type="range" aria-hidden="true" tabindex="-1">
                 <input type="number">
@@ -211,10 +211,10 @@ class ColorInputElement extends HTMLElement {
 
         this.attachShadow({mode: 'open', delegatesFocus: true});
         this.shadowRoot.innerHTML = `
-            <link href="/css/big-text.css" rel="stylesheet">
+            <link href="css/big-text.css" rel="stylesheet">
             <div id="wrapper" class="color-input">
                 <input type="color" id="color-input" aria-label="Custom">
-                <label for="color-input" class="button"><svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#plus"/></svg></label>
+                <label for="color-input" class="button"><svg class="icon" aria-hidden="true"><use href="img/feather-icons.svg#plus"/></svg></label>
             </div>
         `;
         this.wrapperElement_ = this.shadowRoot.getElementById('wrapper');
@@ -226,7 +226,7 @@ class ColorInputElement extends HTMLElement {
 
     createColorButton(hex, colorName) {
         let el = document.createElement('button');
-        el.innerHTML = '<svg class="icon" aria-hidden="true"><use href="/img/feather-icons.svg#check"/></svg>';
+        el.innerHTML = '<svg class="icon" aria-hidden="true"><use href="img/feather-icons.svg#check"/></svg>';
         el.classList.add('color-button');
         el.type = 'button';
         el.title = colorName;
@@ -331,7 +331,7 @@ class FontSelectElement extends HTMLElement {
 
         this.attachShadow({mode: 'open', delegatesFocus: true});
         this.shadowRoot.innerHTML = `
-            <link href="/css/big-text.css" rel="stylesheet">
+            <link href="css/big-text.css" rel="stylesheet">
             <div class="font-select dropdown">
                 <button type="button" class="button" part="trigger">Font</button>
                 <ul class="options" part="options"></ul>
