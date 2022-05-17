@@ -2,18 +2,6 @@
  * Helper functions
  ******************************************************************************/
 
-
-function debounce (callback, wait) {
-    // https://www.joshwcomeau.com/snippets/javascript/debounce/
-    let timeoutId = null;
-    return (...args) => {
-        window.clearTimeout(timeoutId);
-        timeoutId = window.setTimeout(() => {
-            callback.apply(null, args);
-        }, wait);
-    };
-}
-
 function isLight(hex) {
     // Based on https://stackoverflow.com/a/3943023/112731
     const r = parseInt(hex.slice(1, 3), 16) / 255,
@@ -106,9 +94,7 @@ function resizeText(container, overflowCallback=null) {
     min = 0;
     size = max;
     let precision = Math.max(roundPrecision(max / 50, 1), .1);
-    let count = 0;
     while (Math.abs(max - min) > precision + .01) {
-        count++;
         size = roundPrecision((max + min) / 2, 1);
         container.style.setProperty('--font-size', `${size}vh`);
         fits = !(overflowCallback?.(container) || overflows(container));
@@ -888,15 +874,11 @@ class BigText {
         }
     }
 
-    _handleResize() {
-        resizeText(this.context.textContainer);
-        if (this.options['has-countdown'].value)
-            resizeText(this.context.countdownContainer);
-    }
-
     handleResize() {
         if (this.isInitialized) {
-            debounce(this._handleResize(), 100);
+            resizeText(this.context.textContainer);
+            if (this.options['has-countdown'].value)
+                resizeText(this.context.countdownContainer);
         }
     }
 
