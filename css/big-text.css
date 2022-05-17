@@ -745,6 +745,7 @@ fieldset.field {
     margin: 0 calc(var(--gap) * -1);
 }
 
+.fieldset,
 fieldset:not(.field):not(.dropdown):not(.button-group) {
     padding: var(--gap);
     box-shadow: var(--shadow-medium);
@@ -752,6 +753,7 @@ fieldset:not(.field):not(.dropdown):not(.button-group) {
     margin-bottom: var(--gap);
 }
 
+.fieldset :is(h1, h2, h3, h4, h5, h6),
 fieldset legend {
     font-weight: bold;
     padding: 0;

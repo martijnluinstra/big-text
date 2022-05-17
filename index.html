@@ -469,8 +469,9 @@
                     <label for="size-2-input">Size 2</label>
                     <slider-input id="size-2-input" name="size-2" min="20" max="80" step="5" value="50"></slider-input>
                 </p>
-                <fieldset data-toggle="has-image,image-is-background">
-                    <legend>Content box</legend>
+                <div class="fieldset" data-toggle="has-image,image-is-background" aria-role="group" aria-labelledby="content-box-title">
+                    <!-- Firefox crashes in an edgecase if a custom form element web component is inside a fieldset -->
+                    <h3 id="content-box-title">Content box</h3>
                     <p class="field">
                         <label for="content-width-input">Width</label>
                         <slider-input id="content-width-input" name="content-width" min="20" max="100" step="5" value="100"></slider-input>
@@ -499,7 +500,7 @@
                             </select>
                         </p>
                     </div>
-                </fieldset>
+                </div>
                 <div class="field">
                     <label for="content-padding-input">Content padding</label>
                     <p class="select">
@@ -549,7 +550,7 @@
                     <label for="background-color-input">Colour</label>
                     <color-input name="background-color" id="background-color-input" list="color-options"></color-input>
                 </p>
-                <fieldset class="field" data-toggle="background-type=gradient">
+                <div class="field" data-toggle="background-type=gradient" aria-role="group" aria-label="Gradient settings">
                     <fieldset class="field">
                         <legend>Gradient type</legend>
                         <div class="button-group">
@@ -581,7 +582,7 @@
                             data-toggle-property="!disabled"
                         ></slider-input>
                     </p>
-                </fieldset>
+                </div>
                 <p class="field" data-toggle="image-is-background">
                     <label for="background-opacity-input">Opacity</label>
                     <slider-input id="background-opacity-input" name="background-opacity" min="0" max="255" value="255"></slider-input>
@@ -597,8 +598,8 @@
                     <h2>Text style</h2>
                 </header>
                 <div class="field">
-                    <fieldset class="button-group" aria-label="Font">
-                        <font-select list="font-options" name="font-family" aria-label="Font family"></font-select>
+                    <div class="button-group" aria-role="group" aria-label="Font">
+                        <font-select list="font-options" name="font-family" aria-role="group" aria-label="Font family"></font-select>
                         <p class="toggle-button">
                             <input type="checkbox" id="font-weight-bold-input" name="font-weight-bold" aria-label="Bold">
                             <label for="font-weight-bold-input" title="Bold" aria-hidden="true">
@@ -611,7 +612,7 @@
                                 <svg class="icon"><use href="img/feather-icons.svg#italic"/></svg>
                             </label>
                         </p>
-                    </fieldset>
+                    </div>
                     <fieldset class="button-group">
                         <p class="toggle-button">
                             <input type="radio" id="align-left-input" name="align" value="left" aria-label="Align left">
@@ -647,7 +648,8 @@
                     <input type="checkbox" name="has-shadow" id="has-shadow-input">
                     <label for="has-shadow-input">Shadow</label>
                 </p>
-                <fieldset data-toggle="has-shadow" aria-label="Shadow settings">
+                <div class="fieldset" data-toggle="has-shadow" aria-role="group" aria-label="Shadow settings">
+                    <!-- Firefox crashes in an edgecase if a custom form element web component is inside a fieldset -->
                     <div class="field">
                         <label for="shadow-preset-input">Preset</label>
                         <p class="select">
@@ -676,15 +678,13 @@
                         <label for="shadow-blur-input">Blur</label>
                         <slider-input id="shadow-blur-input" name="shadow-blur" min="0" max="1" step=".01" value=".05"></slider-input>
                     </p>
-                    <p class="help">
-                        Shadows may have a noticeable performance impact!
-                    </p>
-                </fieldset>
+                </div>
                 <p class="field switch is-right">
                     <input type="checkbox" name="has-stroke" id="has-stroke-input">
                     <label for="has-stroke-input">Stroke</label>
                 </p>
-                <fieldset data-toggle="has-stroke" aria-label="Stroke settings">
+                <div class="fieldset" data-toggle="has-stroke" aria-role="group" aria-label="Stroke settings">
+                    <!-- Firefox crashes in an edgecase if a custom form element web component is inside a fieldset -->
                     <p class="field">
                         <label for="stroke-color-input">Colour</label>
                         <color-input list="color-options" name="stroke-color" id="stroke-color-input"></color-input>
@@ -693,7 +693,7 @@
                         <label for="stroke-width">Width</label>
                         <slider-input id="stroke-width-input" name="stroke-width" min="0" max="1" step=".01" value=".05"></slider-input>
                     </p>
-                </fieldset>
+                </div>
             </form>
         </template>
     </section>
